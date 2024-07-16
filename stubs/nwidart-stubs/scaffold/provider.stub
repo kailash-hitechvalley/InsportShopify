@@ -1,15 +1,15 @@
 <?php
 
-namespace Modules\Shopify\Providers;
+namespace $NAMESPACE$;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
-class ShopifyServiceProvider extends ServiceProvider
+class $CLASS$ extends ServiceProvider
 {
-    protected string $moduleName = 'Shopify';
+    protected string $moduleName = '$MODULE$';
 
-    protected string $moduleNameLower = 'shopify';
+    protected string $moduleNameLower = '$LOWER_NAME$';
 
     /**
      * Boot the application events.
@@ -21,7 +21,7 @@ class ShopifyServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->loadMigrationsFrom(module_path($this->moduleName, 'database/migrations'));
+        $this->loadMigrationsFrom(module_path($this->moduleName, '$MIGRATIONS_PATH$'));
     }
 
     /**
@@ -63,8 +63,8 @@ class ShopifyServiceProvider extends ServiceProvider
             $this->loadTranslationsFrom($langPath, $this->moduleNameLower);
             $this->loadJsonTranslationsFrom($langPath);
         } else {
-            $this->loadTranslationsFrom(module_path($this->moduleName, 'lang'), $this->moduleNameLower);
-            $this->loadJsonTranslationsFrom(module_path($this->moduleName, 'lang'));
+            $this->loadTranslationsFrom(module_path($this->moduleName, '$PATH_LANG$'), $this->moduleNameLower);
+            $this->loadJsonTranslationsFrom(module_path($this->moduleName, '$PATH_LANG$'));
         }
     }
 
@@ -73,8 +73,8 @@ class ShopifyServiceProvider extends ServiceProvider
      */
     protected function registerConfig(): void
     {
-        $this->publishes([module_path($this->moduleName, 'config/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
-        $this->mergeConfigFrom(module_path($this->moduleName, 'config/config.php'), $this->moduleNameLower);
+        $this->publishes([module_path($this->moduleName, '$PATH_CONFIG$/config.php') => config_path($this->moduleNameLower.'.php')], 'config');
+        $this->mergeConfigFrom(module_path($this->moduleName, '$PATH_CONFIG$/config.php'), $this->moduleNameLower);
     }
 
     /**
@@ -83,7 +83,7 @@ class ShopifyServiceProvider extends ServiceProvider
     public function registerViews(): void
     {
         $viewPath = resource_path('views/modules/'.$this->moduleNameLower);
-        $sourcePath = module_path($this->moduleName, 'resources/views');
+        $sourcePath = module_path($this->moduleName, '$PATH_VIEWS$');
 
         $this->publishes([$sourcePath => $viewPath], ['views', $this->moduleNameLower.'-module-views']);
 

@@ -1,20 +1,20 @@
 <?php
 
-namespace Modules\Shopify\Http\Controllers;
+namespace $CLASS_NAMESPACE$;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ShopifyController extends Controller
+class $CLASS$ extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('shopify::index');
+        return view('$LOWER_NAME$::index');
     }
 
     /**
@@ -22,7 +22,7 @@ class ShopifyController extends Controller
      */
     public function create()
     {
-        return view('shopify::create');
+        return view('$LOWER_NAME$::create');
     }
 
     /**
@@ -38,7 +38,7 @@ class ShopifyController extends Controller
      */
     public function show($id)
     {
-        return view('shopify::show');
+        return view('$LOWER_NAME$::show');
     }
 
     /**
@@ -46,7 +46,7 @@ class ShopifyController extends Controller
      */
     public function edit($id)
     {
-        return view('shopify::edit');
+        return view('$LOWER_NAME$::edit');
     }
 
     /**

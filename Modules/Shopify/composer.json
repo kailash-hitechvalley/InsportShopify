@@ -17,8 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Shopify\\": "",
-            "Modules\\Shopify\\App\\": "app/",
+            "Modules\\Shopify\\": "app/",
             "Modules\\Shopify\\Database\\Factories\\": "database/factories/",
             "Modules\\Shopify\\Database\\Seeders\\": "database/seeders/"
         }

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Shopify\Http\Controllers\ShopifyController;
+use $MODULE_NAMESPACE$\$STUDLY_NAME$\$CONTROLLER_NAMESPACE$\$STUDLY_NAME$Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +15,5 @@ use Modules\Shopify\Http\Controllers\ShopifyController;
 */
 
 Route::group([], function () {
-    Route::resource('shopify', ShopifyController::class)->names('shopify');
+    Route::resource('$LOWER_NAME$', $STUDLY_NAME$Controller::class)->names('$LOWER_NAME$');
 });

@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Shopify\Providers;
+namespace $NAMESPACE$;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RouteServiceProvider extends ServiceProvider
+class $CLASS$ extends ServiceProvider
 {
     /**
      * Called before routes are registered.
@@ -34,7 +34,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes(): void
     {
-        Route::middleware('web')->group(module_path('Shopify', '/routes/web.php'));
+        Route::middleware('web')->group(module_path('$MODULE$', '$WEB_ROUTES_PATH$'));
     }
 
     /**
@@ -44,6 +44,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes(): void
     {
-        Route::middleware('api')->prefix('api')->name('api.')->group(module_path('Shopify', '/routes/api.php'));
+        Route::middleware('api')->prefix('api')->name('api.')->group(module_path('$MODULE$', '$API_ROUTES_PATH$'));
     }
 }

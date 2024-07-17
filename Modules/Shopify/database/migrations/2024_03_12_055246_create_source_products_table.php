@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('source_products', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('stockId')->unique()->comment('Product StockId')->index();
+            $table->bigInteger('stockId')->nullable()->comment('Product StockId')->index();
             $table->bigInteger('category_id')->nullable();
             $table->string('handle')->comment('product stockCode')->index('handle');
 
             $table->string('productType')->nullable();
             $table->string('vendor')->nullable();
-            $table->string('productTags')->nullable();
+            $table->text('productTags')->nullable();
             $table->string('brand')->nullable();
 
             $table->string('title')->nullable();

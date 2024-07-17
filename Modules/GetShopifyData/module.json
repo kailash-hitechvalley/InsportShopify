@@ -1,0 +1,11 @@
+{
+    "name": "GetShopifyData",
+    "alias": "getshopifydata",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GetShopifyData\\Providers\\GetShopifyDataServiceProvider"
+    ],
+    "files": []
+}

@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/getshopifydata",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\GetShopifyData\\": "app/",
+            "Modules\\GetShopifyData\\Database\\Factories\\": "database/factories/",
+            "Modules\\GetShopifyData\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\GetShopifyData\\Tests\\": "tests/"
+        }
+    }
+}

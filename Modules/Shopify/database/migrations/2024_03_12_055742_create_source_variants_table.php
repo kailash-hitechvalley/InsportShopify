@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('source_variants', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('varinatId')->unsigned();
+            $table->bigInteger('product_id')->unsigned()->nullable();
+            $table->bigInteger('varinatId')->unsigned()->nullable();
             $table->string('sku')->nullable();
             $table->string('barcode')->nullable();
 
@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('priceWithTax')->nullable();
 
             $table->string('compareAtPrice')->nullable();
+            $table->string('inventoryQuantity')->nullable();
             $table->string('color')->nullable();
             $table->string('size')->nullable();
 
@@ -36,6 +37,7 @@ return new class extends Migration
             $table->tinyInteger('sohPendingProcess')->default(0);
             $table->tinyInteger('pricePendingProcess')->default(0);
 
+            $table->string('shopifyParentId')->nullable()->comment('product ShopifyId')->index('shopifyParentId');
             $table->string('shopifyVariantId')->nullable()->comment('variant ShopifyId')->index('shopifyVariantId');
 
             $table->string('inventoryItemId')->default(0);

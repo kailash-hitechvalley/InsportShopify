@@ -25,6 +25,7 @@ class SourceVariant extends Model
         'price',
         'priceWithTax',
         'compareAtPrice',
+        'inventoryQuantity',
         'color',
         'colorID',
         'size',
@@ -34,6 +35,7 @@ class SourceVariant extends Model
         'sohPendingProcess',
         'pricePendingProcess',
         'shopifyVariantId',
+        'shopifyParentId',
         'inventoryItemId',
     ];
 

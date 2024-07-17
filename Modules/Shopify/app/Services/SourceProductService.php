@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Shopify\App\Services;
+namespace Modules\Shopify\Services;
 
-use Modules\Shopify\App\Models\Source\SourceImage;
-use Modules\Shopify\App\Models\Source\SourceProduct;
-use Modules\Shopify\App\Models\source\SourceVariant;
+use Modules\Shopify\Models\Source\SourceImage;
+use Modules\Shopify\Models\Source\SourceProduct;
+use Modules\Shopify\Models\source\SourceVariant;
 
 class SourceProductService
 {

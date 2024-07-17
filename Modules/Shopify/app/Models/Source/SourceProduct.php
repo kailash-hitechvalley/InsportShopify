@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Shopify\App\Models\Source;
+namespace Modules\Shopify\Models\Source;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Modules\Shopify\App\Models\Source\SourceCategorie;
-use Modules\Shopify\App\Models\Source\SourceCategory;
-use Modules\Shopify\App\Models\Source\SourceVariant;
+use Modules\Shopify\Models\Source\SourceCategorie;
+use Modules\Shopify\Models\Source\SourceCategory;
+use Modules\Shopify\Models\Source\SourceVariant;
 
 class SourceProduct extends Model
 {

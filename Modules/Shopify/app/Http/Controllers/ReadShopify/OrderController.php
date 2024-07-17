@@ -1,24 +1,24 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\ReadShopify;
+namespace Modules\Shopify\Http\Controllers\ReadShopify;
 
 use App\Http\Controllers\Controller;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Modules\Shopify\App\Models\ErplyModel\Customer;
-use Modules\Shopify\App\Models\ErplyModel\Order;
-use Modules\Shopify\App\Models\ErplyModel\OrderDelivery;
-use Modules\Shopify\App\Models\ErplyModel\OrderProduct;
-use Modules\Shopify\App\Models\ErplyModel\Refund;
-use Modules\Shopify\App\Models\ShopifyCursor;
-use Modules\Shopify\App\Models\Source\SourceOrder;
-use Modules\Shopify\App\Models\Source\SourceOrderDelivery;
-use Modules\Shopify\App\Models\Source\SourceOrderProduct;
-use Modules\Shopify\App\Models\Source\SourceRefund;
-use Modules\Shopify\App\Models\Source\SourceRefundLineItem;
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\Shopify\Models\ErplyModel\Customer;
+use Modules\Shopify\Models\ErplyModel\Order;
+use Modules\Shopify\Models\ErplyModel\OrderDelivery;
+use Modules\Shopify\Models\ErplyModel\OrderProduct;
+use Modules\Shopify\Models\ErplyModel\Refund;
+use Modules\Shopify\Models\ShopifyCursor;
+use Modules\Shopify\Models\Source\SourceOrder;
+use Modules\Shopify\Models\Source\SourceOrderDelivery;
+use Modules\Shopify\Models\Source\SourceOrderProduct;
+use Modules\Shopify\Models\Source\SourceRefund;
+use Modules\Shopify\Models\Source\SourceRefundLineItem;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class OrderController extends Controller
 {

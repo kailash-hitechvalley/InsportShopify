@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Shopify\App\Services;
+namespace Modules\Shopify\Services;
 
 use Illuminate\Support\Facades\Log;
-use Modules\Shopify\App\Models\ShopifyCursor;
-use Modules\Shopify\App\Models\Source\SourceOrder;
-use Modules\Shopify\App\Models\Source\SourceOrderDelivery;
-use Modules\Shopify\App\Models\Source\SourceOrderProduct;
+use Modules\Shopify\Models\ShopifyCursor;
+use Modules\Shopify\Models\Source\SourceOrder;
+use Modules\Shopify\Models\Source\SourceOrderDelivery;
+use Modules\Shopify\Models\Source\SourceOrderProduct;
 
 class ShopifyOrderService
 {
@@ -22,7 +22,7 @@ class ShopifyOrderService
 
     public function processOrders($res)
     {
-        if (! empty($res->data->orders->edges)) {
+        if (!empty($res->data->orders->edges)) {
             foreach ($res->data->orders->edges as $orderEdge) {
                 $orderNode = $orderEdge->node;
                 $shopifyOrderStringId = $orderNode->id;
@@ -59,7 +59,7 @@ class ShopifyOrderService
                     $shopifyProductStringId = $node->id;
                     $shopifyProductId = last(explode('/', $node->id));
                     //Extract color and size if variant exists and has selectedOptions
-                    if ($variant && ! empty($variant->selectedOptions)) {
+                    if ($variant && !empty($variant->selectedOptions)) {
                         foreach ($variant->selectedOptions as $option) {
                             if ($option->name === 'Color') {
                                 $color = $option->value;

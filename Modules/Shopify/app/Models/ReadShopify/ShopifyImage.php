@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\ReadShopify;
+namespace Modules\Shopify\Models\ReadShopify;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

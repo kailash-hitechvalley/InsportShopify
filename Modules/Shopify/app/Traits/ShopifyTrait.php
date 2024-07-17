@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Shopify\App\Traits;
+namespace Modules\Shopify\Traits;
 
 use GuzzleHttp\Client;
-use Modules\Shopify\App\Models\ShopifyCursor;
+use Modules\Shopify\Models\ShopifyCursor;
 
 trait ShopifyTrait
 {
@@ -204,7 +204,7 @@ trait ShopifyTrait
                   node {
                     id
                     title
-                   
+
                     product {
                       id
                       status
@@ -846,7 +846,7 @@ trait ShopifyTrait
                           }
                         }
                       }
-                      
+
                     }
                   currencyCode
                   subtotalPriceSet {

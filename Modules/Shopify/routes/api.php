@@ -1,24 +1,24 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\Shopify\App\Http\Controllers\Middleware\Erply\CollectionController;
-use Modules\Shopify\App\Http\Controllers\Middleware\Erply\ImagesController;
+use Modules\Shopify\Http\Controllers\Middleware\Erply\CollectionController;
+use Modules\Shopify\Http\Controllers\Middleware\Erply\ImagesController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\LocationController;
-use Modules\Shopify\App\Http\Controllers\Middleware\Erply\PriceController;
+use Modules\Shopify\Http\Controllers\Middleware\Erply\PriceController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\ProductController;
-use Modules\Shopify\App\Http\Controllers\Middleware\Erply\SohController;
-use Modules\Shopify\App\Http\Controllers\ReadShopify\OrderController;
-use Modules\Shopify\App\Http\Controllers\ReadShopify\ShopifyController;
-use Modules\Shopify\App\Http\Controllers\ReadShopify\ShopifyProductsController;
-use Modules\Shopify\App\Http\Controllers\ReadShopify\ShopifyWebHookController;
-use Modules\Shopify\App\Http\Controllers\ViewController\OrderViewController;
-use Modules\Shopify\App\Http\Controllers\WriteShopify\GiftCardController;
-use Modules\Shopify\App\Http\Controllers\WriteShopify\ShopifyCustomerController;
-use Modules\Shopify\App\Http\Controllers\WriteShopify\SourceProductController;
-use Modules\Shopify\App\Http\Controllers\WriteShopify\SourceCollectionController;
-use Modules\Shopify\App\Http\Controllers\WriteShopify\SourceImageController;
-use Modules\Shopify\App\Http\Controllers\WriteShopify\SourcePriceController;
-use Modules\Shopify\App\Http\Controllers\WriteShopify\SourceSohController;
+use Modules\Shopify\Http\Controllers\Middleware\Erply\SohController;
+use Modules\Shopify\Http\Controllers\ReadShopify\OrderController;
+use Modules\Shopify\Http\Controllers\ReadShopify\ShopifyController;
+use Modules\Shopify\Http\Controllers\ReadShopify\ShopifyProductsController;
+use Modules\Shopify\Http\Controllers\ReadShopify\ShopifyWebHookController;
+use Modules\Shopify\Http\Controllers\ViewController\OrderViewController;
+use Modules\Shopify\Http\Controllers\WriteShopify\GiftCardController;
+use Modules\Shopify\Http\Controllers\WriteShopify\ShopifyCustomerController;
+use Modules\Shopify\Http\Controllers\WriteShopify\SourceProductController;
+use Modules\Shopify\Http\Controllers\WriteShopify\SourceCollectionController;
+use Modules\Shopify\Http\Controllers\WriteShopify\SourceImageController;
+use Modules\Shopify\Http\Controllers\WriteShopify\SourcePriceController;
+use Modules\Shopify\Http\Controllers\WriteShopify\SourceSohController;
 
 
 Route::get('refunds', [ShopifyController::class, 'getRefund']);

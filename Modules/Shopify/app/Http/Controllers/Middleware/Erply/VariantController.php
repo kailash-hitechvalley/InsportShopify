@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\Middleware\Erply;
+namespace Modules\Shopify\Http\Controllers\Middleware\Erply;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;

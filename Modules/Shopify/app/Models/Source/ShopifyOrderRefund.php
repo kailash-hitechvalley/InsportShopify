@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\Source;
+namespace Modules\Shopify\Models\Source;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,5 +21,4 @@ class ShopifyOrderRefund extends Model
 
     protected $guarded = [];
     public  $timestamps = false;
-
 }

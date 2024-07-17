@@ -3,16 +3,16 @@
 namespace Modules\Shopify\Services\ErplyService;
 
 use Exception;
-use Modules\Shopify\App\Models\ErplyModel\BrandDiscountPrice;
-use Modules\Shopify\App\Models\ErplyModel\Category;
-use Modules\Shopify\App\Models\ErplyModel\ErplySoh;
-use Modules\Shopify\App\Models\ErplyModel\Images;
-use Modules\Shopify\App\Models\ErplyModel\Order;
-use Modules\Shopify\App\Models\ErplyModel\PriceList;
-use Modules\Shopify\App\Models\ErplyModel\Product;
-use Modules\Shopify\App\Models\ErplyModel\SpecialPriceList;
-use Modules\Shopify\App\Models\ErplyModel\Variant;
-use Modules\Shopify\App\Models\ErplyModel\WareHouseLocation;
+use Modules\Shopify\Models\ErplyModel\BrandDiscountPrice;
+use Modules\Shopify\Models\ErplyModel\Category;
+use Modules\Shopify\Models\ErplyModel\ErplySoh;
+use Modules\Shopify\Models\ErplyModel\Images;
+use Modules\Shopify\Models\ErplyModel\Order;
+use Modules\Shopify\Models\ErplyModel\PriceList;
+use Modules\Shopify\Models\ErplyModel\Product;
+use Modules\Shopify\Models\ErplyModel\SpecialPriceList;
+use Modules\Shopify\Models\ErplyModel\Variant;
+use Modules\Shopify\Models\ErplyModel\WareHouseLocation;
 
 class ErplyProductService
 {

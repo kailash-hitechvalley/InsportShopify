@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\ReadShopify;
+namespace Modules\Shopify\Http\Controllers\ReadShopify;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
@@ -8,11 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Modules\Shopify\App\Models\ReadShopify\ShopifyImage;
-use Modules\Shopify\App\Models\ReadShopify\ShopifyProduct;
-use Modules\Shopify\App\Models\ReadShopify\ShopifyVariantsProduct;
-use Modules\Shopify\App\Models\ShopifyCursor;
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\Shopify\Models\ReadShopify\ShopifyImage;
+use Modules\Shopify\Models\ReadShopify\ShopifyProduct;
+use Modules\Shopify\Models\ReadShopify\ShopifyVariantsProduct;
+use Modules\Shopify\Models\ShopifyCursor;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class ShopifyProductsController extends Controller
 {

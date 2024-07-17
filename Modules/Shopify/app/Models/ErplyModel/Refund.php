@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\ErplyModel;
+namespace Modules\Shopify\Models\ErplyModel;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,25 +19,25 @@ class Refund extends Model
     protected $primaryKey = 'refund_id';
     protected $fillable = [];
     protected $guarded = [];
-//      [
-//     'shopifyRefundString',
-//     'restockFlag' , 
-//     'orderUpdateDate',
-//     'orderUpdateZtime',
-//     'refund_amount' ,
-//     'refund_type' , 
-//     'refund_product_id',
-//     'refund_product_code', 
-//     'refund_product_price', 
-//     'refund_shipping_amount', 
-//     'refund_product_qty', 
-//     'refund_reason', 
-//     'shopifyRetrievedTime', 
-//     'branchCode',
-//     'newsystemRefundId', 
-//     'newSystemOrderNumber', 
-//     'newsystemOrderId' ,
-//     'pabitra',
-// ];
-    
+    //      [
+    //     'shopifyRefundString',
+    //     'restockFlag' ,
+    //     'orderUpdateDate',
+    //     'orderUpdateZtime',
+    //     'refund_amount' ,
+    //     'refund_type' ,
+    //     'refund_product_id',
+    //     'refund_product_code',
+    //     'refund_product_price',
+    //     'refund_shipping_amount',
+    //     'refund_product_qty',
+    //     'refund_reason',
+    //     'shopifyRetrievedTime',
+    //     'branchCode',
+    //     'newsystemRefundId',
+    //     'newSystemOrderNumber',
+    //     'newsystemOrderId' ,
+    //     'pabitra',
+    // ];
+
 }

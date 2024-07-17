@@ -6,11 +6,11 @@ use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Modules\GetShopifyData\App\Services\CommonService;
-use Modules\GetShopifyData\App\Services\ShopifyGetService;
-use Modules\Shopify\App\Models\Source\SourceProduct;
-use Modules\Shopify\App\Models\Source\SourceVariant;
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\GetShopifyData\Services\CommonService;
+use Modules\GetShopifyData\Services\ShopifyGetService;
+use Modules\Shopify\Models\Source\SourceProduct;
+use Modules\Shopify\Models\Source\SourceVariant;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class GetProductController extends Controller
 {

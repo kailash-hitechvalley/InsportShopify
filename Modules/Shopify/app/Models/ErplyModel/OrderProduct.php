@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\ErplyModel;
+namespace Modules\Shopify\Models\ErplyModel;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +16,7 @@ class OrderProduct extends Model
     protected $connection = 'mysql_source';
     protected $table = 'newsystem_orders_product';
     protected $primaryKey = 'orderproductID';
-     
+
     public $timestamps = false;
     protected $fillable = [
         'newSystemOrderID',
@@ -27,6 +27,6 @@ class OrderProduct extends Model
         'size',
         'quantity',
         'unitPrice',
-        'discountAmount', 'pabitra',];
-
+        'discountAmount', 'pabitra',
+    ];
 }

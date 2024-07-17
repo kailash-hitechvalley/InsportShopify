@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\GetShopifyData\App\Services;
+namespace Modules\GetShopifyData\Services;
 
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class ShopifyGetService
 {

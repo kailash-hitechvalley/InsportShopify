@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models;
+namespace Modules\Shopify\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,10 +13,10 @@ class ShopifyCursor extends Model
     /**
      * The attributes that are mass assignable.
      */
-   
+
     protected  $guarded = [];
     protected $connection = 'mysql';
-   # public $timestamps = false;
+    # public $timestamps = false;
     protected $table = 'shopify_cursors';
-    protected $fillable = ['clientCode','cursorName','cursor','isLive'];
+    protected $fillable = ['clientCode', 'cursorName', 'cursor', 'isLive'];
 }

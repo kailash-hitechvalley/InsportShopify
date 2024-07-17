@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\ReadShopify;
+namespace Modules\Shopify\Http\Controllers\ReadShopify;
 
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use Modules\Shopify\App\Models\ShopifyCursor;
-use Modules\Shopify\App\Models\Source\ShopifyOrderRefund;
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\Shopify\Models\ShopifyCursor;
+use Modules\Shopify\Models\Source\ShopifyOrderRefund;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class ShopifyController extends Controller
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\ErplyModel;
+namespace Modules\Shopify\Models\ErplyModel;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

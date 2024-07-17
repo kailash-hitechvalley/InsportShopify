@@ -8,12 +8,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Modules\Shopify\App\Models\ErplyModel\Category;
-use Modules\Shopify\App\Models\ErplyModel\CategoryAttribute;
-use Modules\Shopify\App\Models\ErplyModel\Product;
-use Modules\Shopify\App\Models\Source\SourceProduct;
-use Modules\Shopify\App\Services\ErplyService\ErplyProductService;
-use Modules\Shopify\App\Services\SourceService\SourceProductGetService;
+use Modules\Shopify\Models\ErplyModel\Category;
+use Modules\Shopify\Models\ErplyModel\CategoryAttribute;
+use Modules\Shopify\Models\ErplyModel\Product;
+use Modules\Shopify\Models\Source\SourceProduct;
+use Modules\Shopify\Services\ErplyService\ErplyProductService;
+use Modules\Shopify\Services\SourceService\SourceProductGetService;
 
 class ProductController extends Controller
 {

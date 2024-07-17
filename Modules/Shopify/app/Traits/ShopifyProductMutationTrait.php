@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Shopify\App\Traits;
+namespace Modules\Shopify\Traits;
 
 use Exception;
 use GuzzleHttp\Client;
-use Modules\Shopify\App\Models\ShopifyCursor;
+use Modules\Shopify\Models\ShopifyCursor;
 use Illuminate\Support\Str;
-use Modules\Shopify\App\Http\Controllers\Middleware\Erply\LocationController;
-use Modules\Shopify\App\Models\Source\SourceLocation;
-use Modules\Shopify\App\Models\Source\SourceSoh;
+use Modules\Shopify\Http\Controllers\Middleware\Erply\LocationController;
+use Modules\Shopify\Models\Source\SourceLocation;
+use Modules\Shopify\Models\Source\SourceSoh;
 
 use function Laravel\Prompts\error;
 

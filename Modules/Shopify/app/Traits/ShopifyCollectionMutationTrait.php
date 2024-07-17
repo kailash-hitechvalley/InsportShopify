@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Shopify\App\Traits;
+namespace Modules\Shopify\Traits;
 
 use Exception;
 use GuzzleHttp\Client;
-use Modules\Shopify\App\Models\ShopifyCursor;
+use Modules\Shopify\Models\ShopifyCursor;
 use PhpParser\Node\Stmt\Return_;
 use Illuminate\Support\Str;
 

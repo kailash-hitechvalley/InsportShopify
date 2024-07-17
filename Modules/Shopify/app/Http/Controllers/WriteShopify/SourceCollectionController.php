@@ -1,14 +1,14 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\WriteShopify;
+namespace Modules\Shopify\Http\Controllers\WriteShopify;
 
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Modules\Shopify\App\Services\SourceCategoryService;
-use Modules\Shopify\App\Traits\ShopifyCollectionMutationTrait;
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\Shopify\Services\SourceCategoryService;
+use Modules\Shopify\Traits\ShopifyCollectionMutationTrait;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class SourceCollectionController extends Controller
 {

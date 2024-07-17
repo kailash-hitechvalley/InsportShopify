@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\ViewController;
+namespace Modules\Shopify\Http\Controllers\ViewController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Shopify\App\Services\ErplyService\ErplyProductService;
+use Modules\Shopify\Services\ErplyService\ErplyProductService;
 
 class OrderViewController extends Controller
 {

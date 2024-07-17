@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\Shopify\App\Services\SourceService;
+namespace Modules\Shopify\Services\SourceService;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Modules\Shopify\App\Models\ErplyModel\Category;
-use Modules\Shopify\App\Models\ErplyModel\CategoryAttribute;
-use Modules\Shopify\App\Models\Source\SourceCategory;
-use Modules\Shopify\App\Models\Source\SourceImage;
-use Modules\Shopify\App\Models\Source\SourceLocation;
-use Modules\Shopify\App\Models\Source\SourceProduct;
-use Modules\Shopify\App\Models\Source\SourceSoh;
-use Modules\Shopify\App\Models\Source\SourceVariant;
+use Modules\Shopify\Models\ErplyModel\Category;
+use Modules\Shopify\Models\ErplyModel\CategoryAttribute;
+use Modules\Shopify\Models\Source\SourceCategory;
+use Modules\Shopify\Models\Source\SourceImage;
+use Modules\Shopify\Models\Source\SourceLocation;
+use Modules\Shopify\Models\Source\SourceProduct;
+use Modules\Shopify\Models\Source\SourceSoh;
+use Modules\Shopify\Models\Source\SourceVariant;
 
 class SourceProductGetService
 {

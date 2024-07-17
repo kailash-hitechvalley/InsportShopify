@@ -1,17 +1,17 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\WriteShopify;
+namespace Modules\Shopify\Http\Controllers\WriteShopify;
 
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Modules\Shopify\App\Models\Source\SourceLocation;
-use Modules\Shopify\App\Models\Source\SourceProduct;
-use Modules\Shopify\App\Services\SourceProductService;
-use Modules\Shopify\App\Traits\ShopifyTrait;
-use Modules\Shopify\App\Traits\ShopifyProductMutationTrait;
+use Modules\Shopify\Models\Source\SourceLocation;
+use Modules\Shopify\Models\Source\SourceProduct;
+use Modules\Shopify\Services\SourceProductService;
+use Modules\Shopify\Traits\ShopifyTrait;
+use Modules\Shopify\Traits\ShopifyProductMutationTrait;
 
 
 class SourceSohController extends Controller

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\Source;
+namespace Modules\Shopify\Models\Source;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +15,7 @@ class SourceOrder extends Model
      */
     protected $connection = 'mysql';
     protected $table = 'orders';
-    
+
     protected $fillable = [
         'shopify_order_string_id',
         'shopify_order_id',
@@ -55,5 +55,4 @@ class SourceOrder extends Model
         'payment_method',
         'shiopifyCursor',
     ];
-    
 }

@@ -1,16 +1,16 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\ReadShopify;
+namespace Modules\Shopify\Http\Controllers\ReadShopify;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Modules\Shopify\App\Models\Source\SourceOrder;
-use Modules\Shopify\App\Models\Source\SourceOrderDelivery;
-use Modules\Shopify\App\Models\Source\SourceOrderProduct;
-use Modules\Shopify\App\Services\ShopifyOrderService;
+use Modules\Shopify\Models\Source\SourceOrder;
+use Modules\Shopify\Models\Source\SourceOrderDelivery;
+use Modules\Shopify\Models\Source\SourceOrderProduct;
+use Modules\Shopify\Services\ShopifyOrderService;
 
 class ShopifyWebHookController extends Controller
 {

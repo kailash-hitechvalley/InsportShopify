@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\Middleware\Erply;
+namespace Modules\Shopify\Http\Controllers\Middleware\Erply;
 
 use App\Http\Controllers\Controller;
 use Exception;
@@ -8,8 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
-use Modules\Shopify\App\Services\ErplyService\ErplyProductService;
-use Modules\Shopify\App\Services\SourceService\SourceProductGetService;
+use Modules\Shopify\Services\ErplyService\ErplyProductService;
+use Modules\Shopify\Services\SourceService\SourceProductGetService;
 
 class PriceController extends Controller
 {

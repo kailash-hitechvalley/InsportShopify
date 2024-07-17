@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\ErplyModel;
+namespace Modules\Shopify\Models\ErplyModel;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,9 +19,9 @@ class Customer extends Model
     protected $primaryKey = 'middleCustomerID';
     public $timestamps = false;
 
-    protected $fillable = ['middleCustomerID','newSystemMemberID','ciMemberID','ciCustomerCode','emailAddress','firstName','lastName',
-    'tradingName','	homePhone','mobile','fax','	street','city','postCode','country','state','pending','middleEntryDate','ciEntryDate',
-'erplyCustomerID','erplyPending','erplyAddressPending','erplyAddressID','pabitra'];
-
-
+    protected $fillable = [
+        'middleCustomerID', 'newSystemMemberID', 'ciMemberID', 'ciCustomerCode', 'emailAddress', 'firstName', 'lastName',
+        'tradingName', '	homePhone', 'mobile', 'fax', '	street', 'city', 'postCode', 'country', 'state', 'pending', 'middleEntryDate', 'ciEntryDate',
+        'erplyCustomerID', 'erplyPending', 'erplyAddressPending', 'erplyAddressID', 'pabitra'
+    ];
 }

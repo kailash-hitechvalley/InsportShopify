@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Shopify\App\Services\ErplyService;
+namespace Modules\Shopify\Services\ErplyService;
 
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class GiftCardService
 {
@@ -56,7 +56,7 @@ class GiftCardService
                       note
                     }
                  }}';
-dump($query);
+        dump($query);
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 

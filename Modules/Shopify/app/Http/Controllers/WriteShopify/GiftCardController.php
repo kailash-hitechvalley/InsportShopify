@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\WriteShopify;
+namespace Modules\Shopify\Http\Controllers\WriteShopify;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Modules\Shopify\App\Models\ErplyModel\GiftCard;
-use Modules\Shopify\App\Services\ErplyService\GiftCardService;
+use Modules\Shopify\Models\ErplyModel\GiftCard;
+use Modules\Shopify\Services\ErplyService\GiftCardService;
 
 class GiftCardController extends Controller
 {
@@ -19,7 +19,7 @@ class GiftCardController extends Controller
     {
         $response = $this->giftCard->createOrUpdateGiftCard(null);
         dd($response);
-        
+
         $customerId = $request->customerId ?? null;
         $limit = $request->limit ?? 2;
         $condition = [

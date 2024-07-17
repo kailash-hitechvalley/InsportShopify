@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\GetShopifyData\app\Services;
+namespace Modules\GetShopifyData\Services;
 
-use Modules\Shopify\App\Models\ShopifyCursor;
-use Modules\Shopify\App\Traits\ShopifyTrait;
+use Modules\Shopify\Models\ShopifyCursor;
+use Modules\Shopify\Traits\ShopifyTrait;
 
 class CommonService
 {

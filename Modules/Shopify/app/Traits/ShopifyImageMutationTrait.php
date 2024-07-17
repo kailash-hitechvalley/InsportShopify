@@ -1,9 +1,9 @@
 <?php
 
-namespace Modules\Shopify\App\Traits;
+namespace Modules\Shopify\Traits;
 
 use Exception;
-use Modules\Shopify\App\Models\Source\SourceImage;
+use Modules\Shopify\Models\Source\SourceImage;
 
 trait ShopifyImageMutationTrait
 {

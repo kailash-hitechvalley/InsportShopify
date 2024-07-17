@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers;
+namespace Modules\Shopify\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;

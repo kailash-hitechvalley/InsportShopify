@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Shopify\App\Http\Controllers\WriteShopify;
+namespace Modules\Shopify\Http\Controllers\WriteShopify;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Modules\Shopify\App\Models\ReadShopify\ShopifyCustomer;
-use Modules\Shopify\App\Models\ShopifyCursor;
-use Modules\Shopify\App\Services\ErplyService\GiftCardService;
+use Modules\Shopify\Models\ReadShopify\ShopifyCustomer;
+use Modules\Shopify\Models\ShopifyCursor;
+use Modules\Shopify\Services\ErplyService\GiftCardService;
 
 class ShopifyCustomerController extends Controller
 {

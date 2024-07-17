@@ -1,8 +1,8 @@
 <?php
 
-namespace Modules\Shopify\App\Services;
+namespace Modules\Shopify\Services;
 
-use Modules\Shopify\App\Models\Source\SourceCategory;
+use Modules\Shopify\Models\Source\SourceCategory;
 use Modules\Shopify\Database\factories\Source\SourceCategoryFactory;
 
 class SourceCategoryService

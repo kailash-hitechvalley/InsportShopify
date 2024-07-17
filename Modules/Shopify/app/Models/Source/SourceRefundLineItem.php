@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\Source;
+namespace Modules\Shopify\Models\Source;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,13 +16,12 @@ class SourceRefundLineItem extends Model
     protected $connection = 'mysql';
     protected $table = 'refund_line_items';
     #public $timestamps = false;
-    protected $fillable = ['shopify_refund_id',
-    'shopify_product_string_id',
-                'shopify_product_id',
-                'product_quantity',
-                'product_code',
-                'product_price'
-];
-    
-    
+    protected $fillable = [
+        'shopify_refund_id',
+        'shopify_product_string_id',
+        'shopify_product_id',
+        'product_quantity',
+        'product_code',
+        'product_price'
+    ];
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\ErplyModel;
+namespace Modules\Shopify\Models\ErplyModel;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -33,5 +33,6 @@ class OrderDelivery extends Model
         'deliveryCity',
         'deliveryState',
         'erplyPending',
-        'erolyDeliveryID', 'pabitra'];
+        'erolyDeliveryID', 'pabitra'
+    ];
 }

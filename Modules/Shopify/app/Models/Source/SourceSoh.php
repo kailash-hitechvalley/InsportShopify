@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Models\Source;
+namespace Modules\Shopify\Models\Source;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -35,11 +35,10 @@ class SourceSoh extends Model
     }
     public function location()
     {
-        return $this->hasOne(SourceLocation::class, 'id','location_id');
+        return $this->hasOne(SourceLocation::class, 'id', 'location_id');
     }
 
     public function availableQuantity()
     {
-
     }
 }

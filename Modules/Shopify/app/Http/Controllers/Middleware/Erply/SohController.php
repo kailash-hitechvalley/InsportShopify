@@ -36,7 +36,7 @@ class SohController extends Controller
                 echo "Product ID : " . $product->productID;
                 $Variants =   $this->productService->getAllVariants($product->productID);
                 echo "Variants Count : " . count($Variants);
-              
+
 
                 echo "<br>";
 
@@ -58,7 +58,7 @@ class SohController extends Controller
 
                                     # get source variantion details
                                     $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
-                                    #dump($sourceVarient);
+                                    dump('product_id', $sourceVarient->product_id);
 
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Shopify\App\Services\ErplyService;
+namespace Modules\Shopify\Services\ErplyService;
 
 use Exception;
 use Modules\Shopify\App\Models\ErplyModel\BrandDiscountPrice;

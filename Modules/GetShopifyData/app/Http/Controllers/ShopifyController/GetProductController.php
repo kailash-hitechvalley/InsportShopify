@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\GetShopifyData\App\Services\CommonService;
 use Modules\GetShopifyData\App\Services\ShopifyGetService;
-use Modules\Shopify\App\Models\ShopifyCursor;
 use Modules\Shopify\App\Models\Source\SourceProduct;
 use Modules\Shopify\App\Models\Source\SourceVariant;
 use Modules\Shopify\App\Traits\ShopifyTrait;
@@ -28,9 +27,10 @@ class GetProductController extends Controller
     public function getProducts(Request $request)
     {
         try {
+            $id = $request->get('id') ?? null;
             $debug = $request->get('debug') ?? 0;
 
-            $response = $this->service->getShopifyProducts();
+            $response = $this->service->getShopifyProducts($id);
 
             if ($debug == 1) {
                 dd($response);

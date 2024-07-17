@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('product_id')->unsigned()->nullable();
             $table->bigInteger('varinatId')->unsigned()->nullable();
+            $table->bigInteger('productParentId')->unsigned()->nullable();
+
+
             $table->string('sku')->nullable();
             $table->string('barcode')->nullable();
 

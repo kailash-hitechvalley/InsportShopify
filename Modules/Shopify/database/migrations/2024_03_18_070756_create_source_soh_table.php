@@ -16,6 +16,9 @@ return new class extends Migration
 
             $table->bigInteger('product_id');
             $table->bigInteger('variant_id');
+            $table->bigInteger('varinatId')->nullable();
+            $table->bigInteger('code')->nullable();
+
             $table->bigInteger('location_id');
             $table->bigInteger('currentStock')->nullable();
 

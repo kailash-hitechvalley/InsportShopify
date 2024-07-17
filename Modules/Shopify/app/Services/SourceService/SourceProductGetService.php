@@ -305,19 +305,12 @@ class SourceProductGetService
         }
     }
 
-    public function insertSoh($product_id, $variant_id, $locationId,  $soh)
+    public function insertSoh($variant_id, $locationId,  $data)
     {
         return SourceSoh::updateOrCreate([
             'variant_id' => $variant_id,
             'location_id' => $locationId
-        ], [
-            'product_id' => $product_id,
-            'variant_id' => $variant_id,
-            'location_id' => $locationId,
-            'currentStock' => $soh,
-            'pendingProcess' => 1,
-            'lastStockUpdate' => date('Y-m-d H:i:s')
-        ]);
+        ], $data);
     }
 
     public function checkLocationSoh($variant_id, $locationId)

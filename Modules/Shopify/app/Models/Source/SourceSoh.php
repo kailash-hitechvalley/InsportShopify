@@ -16,6 +16,7 @@ class SourceSoh extends Model
     protected $fillable = [
         'product_id',
         'variant_id',
+        'varinatId',
         'location_id',
         'currentStock',
         'lastStockUpdate',
@@ -39,6 +40,6 @@ class SourceSoh extends Model
 
     public function availableQuantity()
     {
-        
+
     }
 }

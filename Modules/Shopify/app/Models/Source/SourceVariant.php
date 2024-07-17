@@ -17,6 +17,7 @@ class SourceVariant extends Model
     protected $fillable = [
         'product_id',
         'variantId',
+        'productParentId',
         'sku',
         'barcode',
         'image',

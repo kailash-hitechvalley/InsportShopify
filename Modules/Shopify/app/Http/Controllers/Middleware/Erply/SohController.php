@@ -29,17 +29,18 @@ class SohController extends Controller
             $limit = $request->limit ?? 50;
             # get product details from erplay
             $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
+
+
             foreach ($products as $product) {
                 #get images details from the erply
                 echo "Product ID : " . $product->productID;
                 $Variants =   $this->productService->getAllVariants($product->productID);
                 echo "Variants Count : " . count($Variants);
+                dd($Variants);
 
-                #get source product details from module
-                $sourceProduct = $this->sourceProductService->getSourceProducts(['stockId' => $product->productID]);
                 echo "<br>";
 
-                if ($Variants && $sourceProduct) {
+                if ($Variants) {
                     $flag = 0;
 
                     foreach ($Variants as $Variant) {
@@ -50,13 +51,18 @@ class SohController extends Controller
                         if ($Variant->productID) {
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
-                           # dump($variationSohs);
+
+                            dump($variationSohs);
                             if ($variationSohs) {
                                 foreach ($variationSohs as $variationSoh) {
 
                                     # get source variantion details
-                                    $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code, 'variantId' => $Variant->productID]);
-                                #    dump($sourceVarient);
+                                    $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
+                                    #dump($sourceVarient);
+
+                                    #get source product details from module
+                                    $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
+
                                     if ($sourceVarient) {
 
                                         $sourceVarientId = $sourceVarient->id;
@@ -69,14 +75,24 @@ class SohController extends Controller
                                     }
 
                                     $locationId = $this->sourceProductService->getLocationsById($variationSoh->erplyWarehouseID);
+
+                                    $sohdata =  [
+                                        'product_id' => $sourceProduct->id,
+
+                                        'varinatId' => $Variant->productID,
+
+                                        'currentStock' => $variationSoh->erplyCurrentStockValue,
+                                        'pendingProcess' => 1,
+                                        'lastStockUpdate' => date('Y-m-d H:i:s')
+                                    ];
+
                                     $result =  $this->sourceProductService->insertSoh(
                                         $sourceProduct->id,
-                                        $sourceVarientId,
                                         $locationId->id,
-                                        $variationSoh->erplyCurrentStockValue
+                                        $sohdata
                                     );
 
-                                   # dump($result);
+
                                     if ($result) {
                                         $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 1]);
 

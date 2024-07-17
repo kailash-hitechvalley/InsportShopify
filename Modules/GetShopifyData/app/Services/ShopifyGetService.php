@@ -13,13 +13,16 @@ class ShopifyGetService
     {
     }
 
-    public function getShopifyProducts()
+    public function getShopifyProducts($pid)
     {
 
         $clientCode = $this->getClientCode();
         $cursor = $this->getCursor($clientCode, 'GetProductCursor', $this->live);
-
+        $myquery = $pid ? 'query: "id:' . $pid . '"' : '';
         $after = $cursor ? ', after: "' . $cursor . '"' : '';
+        if ($myquery) {
+            $after = $myquery;
+        }
         $query = '{
          products(first: 10, ' . $after . ' ) {
                 edges {

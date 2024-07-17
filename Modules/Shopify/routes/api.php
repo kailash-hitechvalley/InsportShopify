@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Shopify\App\Http\Controllers\Middleware\Erply\CollectionController;
 use Modules\Shopify\App\Http\Controllers\Middleware\Erply\ImagesController;
-use Modules\Shopify\App\Http\Controllers\Middleware\Erply\LocationController;
+use Modules\Shopify\Http\Controllers\Middleware\Erply\LocationController;
 use Modules\Shopify\App\Http\Controllers\Middleware\Erply\PriceController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\ProductController;
 use Modules\Shopify\App\Http\Controllers\Middleware\Erply\SohController;

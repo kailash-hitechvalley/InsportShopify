@@ -36,7 +36,7 @@ class SohController extends Controller
                 echo "Product ID : " . $product->productID;
                 $Variants =   $this->productService->getAllVariants($product->productID);
                 echo "Variants Count : " . count($Variants);
-                dd($Variants);
+              
 
                 echo "<br>";
 

@@ -90,7 +90,7 @@ class SohController extends Controller
                                     ];
 
                                     $result =  $this->sourceProductService->insertSoh(
-                                        $sourceProduct->id,
+                                        $sourceVarientId,
                                         $locationId->id,
                                         $sohdata
                                     );

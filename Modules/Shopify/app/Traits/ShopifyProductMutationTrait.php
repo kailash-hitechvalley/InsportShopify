@@ -307,7 +307,7 @@ trait ShopifyProductMutationTrait
             $res = $response->data->productVariant->inventoryItem->inventoryLevels->edges;
         }
         $totalActivatedLocation = count($res);
-        if ($totalActivatedLocation == 8) {
+        if ($totalActivatedLocation == 20) {
             $mutation = '
             mutation {
                 inventoryAdjustQuantities(

@@ -54,10 +54,11 @@ class SohController extends Controller
                         $sourceVarientId = null;
 
                         if ($Variant->productID) {
+                            echo "Product ID = " . $Variant->productID;
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
 
-                            if (@$variationSohs) {
+                            if ($variationSohs) {
                                 foreach ($variationSohs as $variationSoh) {
 
                                     # get source variantion details
@@ -145,6 +146,7 @@ class SohController extends Controller
                             'lastSyncDate' => date('Y-m-d H:i:s')
                         ];
                     }
+                    print_r($sourceProductUpadte);
                     if (@$sourceProduct) {
 
                         $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], $sourceProductUpadte);

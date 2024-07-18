@@ -59,7 +59,7 @@ class SohController extends Controller
 
                                     # get source variantion details
                                     $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code]);
-                                    dump($sourceVarient);
+
                                     if (!$sourceVarient) {
                                         # get source variantion details
                                         $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
@@ -72,7 +72,7 @@ class SohController extends Controller
 
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-
+                                    dd($sourceProduct);
                                     if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;
@@ -156,6 +156,7 @@ class SohController extends Controller
             }
             echo "Whole Process Completed";
         } catch (Exception $e) {
+            dd($e);
             $this->productService->updateProducts($product->productID, ['roadhouseStatus' => 1]);
 
             echo "Something went wrong";

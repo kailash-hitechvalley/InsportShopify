@@ -45,7 +45,9 @@ class SohController extends Controller
                     $flag = 0;
 
                     foreach ($Variants as $Variant) {
-                        echo "Variants = " . $Variant->code;
+                        echo "Variants code = " . $Variant->code;
+                        echo "Variants code3 = " . $Variant->code3;
+
                         echo "<br>";
                         $sourceVarientId = null;
 
@@ -60,9 +62,12 @@ class SohController extends Controller
                                     $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code]);
 
                                     if (!$sourceVarient) {
+                                        echo "source varient not found by code". "<br>";
                                         # get source variantion details
                                         $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
                                         if (!$sourceVarient) {
+                                        echo "source varient not found by code3". "<br>";
+
                                             ErplyModelProduct::where('productID', $product->productID)->update(['roadhouseSohStatus' => 2]);
 
                                             continue;
@@ -71,11 +76,12 @@ class SohController extends Controller
 
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-                             
+
                                     if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;
                                     } else {
+                                        echo "source product not found". "<br>";
                                         ErplyModelProduct::where('productID', $product->productID)->update([
                                             'roadhouseStatus' => 1,
                                             'roadhouseSohStatus' => 2
@@ -118,10 +124,13 @@ class SohController extends Controller
                                     }
                                 }
                             } else {
-                                dd('nodata');
-                                echo "soh noty found";
+
+                                echo "soh not found";
                             }
-                            echo "<br> hello";
+                          
+                        } else {
+
+                            echo "Variants Product Id Not Found";
                         }
                     }
                     if ($flag == 1) {

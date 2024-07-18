@@ -27,7 +27,7 @@ class SohController extends Controller
     {
         try {
             $code = $request->code ?? '';
-            $limit = $request->limit ?? 50;
+            $limit = $request->limit ?? 1;
             # get product details from erplay
             $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
 
@@ -53,7 +53,7 @@ class SohController extends Controller
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
 
-                            if (isset($variationSohs) && $variationSohs) {
+                            if (@$variationSohs) {
                                 foreach ($variationSohs as $variationSoh) {
 
                                     # get source variantion details
@@ -71,7 +71,7 @@ class SohController extends Controller
 
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-                                    dd($sourceProduct);
+                             
                                     if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;
@@ -158,8 +158,8 @@ class SohController extends Controller
             }
             echo "Whole Process Completed";
         } catch (Exception $e) {
-            dd($e);
-            $this->productService->updateProducts($product->productID, ['roadhouseStatus' => 1]);
+
+            $this->productService->updateProducts($product->productID, ['roadhouseStatus' => 1, 'roadhouseSohStatus' => 2]);
 
             echo "Something went wrong";
             #info($e->getMessage());

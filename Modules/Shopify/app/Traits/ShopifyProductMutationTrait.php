@@ -318,12 +318,12 @@ trait ShopifyProductMutationTrait
             foreach ($sourceSohs as $sourceSoh) {
                 $locationId = $sourceSoh->location->shopifyLocationId;
                 echo $locationId . "=>" . $sourceSoh->location->name . "=>" . $sourceSoh->currentStock . "<br>";
-                if ($locationId === "gid://shopify/Location/35394846792q") {  // skip Online Warehouse location
+                if ($locationId === "gid://shopify/Location/35394846792s") {  // skip Online Warehouse
                     $sohDiff = 0;
                 } else {
                     $sum += $sourceSoh->currentStock;
                     $sohDiff = $this->returnSohDiff($sourceSoh->currentStock, $locationId, $res, $inventoryItemId);
-                    # dump($sohDiff);
+                    dump($sohDiff);
                 }
                 $mutation .= '{
                                 delta: ' . $sohDiff  . ',

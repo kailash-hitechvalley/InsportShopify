@@ -121,6 +121,9 @@ class SohController extends Controller
                                         echo "<br>";
                                         $flag = 1;
                                     } else {
+                                        ErplyModelProduct::where('productID', $product->productID)->update(['roadhouseSohStatus' => 3]);
+
+                                        continue;
                                         echo "<br>";
                                         echo "Soh Not Inserted";
                                         echo "<br>";
@@ -147,7 +150,7 @@ class SohController extends Controller
                         ];
                     }
                     print_r($sourceProductUpadte);
-                    if (@$sourceProduct) {
+                    if ($sourceProduct) {
 
                         $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], $sourceProductUpadte);
                     }

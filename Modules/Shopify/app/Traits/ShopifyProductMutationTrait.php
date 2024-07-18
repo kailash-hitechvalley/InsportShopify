@@ -325,7 +325,6 @@ trait ShopifyProductMutationTrait
 
 
                     $sohDiff = $this->returnSohDiff($sourceSoh->currentStock, $locationId, $res, $inventoryItemId);
-                  
                 }
                 $mutation .= '{
                                 delta: ' . $sohDiff  . ',

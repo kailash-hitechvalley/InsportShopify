@@ -27,7 +27,7 @@ class SohController extends Controller
     {
         try {
             $code = $request->code ?? '';
-            $limit = $request->limit ?? 1;
+            $limit = $request->limit ?? 20;
             # get product details from erplay
             $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
 
@@ -57,7 +57,7 @@ class SohController extends Controller
                             echo "Product ID = " . $Variant->productID;
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
-                            dump($variationSohs);
+                            #dump($variationSohs);
                             if (count($variationSohs) > 0 && $variationSohs) {
                                 foreach ($variationSohs as $variationSoh) {
 

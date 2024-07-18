@@ -84,7 +84,7 @@ class SourceSohController extends Controller
                     $statusResponse = $this->sendShopifyQueryRequestV2('POST', $statusMutation, $this->live);
                     print_r($statusResponse);
                     continue;
-                    # code...
+                    
                 }
                 foreach ($variants as $variant) {
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';

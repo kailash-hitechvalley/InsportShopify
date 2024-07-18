@@ -46,6 +46,8 @@ class SohController extends Controller
 
                     foreach ($Variants as $Variant) {
                         echo "Variants code = " . $Variant->code;
+                        echo "<br>";
+
                         echo "Variants code3 = " . $Variant->code3;
 
                         echo "<br>";
@@ -62,11 +64,11 @@ class SohController extends Controller
                                     $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code]);
 
                                     if (!$sourceVarient) {
-                                        echo "source varient not found by code". "<br>";
+                                        echo "source varient not found by code" . "<br>";
                                         # get source variantion details
                                         $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
                                         if (!$sourceVarient) {
-                                        echo "source varient not found by code3". "<br>";
+                                            echo "source varient not found by code3" . "<br>";
 
                                             ErplyModelProduct::where('productID', $product->productID)->update(['roadhouseSohStatus' => 2]);
 
@@ -81,7 +83,7 @@ class SohController extends Controller
 
                                         $sourceVarientId = $sourceVarient->id;
                                     } else {
-                                        echo "source product not found". "<br>";
+                                        echo "source product not found" . "<br>";
                                         ErplyModelProduct::where('productID', $product->productID)->update([
                                             'roadhouseStatus' => 1,
                                             'roadhouseSohStatus' => 2
@@ -127,7 +129,6 @@ class SohController extends Controller
 
                                 echo "soh not found";
                             }
-                          
                         } else {
 
                             echo "Variants Product Id Not Found";

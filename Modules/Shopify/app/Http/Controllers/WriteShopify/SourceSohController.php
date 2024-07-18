@@ -80,9 +80,9 @@ class SourceSohController extends Controller
                         'lastPushedDate' => date('Y-m-d H:i:s'),
                         'errorMessage' => 'no active variants found'
                     ]);
-                #    $statusMutation =  $this->changeStatusMutation($shopifyProductId, 'ARCHIVED');
-                  #  $statusResponse = $this->sendShopifyQueryRequestV2('POST', $statusMutation, $this->live);
-                  #  print_r($statusResponse);
+                    #    $statusMutation =  $this->changeStatusMutation($shopifyProductId, 'ARCHIVED');
+                    #  $statusResponse = $this->sendShopifyQueryRequestV2('POST', $statusMutation, $this->live);
+                    #  print_r($statusResponse);
                     continue;
                     # code...
                 }
@@ -92,7 +92,7 @@ class SourceSohController extends Controller
                     $sourceSohs = $variant->sourceSoh()->get();
 
                     $mutations =  $this->updateProductSohMutation($sourceSohs, $variant->inventoryItemId, $variant->shopifyVariantId, $variant->id);
-                   dd($mutations);
+                    // dd($mutations);
                     if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
                         dump("have some error");
                         $this->productService->updateProduct($product->id, [

@@ -58,7 +58,7 @@ class SohController extends Controller
 
                                     # get source variantion details
                                     $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code]);
-
+                                    dump($sourceVarient);
                                     if (!$sourceVarient) {
                                         # get source variantion details
                                         $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);

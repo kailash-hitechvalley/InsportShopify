@@ -79,7 +79,7 @@ class SohController extends Controller
 
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-
+                                    dump($sourceProduct);
                                     if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;
@@ -150,8 +150,8 @@ class SohController extends Controller
                         ];
                     }
                     print_r($sourceProductUpadte);
-                    if ($sourceProduct) {
-
+                    if (@$sourceProduct) {
+                        echo "Product Found in Source Module";
                         $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], $sourceProductUpadte);
                     }
                     $updateData = [

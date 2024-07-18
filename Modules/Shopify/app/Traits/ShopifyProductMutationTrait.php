@@ -417,7 +417,7 @@ trait ShopifyProductMutationTrait
     {
         $countLocation = count($resArray);
         $sohDiff = 0;
-        if ($countLocation == 8) {
+        if ($countLocation == 20) {
             foreach ($resArray as $res) {
 
                 if ($res->node->location->id === $locationId) {

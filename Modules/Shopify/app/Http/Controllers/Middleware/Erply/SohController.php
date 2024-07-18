@@ -135,8 +135,10 @@ class SohController extends Controller
                             'lastSyncDate' => date('Y-m-d H:i:s')
                         ];
                     }
+                    if (@$sourceProduct) {
 
-                    $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], $sourceProductUpadte);
+                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], $sourceProductUpadte);
+                    }
                     $updateData = [
                         'roadhouseSohStatus' => 0
 

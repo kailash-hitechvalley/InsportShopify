@@ -60,7 +60,13 @@ class SohController extends Controller
                                     $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code]);
 
                                     if (!$sourceVarient) {
-                                        continue;
+                                        # get source variantion details
+                                        $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
+                                        if (!$sourceVarient) {
+                                            ErplyModelProduct::where('productID', $product->productID)->update(['roadhouseSohStatus' => 2]);
+
+                                            continue;
+                                        }
                                     }
 
                                     #get source product details from module

@@ -291,9 +291,9 @@ trait ShopifyProductMutationTrait
     public function updateProductSohMutation($sourceSohs, $inventoryItemId, $variantId, $sourceVarinatId)
     {
         $sohQuery = $this->checkSohQuery($variantId);
-
+        dump($sohQuery);
         $response = $this->sendShopifyQueryRequestV2('POST', $sohQuery, $this->live);
-        dump($response);
+        print_r($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,
@@ -307,8 +307,7 @@ trait ShopifyProductMutationTrait
             $res = $response->data->productVariant->inventoryItem->inventoryLevels->edges;
         }
         $totalActivatedLocation = count($res);
-        dump($totalActivatedLocation);
-        if ($totalActivatedLocation == 20) {
+        if ($totalActivatedLocation == 8) {
             $mutation = '
             mutation {
                 inventoryAdjustQuantities(
@@ -318,12 +317,12 @@ trait ShopifyProductMutationTrait
             foreach ($sourceSohs as $sourceSoh) {
                 $locationId = $sourceSoh->location->shopifyLocationId;
                 echo $locationId . "=>" . $sourceSoh->location->name . "=>" . $sourceSoh->currentStock . "<br>";
-                if ($locationId === "gid://shopify/Location/35394846792s") {  // skip Online Warehouse
+                if ($locationId === "gid://shopify/Location/83408388377") {
                     $sohDiff = 0;
                 } else {
                     $sum += $sourceSoh->currentStock;
                     $sohDiff = $this->returnSohDiff($sourceSoh->currentStock, $locationId, $res, $inventoryItemId);
-                    dump($sohDiff);
+                     dump($sohDiff);
                 }
                 $mutation .= '{
                                 delta: ' . $sohDiff  . ',

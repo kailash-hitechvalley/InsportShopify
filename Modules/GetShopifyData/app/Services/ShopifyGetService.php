@@ -24,7 +24,7 @@ class ShopifyGetService
             $after = $myquery;
         }
         $query = '{
-         products(first: 10, ' . $after . ' ) {
+         products(first: 3, ' . $after . ' ) {
                 edges {
                 cursor
                 node {

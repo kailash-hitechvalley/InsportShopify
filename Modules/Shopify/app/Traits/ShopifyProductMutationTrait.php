@@ -318,7 +318,7 @@ trait ShopifyProductMutationTrait
             foreach ($sourceSohs as $sourceSoh) {
                 $locationId = $sourceSoh->location->shopifyLocationId;
                 echo $locationId . "=>" . $sourceSoh->location->name . "=>" . $sourceSoh->currentStock . "<br>";
-                if ($locationId === "gid://shopify/Location/35394846792") {  // skip Online Warehouse location
+                if ($locationId === "gid://shopify/Location/35394846792q") {  // skip Online Warehouse location
                     $sohDiff = 0;
                 } else {
                     $sum += $sourceSoh->currentStock;

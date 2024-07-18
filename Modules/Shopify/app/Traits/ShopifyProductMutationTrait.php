@@ -293,7 +293,7 @@ trait ShopifyProductMutationTrait
         $sohQuery = $this->checkSohQuery($variantId);
         dump($sohQuery);
         $response = $this->sendShopifyQueryRequestV2('POST', $sohQuery, $this->live);
-        print_r($response);
+        dump($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,

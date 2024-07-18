@@ -1013,7 +1013,7 @@ trait ShopifyTrait
                     node {
                         id
                         available
-                        location{id}
+                        location{id name}
                     }
                     }
                 }

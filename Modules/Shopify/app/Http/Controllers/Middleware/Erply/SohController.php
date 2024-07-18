@@ -58,7 +58,7 @@ class SohController extends Controller
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
                             dump($variationSohs);
-                            if ($variationSohs) {
+                            if (@$variationSohs) {
                                 foreach ($variationSohs as $variationSoh) {
 
                                     # get source variantion details

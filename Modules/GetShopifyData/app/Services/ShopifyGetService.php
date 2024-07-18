@@ -76,4 +76,20 @@ class ShopifyGetService
 
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
+
+    public function getShopifyLocations()
+    {
+        $query = '{
+            locations(first: 100) {
+              edges {
+                node {
+                  id
+                  name
+                }
+              }
+            }
+          }';
+
+        return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
+    }
 }

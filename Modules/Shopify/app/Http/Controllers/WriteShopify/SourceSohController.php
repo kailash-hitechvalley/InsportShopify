@@ -4,10 +4,7 @@ namespace Modules\Shopify\Http\Controllers\WriteShopify;
 
 use App\Http\Controllers\Controller;
 use Exception;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Modules\Shopify\Models\Source\SourceLocation;
 use Modules\Shopify\Models\Source\SourceProduct;
 use Modules\Shopify\Services\SourceProductService;
 use Modules\Shopify\Traits\ShopifyTrait;

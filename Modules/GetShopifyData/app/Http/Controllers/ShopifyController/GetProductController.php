@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\GetShopifyData\Services\CommonService;
 use Modules\GetShopifyData\Services\ShopifyGetService;
+use Modules\Shopify\Models\Source\SourceLocation;
 use Modules\Shopify\Models\Source\SourceProduct;
 use Modules\Shopify\Models\Source\SourceVariant;
 use Modules\Shopify\Traits\ShopifyTrait;
@@ -131,5 +132,29 @@ class GetProductController extends Controller
                 return $option->value;
             }
         }
+    }
+
+    public function getLocations(Request $request)
+    {
+        $debug = $request->get('debug') ?? 0;
+        $response  =   $this->service->getShopifyLocations();
+
+        if ($debug == 1) {
+            dd($response);
+        }
+
+        $locations = $response->data->locations->edges;
+        if ($debug == 2) {
+            dd($locations);
+        }
+
+        foreach ($locations as $location) {
+            $data = [
+                'shopifyLocationId' => $location->node->id,
+            ];
+            SourceLocation::where('name', $location->node->name)->update($data);
+        }
+
+        echo "Locations updated successfully";
     }
 }

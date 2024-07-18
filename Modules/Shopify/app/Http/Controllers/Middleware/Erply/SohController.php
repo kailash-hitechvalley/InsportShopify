@@ -119,8 +119,8 @@ class SohController extends Controller
                                     }
                                 }
                             } else {
-                                echo
-                                "soh noty found";
+                                dd('nodata');
+                                echo "soh noty found";
                             }
                         }
                     }

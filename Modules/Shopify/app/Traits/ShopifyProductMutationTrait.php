@@ -321,7 +321,7 @@ trait ShopifyProductMutationTrait
                     $sohDiff = 0;
                 } else {
                     $sum += $sourceSoh->currentStock;
-                    echo $sum . "=>" . $sourceSoh->currentStock . "=>" . $locationId . "=>" . $res . "=>" . $inventoryItemId . "<br>";
+                    echo $sum . "=>" . $sourceSoh->currentStock . "=>" . $locationId . "=>" . print_r($res) . "=>" . $inventoryItemId . "<br>";
 
 
                     $sohDiff = $this->returnSohDiff($sourceSoh->currentStock, $locationId, $res, $inventoryItemId);

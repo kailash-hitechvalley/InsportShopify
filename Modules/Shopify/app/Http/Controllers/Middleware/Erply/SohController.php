@@ -8,6 +8,7 @@ use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use Modules\Shopify\Models\ErplyModel\Product as ErplyModelProduct;
 use Modules\Shopify\Services\ErplyService\ErplyProductService;
 use Modules\Shopify\Services\SourceService\SourceProductGetService;
@@ -72,14 +73,15 @@ class SohController extends Controller
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
 
-                                    if ($sourceVarient) {
+                                    if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;
                                     } else {
                                         ErplyModelProduct::where('productID', $product->productID)->update([
-                                            'roadhouseStatus' => 1
+                                            'roadhouseStatus' => 1,
+                                            'roadhouseSohStatus' => 2
                                         ]);
-                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 0]);
+                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 0, 'stockId' => $product->productID]);
                                         continue;
                                     }
 
@@ -103,7 +105,7 @@ class SohController extends Controller
 
 
                                     if ($result) {
-                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 1]);
+                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 1, 'stockId' => $product->productID]);
 
                                         echo "<br>";
                                         echo "Total Stock :" . $result->currentStock;

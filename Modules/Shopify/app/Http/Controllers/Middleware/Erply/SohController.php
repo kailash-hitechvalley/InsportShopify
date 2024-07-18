@@ -57,7 +57,7 @@ class SohController extends Controller
                                 foreach ($variationSohs as $variationSoh) {
 
                                     # get source variantion details
-                                    $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
+                                    $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code]);
 
                                     if (!$sourceVarient) {
                                         continue;

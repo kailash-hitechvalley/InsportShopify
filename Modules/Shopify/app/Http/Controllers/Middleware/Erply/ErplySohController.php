@@ -52,6 +52,7 @@ class ErplySohController extends Controller
 
                     $this->manageVariants($Variants);
                 } else {
+                    $this->changeflag(0, $product->productID);
                     echo "no variants found";
                 }
 
@@ -78,18 +79,20 @@ class ErplySohController extends Controller
 
                 $res =  $this->manageSoh($variationSohs, $Variant);
                 if ($res == 1) {
+
+                    $this->changeflag(0, $Variant->parentProductID);
+
                     echo "soh updated";
                 } else {
-                    ErplyModelProduct::where('productID', $Variant->productID)->update([
-                        'roadhouseSohStatus' => 3
-
-                    ]);
+                    $this->changeflag(2, $Variant->parentProductID);
 
                     echo "<br>";
                     echo "no source variant found";
                     echo "<br>";
                 }
             } else {
+                $this->changeflag(3, $Variant->parentProductID);
+
                 echo "no soh found";
                 return false;
             }
@@ -131,16 +134,13 @@ class ErplySohController extends Controller
         if (count($sourceVarient) <= 0) {
             echo "no source variant  via sku";
             echo "<br>";
-            ErplyModelProduct::where('productID', $Variant->productID)->update([
-                'roadhouseSohStatus' => 4
-            ]);
+            $this->changeflag(4, $Variant->parentProductID);
+
             return false;
         }
 
         if (count($sourceVarient) > 1) {
-            ErplyModelProduct::where('productID', $Variant->productID)->update([
-                'roadhouseSohStatus' => 4
-            ]);
+            $this->changeflag(4, $Variant->parentProductID);
             return false;
         }
         $sourceVarient = $sourceVarient->first();
@@ -204,5 +204,13 @@ class ErplySohController extends Controller
 
 
         return $flag;
+    }
+
+    public function changeflag($flag, $productID)
+    {
+        return  ErplyModelProduct::where('productID', $productID)->update([
+            'roadhouseSohStatus' => $flag
+
+        ]);
     }
 }

@@ -103,7 +103,7 @@ class ErplySohController extends Controller
             $s
         );
 
-        dump(106);
+
         if (count($sourceVarient) <= 0) {
             echo "no source variant  via sku";
             echo "<br>";
@@ -124,7 +124,7 @@ class ErplySohController extends Controller
             return false;
         }
         $sourceVarient = $sourceVarient->first();
-        dump($sourceVarient);
+
 
         $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
 
@@ -135,6 +135,7 @@ class ErplySohController extends Controller
 
             $sohdata =  [
                 'varinatId' => $Variant->productID,
+                'code' => $sourceVarient->sku,
                 'currentStock' => $variationSoh->erplyCurrentStockValue,
                 'pendingProcess' => 1,
                 'lastStockUpdate' => date('Y-m-d H:i:s')

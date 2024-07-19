@@ -84,9 +84,11 @@ class ErplySohController extends Controller
 
     public function manageSoh($variationSohs, $Variant)
     {
+        $s = $Variant->get('code', 'code2', 'code3');
+        print_r($s);
         $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
             'sku',
-            [$Variant->code, $Variant->code3, $Variant->code2]
+            $s
         );
 
 
@@ -94,7 +96,7 @@ class ErplySohController extends Controller
 
             $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
                 'barcode',
-                [$Variant->code, $Variant->code3, $Variant->code2]
+                $s
             );
         }
 

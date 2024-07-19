@@ -311,9 +311,10 @@ class SourceProductGetService
         }
     }
 
-    public function insertSoh($variant_id, $locationId,  $data)
+    public function insertSoh($product_id, $variant_id, $locationId,  $data)
     {
         return SourceSoh::updateOrCreate([
+            'product_id' => $product_id,
             'variant_id' => $variant_id,
             'location_id' => $locationId
         ], $data);

@@ -68,7 +68,6 @@ class SohController extends Controller
                             echo "Product ID = " . $Variant->productID;
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
-                            print_r($variationSohs);
 
                             #dump($variationSohs);
                             if (count($variationSohs) > 0 && $variationSohs) {
@@ -97,7 +96,7 @@ class SohController extends Controller
                                         continue;
                                     }
                                     echo "source variant count = " . count($sourceVarient);
-                                    print_r($sourceVarient);
+
                                     if (count($sourceVarient) > 1) {
                                         ErplyModelProduct::where('productID', $product->productID)->update([
                                             'roadhouseSohStatus' => 4
@@ -125,8 +124,6 @@ class SohController extends Controller
                                     $locationId = $this->sourceProductService->getLocationsById($variationSoh->erplyWarehouseID);
 
                                     $sohdata =  [
-                                        'product_id' => $sourceProduct->id,
-
                                         'varinatId' => $Variant->productID,
 
                                         'currentStock' => $variationSoh->erplyCurrentStockValue,
@@ -135,6 +132,7 @@ class SohController extends Controller
                                     ];
 
                                     $result =  $this->sourceProductService->insertSoh(
+                                        $sourceProduct->id,
                                         $sourceVarientId,
                                         $locationId->id,
                                         $sohdata

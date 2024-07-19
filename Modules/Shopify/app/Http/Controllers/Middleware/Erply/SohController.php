@@ -51,6 +51,7 @@ class SohController extends Controller
                     $flag = 0;
 
                     foreach ($Variants as $Variant) {
+                        echo "Variants ID = " . $Variant->productID;
                         echo "Variants code = " . $Variant->code;
                         echo "<br>";
 

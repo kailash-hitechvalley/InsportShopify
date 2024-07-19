@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\CollectionController;
+use Modules\Shopify\Http\Controllers\Middleware\Erply\ErplySohController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\ImagesController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\LocationController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\PriceController;
@@ -44,6 +45,7 @@ Route::get('get-locations', [LocationController::class, 'getLocation']);
 Route::get('get-images', [ImagesController::class, 'index']);
 
 Route::get('get-soh', [SohController::class, 'index']);
+Route::get('get-soh-erply', [ErplySohController::class, 'index']);
 
 Route::get('get-price', [PriceController::class, 'index']);
 #Web Hooks

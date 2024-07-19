@@ -81,21 +81,21 @@ class SohController extends Controller
 
 
                                     if (!$sourceVarient) {
-                                        echo "source variant not found via sku" . "<br>";
+
                                         $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
                                             'barcode',
                                             [$Variant->code, $Variant->code3, $Variant->code2]
                                         );
                                     }
                                     if (!$sourceVarient) {
-                                        echo "source variant not found via barcode" . "<br>";
+
 
                                         ErplyModelProduct::where('productID', $product->productID)->update([
                                             'roadhouseSohStatus' => 5
                                         ]);
                                         continue;
                                     }
-                                    echo "source variant count = " . count($sourceVarient);
+
 
                                     if (count($sourceVarient) > 1) {
                                         ErplyModelProduct::where('productID', $product->productID)->update([
@@ -104,15 +104,14 @@ class SohController extends Controller
                                         continue;
                                     }
                                     $sourceVarient = $sourceVarient->first();
-                                    #  dd($sourceVarient);
-                                    #get source product details from module
+
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
                                     dump($sourceProduct);
                                     if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;
                                     } else {
-                                        echo "source product not found" . "<br>";
+                                  
                                         ErplyModelProduct::where('productID', $product->productID)->update([
                                             'roadhouseStatus' => 1,
                                             'roadhouseSohStatus' => 2

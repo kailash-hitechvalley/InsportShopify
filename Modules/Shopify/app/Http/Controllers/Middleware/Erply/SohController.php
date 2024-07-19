@@ -40,7 +40,7 @@ class SohController extends Controller
             }
 
             foreach ($products as $product) {
-                
+
                 echo "Product ID : " . $product->productID;
                 $Variants =   $this->productService->getAllVariants($product->productID);
                 echo "Variants Count : " . count($Variants);
@@ -68,10 +68,8 @@ class SohController extends Controller
                             echo "Product ID = " . $Variant->productID;
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
-                            if ($debug == 3) {
-                                dd($variationSohs);
-                                # code...
-                            }
+                            print_r($variationSohs);
+
                             #dump($variationSohs);
                             if (count($variationSohs) > 0 && $variationSohs) {
                                 foreach ($variationSohs as $variationSoh) {
@@ -81,6 +79,7 @@ class SohController extends Controller
                                         'sku',
                                         [$Variant->code, $Variant->code3, $Variant->code2]
                                     );
+
 
                                     if (!$sourceVarient) {
                                         echo "source variant not found via sku" . "<br>";
@@ -97,6 +96,8 @@ class SohController extends Controller
                                         ]);
                                         continue;
                                     }
+                                    echo "source variant count = " . count($sourceVarient);
+                                    print_r($sourceVarient);
                                     if (count($sourceVarient) > 1) {
                                         ErplyModelProduct::where('productID', $product->productID)->update([
                                             'roadhouseSohStatus' => 4

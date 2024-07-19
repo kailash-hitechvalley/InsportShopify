@@ -183,7 +183,7 @@ class SohController extends Controller
             }
             echo "Whole Process Completed";
         } catch (Exception $e) {
-
+            dd($e);
             $this->productService->updateProducts($product->productID, ['roadhouseStatus' => 1, 'roadhouseSohStatus' => 2]);
 
             echo "Something went wrong";

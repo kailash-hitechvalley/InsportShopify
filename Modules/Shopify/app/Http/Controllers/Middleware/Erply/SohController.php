@@ -89,7 +89,7 @@ class SohController extends Controller
                                         continue;
                                     }
                                     $sourceVarient = $sourceVarient->first();
-                                    dd($sourceVarient);
+                                    #  dd($sourceVarient);
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
                                     dump($sourceProduct);

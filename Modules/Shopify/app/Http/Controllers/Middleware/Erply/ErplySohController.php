@@ -5,6 +5,7 @@ namespace Modules\Shopify\Http\Controllers\Middleware\Erply;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Modules\Shopify\Services\ErplyService\ErplyProductService;
 use Modules\Shopify\Services\SourceService\SourceProductGetService;
 use Modules\Shopify\Models\ErplyModel\Product as ErplyModelProduct;
@@ -27,16 +28,13 @@ class ErplySohController extends Controller
             $limit = $request->limit ?? 20;
             $debug = $request->debug ?? 0;
             # get product details from erplay
-            if ($code) {
-                $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], 1, $code);
-            } else {
-                $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
-            }
+            $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
+
             if ($debug == 1) {
                 dd($products);
             }
             foreach ($products as $product) {
-
+                DB::beginTransaction();
                 echo "Product ID : " . $product->productID;
                 $Variants =   $this->productService->getAllVariants($product->productID);
                 echo "Variants Count : " . count($Variants);
@@ -50,9 +48,13 @@ class ErplySohController extends Controller
                 } else {
                     echo "no variants found";
                 }
+
+                DB::commit();
             }
+            echo "<br>";
             echo "done";
         } catch (Exception $e) {
+            DB::rollBack();
             dd($e);
             return $e->getMessage();
         }
@@ -84,23 +86,23 @@ class ErplySohController extends Controller
 
     public function manageSoh($variationSohs, $Variant)
     {
-        $s = [];
+        $codes = [];
         if ($Variant->code) {
-            $s[] = $Variant->code;
+            $codes[] = $Variant->code;
         }
 
         if ($Variant->code2) {
-            $s[] = $Variant->code2;
+            $codes[] = $Variant->code2;
         }
 
         if ($Variant->code3) {
-            $s[] = $Variant->code3;
+            $codes[] = $Variant->code3;
         }
 
-        print_r($s);
+        print_r($codes);
         $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
             'sku',
-            $s
+            $codes
         );
 
 
@@ -109,11 +111,14 @@ class ErplySohController extends Controller
             echo "<br>";
             $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
                 'barcode',
-                $s
+                $codes
             );
         }
 
         if (!$sourceVarient) {
+            ErplyModelProduct::where('productID', $Variant->productID)->update([
+                'roadhouseSohStatus' => 4
+            ]);
             return false;
         }
 

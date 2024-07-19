@@ -73,6 +73,12 @@ class SourceProductGetService
 
         return SourceVariant::where($condition)->first();
     }
+    public function getSourceVariantsIN($column_name, $condition)
+    {
+
+        return SourceVariant::whereIn($column_name, $condition)->get();
+    }
+
     public function updateSourceProduct($condition, $datas)
     {
 

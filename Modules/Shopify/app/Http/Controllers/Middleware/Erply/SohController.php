@@ -62,21 +62,31 @@ class SohController extends Controller
                                 foreach ($variationSohs as $variationSoh) {
 
                                     # get source variantion details
-                                    $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code]);
+                                    $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
+                                        'sku',
+                                        [$Variant->code, $Variant->code3, $Variant->code2]
+                                    );
 
                                     if (!$sourceVarient) {
-                                        echo "source varient not found by code" . "<br>";
-                                        # get source variantion details
-                                        $sourceVarient = $this->sourceProductService->getSourceVariants(['sku' => $Variant->code3]);
-                                        if (!$sourceVarient) {
-                                            echo "source varient not found by code3" . "<br>";
-
-                                            ErplyModelProduct::where('productID', $product->productID)->update(['roadhouseSohStatus' => 2]);
-
-                                            continue;
-                                        }
+                                        $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
+                                            'barcode',
+                                            [$Variant->code, $Variant->code3, $Variant->code2]
+                                        );
                                     }
-
+                                    if (!$sourceVarient) {
+                                        ErplyModelProduct::where('productID', $product->productID)->update([
+                                            'roadhouseSohStatus' => 5
+                                        ]);
+                                        continue;
+                                    }
+                                    if (count($sourceVarient) > 1) {
+                                        ErplyModelProduct::where('productID', $product->productID)->update([
+                                            'roadhouseSohStatus' => 4
+                                        ]);
+                                        continue;
+                                    }
+                                    $sourceVarient = $sourceVarient->first();
+                                    dd($sourceVarient);
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
                                     dump($sourceProduct);

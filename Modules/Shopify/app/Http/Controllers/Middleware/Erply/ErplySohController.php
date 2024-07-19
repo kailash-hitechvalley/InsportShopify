@@ -28,7 +28,11 @@ class ErplySohController extends Controller
             $limit = $request->limit ?? 20;
             $debug = $request->debug ?? 0;
             # get product details from erplay
-            $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
+            $products = $this->productService->getProducts(
+                ['roadhouseSohStatus' => 1],
+                $limit,
+                $code
+            );
 
             if ($debug == 1) {
                 dd($products);
@@ -36,7 +40,9 @@ class ErplySohController extends Controller
             foreach ($products as $product) {
                 DB::beginTransaction();
                 echo "Product ID : " . $product->productID;
-                $Variants =   $this->productService->getAllVariants($product->productID);
+                $Variants =   $this->productService->getAllVariants(
+                    $product->productID
+                );
                 echo "Variants Count : " . count($Variants);
                 echo "<br>";
                 if ($debug == 2) {
@@ -167,7 +173,10 @@ class ErplySohController extends Controller
                 echo "<br>";
                 echo "Soh Inserted";
                 echo "<br>";
-                $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 1]);
+                $this->sourceProductService->updateSourceProduct(
+                    ['id' => $sourceProduct->id],
+                    ['sohPendingProcess' => 1]
+                );
             } else {
                 $flag = 0;
                 echo "<br>";
@@ -188,7 +197,10 @@ class ErplySohController extends Controller
             ];
         }
 
-        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], $sourceProductUpadte);
+        $this->sourceProductService->updateSourceProduct(
+            ['id' => $sourceProduct->id],
+            $sourceProductUpadte
+        );
 
 
         return $flag;

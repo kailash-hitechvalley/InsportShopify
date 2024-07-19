@@ -100,7 +100,7 @@ class SohController extends Controller
                                     #  dd($sourceVarient);
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-                                    dump($sourceProduct);
+                                  #  dump($sourceProduct);
                                     if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;

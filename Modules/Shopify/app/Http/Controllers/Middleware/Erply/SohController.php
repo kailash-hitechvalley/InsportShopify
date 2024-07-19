@@ -43,7 +43,10 @@ class SohController extends Controller
 
 
                 echo "<br>";
-
+                if ($debug == 2) {
+                    dd($Variants);
+                    # code...
+                }
                 if ($Variants) {
                     $flag = 0;
 
@@ -60,6 +63,10 @@ class SohController extends Controller
                             echo "Product ID = " . $Variant->productID;
                             #get  variant details from erplay
                             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
+                            if ($debug == 3) {
+                                dd($variationSohs);
+                                # code...
+                            }
                             #dump($variationSohs);
                             if (count($variationSohs) > 0 && $variationSohs) {
                                 foreach ($variationSohs as $variationSoh) {

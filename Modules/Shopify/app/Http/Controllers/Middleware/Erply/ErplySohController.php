@@ -72,7 +72,6 @@ class ErplySohController extends Controller
 
                 $res =  $this->manageSoh($variationSohs, $Variant);
                 if ($res == 1) {
-
                     echo "soh updated";
                 } else {
                     echo "no source variant found";
@@ -115,7 +114,7 @@ class ErplySohController extends Controller
             );
         }
 
-        if (!$sourceVarient) {
+        if (count($sourceVarient) <= 0) {
             ErplyModelProduct::where('productID', $Variant->productID)->update([
                 'roadhouseSohStatus' => 4
             ]);

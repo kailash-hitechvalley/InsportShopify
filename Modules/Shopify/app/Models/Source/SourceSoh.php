@@ -17,6 +17,7 @@ class SourceSoh extends Model
         'product_id',
         'variant_id',
         'varinatId',
+        'code',
         'location_id',
         'currentStock',
         'lastStockUpdate',

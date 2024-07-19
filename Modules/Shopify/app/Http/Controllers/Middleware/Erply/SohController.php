@@ -28,9 +28,12 @@ class SohController extends Controller
         try {
             $code = $request->code ?? '';
             $limit = $request->limit ?? 20;
+            $debug = $request->debug ?? 0;
             # get product details from erplay
             $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
-
+            if ($debug == 1) {
+                dd($products);
+            }
 
             foreach ($products as $product) {
                 #get images details from the erply

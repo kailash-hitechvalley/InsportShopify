@@ -123,6 +123,8 @@ class ErplySohController extends Controller
         }
 
         if (count($sourceVarient) <= 0) {
+            echo "no source variant  via sku";
+            echo "<br>";
             ErplyModelProduct::where('productID', $Variant->productID)->update([
                 'roadhouseSohStatus' => 4
             ]);

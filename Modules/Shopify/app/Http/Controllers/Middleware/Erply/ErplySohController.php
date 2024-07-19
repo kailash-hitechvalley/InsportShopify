@@ -74,6 +74,10 @@ class ErplySohController extends Controller
                 if ($res == 1) {
                     echo "soh updated";
                 } else {
+                    ErplyModelProduct::where('productID', $Variant->productID)->update([
+                        'roadhouseSohStatus' => 3
+
+                    ]);
                     echo "no source variant found";
                 }
             } else {

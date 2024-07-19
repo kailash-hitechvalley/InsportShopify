@@ -61,7 +61,7 @@ class ErplySohController extends Controller
     }
     public function manageVariants($Variants)
     {
-
+        $res = null;
         foreach ($Variants as $Variant) {
             echo "Variants ID = " . $Variant->productID;
             echo "Variants code = " . $Variant->code;
@@ -81,6 +81,7 @@ class ErplySohController extends Controller
                 return false;
             }
         }
+        return $res;
     }
 
     public function manageSoh($variationSohs, $Variant)
@@ -165,6 +166,21 @@ class ErplySohController extends Controller
                 echo "<br>";
             }
         }
+
+        if ($flag == 1) {
+            $sourceProductUpadte = [
+                'sohPendingProcess' => 1,
+                'lastSyncDate' => date('Y-m-d H:i:s')
+            ];
+        } else {
+            $sourceProductUpadte = [
+                'sohPendingProcess' => 0,
+                'lastSyncDate' => date('Y-m-d H:i:s')
+            ];
+        }
+
+        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], $sourceProductUpadte);
+
 
         return $flag;
     }

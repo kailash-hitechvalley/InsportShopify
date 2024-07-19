@@ -78,7 +78,10 @@ class ErplySohController extends Controller
                         'roadhouseSohStatus' => 3
 
                     ]);
+
+                    echo "<br>";
                     echo "no source variant found";
+                    echo "<br>";
                 }
             } else {
                 echo "no soh found";

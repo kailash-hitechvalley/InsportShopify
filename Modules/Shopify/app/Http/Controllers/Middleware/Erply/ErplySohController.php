@@ -85,9 +85,18 @@ class ErplySohController extends Controller
     public function manageSoh($variationSohs, $Variant)
     {
         $s = [];
-        $s[] = $Variant->code;
-        $s[] = $Variant->code3;
-        $s[] = $Variant->code2;
+        if ($Variant->code) {
+            $s[] = $Variant->code;
+        }
+
+        if ($Variant->code2) {
+            $s[] = $Variant->code2;
+        }
+
+        if ($Variant->code3) {
+            $s[] = $Variant->code3;
+        }
+
         print_r($s);
         $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
             'sku',

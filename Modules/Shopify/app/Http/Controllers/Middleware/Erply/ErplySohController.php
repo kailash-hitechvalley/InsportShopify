@@ -105,7 +105,8 @@ class ErplySohController extends Controller
 
 
         if (!$sourceVarient) {
-
+            echo "no source variant  via sku";
+            echo "<br>";
             $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
                 'barcode',
                 $s

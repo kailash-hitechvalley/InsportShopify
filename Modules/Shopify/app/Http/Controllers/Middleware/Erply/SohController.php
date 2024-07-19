@@ -79,12 +79,15 @@ class SohController extends Controller
                                     );
 
                                     if (!$sourceVarient) {
+                                        echo "source variant not found via sku" . "<br>";
                                         $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
                                             'barcode',
                                             [$Variant->code, $Variant->code3, $Variant->code2]
                                         );
                                     }
                                     if (!$sourceVarient) {
+                                        echo "source variant not found via barcode" . "<br>";
+
                                         ErplyModelProduct::where('productID', $product->productID)->update([
                                             'roadhouseSohStatus' => 5
                                         ]);

@@ -52,7 +52,7 @@ class ErplySohController extends Controller
 
                     $this->manageVariants($Variants);
                 } else {
-                    $this->changeflag(0, $product->productID);
+                    $this->changeflag(0, $product->productID, 'no variants found');
                     echo "no variants found";
                 }
 
@@ -80,7 +80,7 @@ class ErplySohController extends Controller
                 $res =  $this->manageSoh($variationSohs, $Variant);
                 if ($res == 1) {
 
-                    $this->changeflag(0, $Variant->parentProductID);
+                    $this->changeflag(0, $Variant->parentProductID, null);
 
                     echo "soh updated";
                 } else {
@@ -91,7 +91,7 @@ class ErplySohController extends Controller
                     echo "<br>";
                 }
             } else {
-                $this->changeflag(3, $Variant->parentProductID);
+                $this->changeflag(3, $Variant->parentProductID, 'no soh row found');
 
                 echo "no soh found";
                 return false;
@@ -123,6 +123,8 @@ class ErplySohController extends Controller
 
 
         if (count($sourceVarient) <= 0) {
+            $this->changeflag(4, $Variant->parentProductID, 'no source variant found via sku');
+
             echo "no source variant  via sku";
             echo "<br>";
             $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
@@ -134,13 +136,13 @@ class ErplySohController extends Controller
         if (count($sourceVarient) <= 0) {
             echo "no source variant  via sku";
             echo "<br>";
-            $this->changeflag(4, $Variant->parentProductID);
+            $this->changeflag(4, $Variant->parentProductID, 'no barcode found in source v');
 
             return false;
         }
 
         if (count($sourceVarient) > 1) {
-            $this->changeflag(4, $Variant->parentProductID);
+            $this->changeflag(4, $Variant->parentProductID, 'dublicate source variant found via sku');
             return false;
         }
         $sourceVarient = $sourceVarient->first();
@@ -196,6 +198,7 @@ class ErplySohController extends Controller
                 'lastSyncDate' => date('Y-m-d H:i:s')
             ];
         }
+        print_r($sourceProductUpadte);
 
         $this->sourceProductService->updateSourceProduct(
             ['id' => $sourceProduct->id],
@@ -206,10 +209,11 @@ class ErplySohController extends Controller
         return $flag;
     }
 
-    public function changeflag($flag, $productID)
+    public function changeflag($flag, $productID, $error = null)
     {
         return  ErplyModelProduct::where('productID', $productID)->update([
-            'roadhouseSohStatus' => $flag
+            'roadhouseSohStatus' => $flag,
+            'error_Soh_item' => $error
 
         ]);
     }

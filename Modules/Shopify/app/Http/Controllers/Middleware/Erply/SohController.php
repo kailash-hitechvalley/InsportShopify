@@ -30,13 +30,17 @@ class SohController extends Controller
             $limit = $request->limit ?? 20;
             $debug = $request->debug ?? 0;
             # get product details from erplay
-            $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
+            if ($code) {
+                $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], 1, $code);
+            } else {
+                $products = $this->productService->getProducts(['roadhouseSohStatus' => 1], $limit, $code);
+            }
             if ($debug == 1) {
                 dd($products);
             }
 
             foreach ($products as $product) {
-                #get images details from the erply
+                
                 echo "Product ID : " . $product->productID;
                 $Variants =   $this->productService->getAllVariants($product->productID);
                 echo "Variants Count : " . count($Variants);
@@ -103,7 +107,7 @@ class SohController extends Controller
                                     #  dd($sourceVarient);
                                     #get source product details from module
                                     $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-                                  #  dump($sourceProduct);
+                                    dump($sourceProduct);
                                     if ($sourceVarient && $sourceProduct) {
 
                                         $sourceVarientId = $sourceVarient->id;
@@ -113,7 +117,7 @@ class SohController extends Controller
                                             'roadhouseStatus' => 1,
                                             'roadhouseSohStatus' => 2
                                         ]);
-                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 0, 'stockId' => $product->productID]);
+                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 0]);
                                         continue;
                                     }
 
@@ -137,7 +141,7 @@ class SohController extends Controller
 
 
                                     if ($result) {
-                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 1, 'stockId' => $product->productID]);
+                                        $this->sourceProductService->updateSourceProduct(['id' => $sourceProduct->id], ['sohPendingProcess' => 1]);
 
                                         echo "<br>";
                                         echo "Total Stock :" . $result->currentStock;

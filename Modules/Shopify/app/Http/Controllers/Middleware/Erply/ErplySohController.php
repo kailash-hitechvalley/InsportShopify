@@ -123,6 +123,7 @@ class ErplySohController extends Controller
             return false;
         }
         $sourceVarient = $sourceVarient->first();
+        dump($sourceVarient);
 
         $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
 

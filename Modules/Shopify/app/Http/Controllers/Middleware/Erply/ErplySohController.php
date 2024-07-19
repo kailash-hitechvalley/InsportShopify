@@ -103,8 +103,8 @@ class ErplySohController extends Controller
             $s
         );
 
-
-        if (!isset($sourceVarient) && !$sourceVarient) {
+        dump(106);
+        if (count($sourceVarient) <= 0) {
             echo "no source variant  via sku";
             echo "<br>";
             $sourceVarient = $this->sourceProductService->getSourceVariantsIN(

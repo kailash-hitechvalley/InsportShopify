@@ -30,8 +30,9 @@ class GetProductController extends Controller
         try {
             $id = $request->get('id') ?? null;
             $debug = $request->get('debug') ?? 0;
+            $limit = $request->get('limit') ?? 3;
 
-            $response = $this->service->getShopifyProducts($id);
+            $response = $this->service->getShopifyProducts($id, $limit);
 
             if ($debug == 1) {
                 dd($response);

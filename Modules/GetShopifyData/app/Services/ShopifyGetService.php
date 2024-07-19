@@ -13,7 +13,7 @@ class ShopifyGetService
     {
     }
 
-    public function getShopifyProducts($pid)
+    public function getShopifyProducts($pid, $limit = 3)
     {
 
         $clientCode = $this->getClientCode();
@@ -24,7 +24,7 @@ class ShopifyGetService
             $after = $myquery;
         }
         $query = '{
-         products(first: 3, ' . $after . ' ) {
+         products(first: ' . $limit . ', ' . $after . ' ) {
                 edges {
                 cursor
                 node {

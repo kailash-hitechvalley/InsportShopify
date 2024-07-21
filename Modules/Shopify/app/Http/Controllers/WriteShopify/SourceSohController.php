@@ -32,16 +32,27 @@ class SourceSohController extends Controller
 
             if ($code) {
 
-                $products = $this->productService->getSohPendingProduct(['handle' => $code], 1);
+                $products = $this->productService->getSohPendingProduct(
+                    ['handle' => $code],
+                    1
+                );
             } else {
 
-                $products = $this->productService->getSohPendingProduct(['sohPendingProcess' => 1, 'shopifyPendingProcess' => 0], 2);
+                $products = $this->productService->getSohPendingProduct(
+                    [
+                        'sohPendingProcess' => 1,
+                        'shopifyPendingProcess' => 0
+                    ],
+                    2
+                );
             }
             if ($debug == 1) {
                 dd($products);
             }
             if (count($products) <= 0) {
                 echo 'no products found';
+
+                // set soh pending process to 1 for all products with sohPendingProcess = 2
                 SourceProduct::where('sohPendingProcess', 2)->update(['sohPendingProcess' => 1]);
                 exit;
             }
@@ -73,44 +84,75 @@ class SourceSohController extends Controller
                 $totalSoh = 0;
                 $flag = 0;
                 if (count($variants) <= 0) {
-                    $this->productService->updateProduct($product->id, [
+                    $this->productService->updateProduct(
+                        $product->id,
+                        [
 
-                        'sohPendingProcess' => 3,
-                        'shopifyPendingProcess' => 1,
-                        'lastPushedDate' => date('Y-m-d H:i:s'),
-                        'errorMessage' => 'no active variants found'
-                    ]);
-                    $statusMutation =  $this->changeStatusMutation($shopifyProductId, 'ARCHIVED');
-                    $statusResponse = $this->sendShopifyQueryRequestV2('POST', $statusMutation, $this->live);
-                    print_r($statusResponse);
+                            'sohPendingProcess' => 3,
+                            'shopifyPendingProcess' => 1,
+                            'lastPushedDate' => date('Y-m-d H:i:s'),
+                            'errorMessage' => 'no active variants found'
+                        ]
+                    );
+                    $statusMutation =  $this->changeStatusMutation(
+                        $shopifyProductId,
+                        'ARCHIVED'
+                    );
+                    $statusResponse = $this->sendShopifyQueryRequestV2(
+                        'POST',
+                        $statusMutation,
+                        $this->live
+                    );
                     continue;
-                    
                 }
                 foreach ($variants as $variant) {
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
                     $sourceSohs = $variant->sourceSoh()->get();
 
-                    $mutations =  $this->updateProductSohMutation($sourceSohs, $variant->inventoryItemId, $variant->shopifyVariantId, $variant->id);
+                    $mutations =  $this->updateProductSohMutation(
+                        $sourceSohs,
+                        $variant->inventoryItemId,
+                        $variant->shopifyVariantId,
+                        $variant->id
+                    );
+
+
                     if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
                         dump("have some error");
-                        $this->productService->updateProduct($product->id, [
-                            'sohPendingProcess' => 2,
-                            'lastPushedDate' => date('Y-m-d H:i:s'),
-                            'errorMessage' => $mutations['error']
-                        ]);
-                        exit;
-                    }
-                    if (isset($mutations['status']) && (int)$mutations['status'] == 1 && $mutations['locationActivated'] == 1) {
-                        dump("location activated");
-                        $mutations =  $this->updateProductSohMutation($sourceSohs, $variant->inventoryItemId, $variant->shopifyVariantId, $variant->id);
-                        if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
-
-                            $this->productService->updateProduct($product->id, [
+                        $this->productService->updateProduct(
+                            $product->id,
+                            [
                                 'sohPendingProcess' => 2,
                                 'lastPushedDate' => date('Y-m-d H:i:s'),
                                 'errorMessage' => $mutations['error']
-                            ]);
+                            ]
+                        );
+                        exit;
+                    }
+
+
+                    if (isset($mutations['status']) && (int)$mutations['status'] == 1 && $mutations['locationActivated'] == 1) {
+                        dump("location activated");
+
+                        $mutations =  $this->updateProductSohMutation(
+                            $sourceSohs,
+                            $variant->inventoryItemId,
+                            $variant->shopifyVariantId,
+                            $variant->id
+                        );
+
+
+                        if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
+
+                            $this->productService->updateProduct(
+                                $product->id,
+                                [
+                                    'sohPendingProcess' => 2,
+                                    'lastPushedDate' => date('Y-m-d H:i:s'),
+                                    'errorMessage' => $mutations['error']
+                                ]
+                            );
                             exit;
                         }
                     }
@@ -121,7 +163,11 @@ class SourceSohController extends Controller
                         dd($mutations);
                     }
                     if ($mutations['status'] == 2) {
-                        $response = $this->sendShopifyQueryRequestV2('POST', $mutations['mutation'], $this->live);
+                        $response = $this->sendShopifyQueryRequestV2(
+                            'POST',
+                            $mutations['mutation'],
+                            $this->live
+                        );
                         echo "<pre>";
                         print_r($response);
                         echo "</pre>";
@@ -167,16 +213,27 @@ class SourceSohController extends Controller
                 //     $statusMutation = $this->changeStatusMutation($shopifyProductId, 'ACTIVE');
                 // }
 
-                $newProductStatus = $totalSoh <= 0 ? 'ARCHIVED' : ($totalSoh > 0 && $product->status == 1 ? 'ACTIVE' : 'ARCHIVED');
-                $statusMutation = $this->changeStatusMutation($shopifyProductId, $newProductStatus);
+                $newProductStatus = $totalSoh <= 0
+                    ? 'ARCHIVED' : ($totalSoh > 0 && $product->status == 1
+                        ? 'ACTIVE' : 'ARCHIVED');
 
-                $statusResponse = $this->sendShopifyQueryRequestV2('POST', $statusMutation, $this->live);
+                $statusMutation = $this->changeStatusMutation(
+                    $shopifyProductId,
+                    $newProductStatus
+                );
+
+                $statusResponse = $this->sendShopifyQueryRequestV2(
+                    'POST',
+                    $statusMutation,
+                    $this->live
+                );
+
                 print_r($statusResponse);
             }
             echo "Process Completed  ";
         } catch (Exception $e) {
 
-            info($e->getMessage());
+            dd($e->getMessage());
 
             return $e->getMessage();
 

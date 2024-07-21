@@ -292,7 +292,11 @@ trait ShopifyProductMutationTrait
     {
         $sohQuery = $this->checkSohQuery($variantId);
         #  dump($sohQuery);
-        $response = $this->sendShopifyQueryRequestV2('POST', $sohQuery, $this->live);
+        $response = $this->sendShopifyQueryRequestV2(
+            'POST',
+            $sohQuery,
+            $this->live
+        );
         #  print_r($response);
         if (isset($response->errors)) {
             return [
@@ -324,7 +328,12 @@ trait ShopifyProductMutationTrait
                     echo $sum . "=>" . $sourceSoh->currentStock; // . "=>" . $locationId . "=>" . print_r($res) . "=>" . $inventoryItemId . "<br>";
 
 
-                    $sohDiff = $this->returnSohDiff($sourceSoh->currentStock, $locationId, $res, $inventoryItemId);
+                    $sohDiff = $this->returnSohDiff(
+                        $sourceSoh->currentStock,
+                        $locationId,
+                        $res,
+                        $inventoryItemId
+                    );
                 }
                 $mutation .= '{
                                 delta: ' . $sohDiff  . ',
@@ -373,7 +382,11 @@ trait ShopifyProductMutationTrait
                 if ($availableSoh < 0) {
                     $availableSoh = 0;
                 }
-                $this->activateInventoryLocation($inventoryItemId, $needtoActivate->shopifyLocationId, $availableSoh);
+                $this->activateInventoryLocation(
+                    $inventoryItemId,
+                    $needtoActivate->shopifyLocationId,
+                    $availableSoh
+                );
             }
             return [
                 'status' => 1,

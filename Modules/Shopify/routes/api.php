@@ -44,7 +44,7 @@ Route::get('get-locations', [LocationController::class, 'getLocation']);
 
 Route::get('get-images', [ImagesController::class, 'index']);
 
-Route::get('get-soh', [SohController::class, 'index']);
+// Route::get('get-soh', [SohController::class, 'index']);
 Route::get('get-soh-erply', [ErplySohController::class, 'index']);
 
 Route::get('get-price', [PriceController::class, 'index']);

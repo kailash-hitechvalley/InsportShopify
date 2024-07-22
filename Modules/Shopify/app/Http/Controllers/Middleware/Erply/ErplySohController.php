@@ -48,7 +48,7 @@ class ErplySohController extends Controller
                 if ($debug == 2) {
                     dd($Variants);
                 }
-                if (@$Variants) {
+                if (count($Variants) > 0) {
 
                     $this->manageVariants($Variants);
                 } else {

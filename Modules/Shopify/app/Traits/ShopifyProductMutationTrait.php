@@ -291,13 +291,13 @@ trait ShopifyProductMutationTrait
     public function updateProductSohMutation($sourceSohs, $inventoryItemId, $variantId, $sourceVarinatId)
     {
         $sohQuery = $this->checkSohQuery($variantId);
-        #dump($sohQuery);
+        #  dump($sohQuery);
         $response = $this->sendShopifyQueryRequestV2(
             'POST',
             $sohQuery,
             $this->live
         );
-        print_r($response);
+        #  print_r($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,

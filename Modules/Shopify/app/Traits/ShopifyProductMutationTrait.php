@@ -291,7 +291,7 @@ trait ShopifyProductMutationTrait
     public function updateProductSohMutation($sourceSohs, $inventoryItemId, $variantId, $sourceVarinatId)
     {
         $sohQuery = $this->checkSohQuery($variantId);
-        #  dump($sohQuery);
+          dump($sohQuery);
         $response = $this->sendShopifyQueryRequestV2(
             'POST',
             $sohQuery,
@@ -321,7 +321,14 @@ trait ShopifyProductMutationTrait
             foreach ($sourceSohs as $sourceSoh) {
                 $locationId = $sourceSoh->location->shopifyLocationId;
                 echo $locationId . "=>" . $sourceSoh->location->name . "=>" . $sourceSoh->currentStock . "<br>";
-                if ($locationId === "gid://shopify/Location/83408388377") {
+                if (
+                    $locationId === "gid://shopify/Location/35394846792"   // online weare house
+                    || $locationId === "gid://shopify/Location/61496754248"  // 3pl warehouse
+                    || $locationId === "gid://shopify/Location/61496787016" // temp 99 warehouse
+                    || $locationId === "gid://shopify/Location/61496819784" // future warehouse
+                    || $locationId === "gid://shopify/Location/61496852552" // in transit warehouse
+                    // popup store left
+                ) {
                     $sohDiff = 0;
                 } else {
                     $sum += $sourceSoh->currentStock;

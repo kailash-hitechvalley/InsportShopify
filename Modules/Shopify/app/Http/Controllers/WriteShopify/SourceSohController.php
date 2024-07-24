@@ -94,15 +94,15 @@ class SourceSohController extends Controller
                             'errorMessage' => 'no active variants found'
                         ]
                     );
-                    $statusMutation =  $this->changeStatusMutation(
-                        $shopifyProductId,
-                        'ARCHIVED'
-                    );
-                    $statusResponse = $this->sendShopifyQueryRequestV2(
-                        'POST',
-                        $statusMutation,
-                        $this->live
-                    );
+                    // $statusMutation =  $this->changeStatusMutation(
+                    //     $shopifyProductId,
+                    //     'ARCHIVED'
+                    // );
+                    // $statusResponse = $this->sendShopifyQueryRequestV2(
+                    //     'POST',
+                    //     $statusMutation,
+                    //     $this->live
+                    // );
                     continue;
                 }
                 foreach ($variants as $variant) {
@@ -213,22 +213,22 @@ class SourceSohController extends Controller
                 //     $statusMutation = $this->changeStatusMutation($shopifyProductId, 'ACTIVE');
                 // }
 
-                $newProductStatus = $totalSoh <= 0
-                    ? 'ARCHIVED' : ($totalSoh > 0 && $product->status == 1
-                        ? 'ACTIVE' : 'ARCHIVED');
+                // $newProductStatus = $totalSoh <= 0
+                //     ? 'ARCHIVED' : ($totalSoh > 0 && $product->status == 1
+                //         ? 'ACTIVE' : 'ARCHIVED');
 
-                $statusMutation = $this->changeStatusMutation(
-                    $shopifyProductId,
-                    $newProductStatus
-                );
+                // $statusMutation = $this->changeStatusMutation(
+                //     $shopifyProductId,
+                //     $newProductStatus
+                // );
 
-                $statusResponse = $this->sendShopifyQueryRequestV2(
-                    'POST',
-                    $statusMutation,
-                    $this->live
-                );
+                // $statusResponse = $this->sendShopifyQueryRequestV2(
+                //     'POST',
+                //     $statusMutation,
+                //     $this->live
+                // );
 
-                print_r($statusResponse);
+                // print_r($statusResponse);
             }
             echo "Process Completed  ";
         } catch (Exception $e) {

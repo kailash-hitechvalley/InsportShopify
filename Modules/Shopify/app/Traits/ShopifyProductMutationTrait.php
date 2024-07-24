@@ -11,6 +11,7 @@ use Modules\Shopify\Models\Source\SourceLocation;
 use Modules\Shopify\Models\Source\SourceSoh;
 
 use function Laravel\Prompts\error;
+use function PHPUnit\Framework\isNull;
 
 trait ShopifyProductMutationTrait
 {
@@ -297,7 +298,7 @@ trait ShopifyProductMutationTrait
             $sohQuery,
             $this->live
         );
-          dd($response);
+        dd($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,
@@ -320,6 +321,9 @@ trait ShopifyProductMutationTrait
             $sum = 0;
             foreach ($sourceSohs as $sourceSoh) {
                 $locationId = $sourceSoh->location->shopifyLocationId;
+                if (isNull($locationId)) {
+                    continue;
+                }
                 echo $locationId . "=>" . $sourceSoh->location->name . "=>" . $sourceSoh->currentStock . "<br>";
                 if (
                     $locationId === "gid://shopify/Location/35394846792"   // online weare house

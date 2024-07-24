@@ -110,6 +110,7 @@ class GetProductController extends Controller
                 'sku' => $node->sku,
                 'barcode' => $node->barcode,
                 'compareAtPrice' => $node->compareAtPrice,
+                'shopifyPendingProcess' => 1,
                 'price' => $node->price,
                 'color' => $this->getColorSize($node->selectedOptions, 'Color'),
                 'size' => $this->getColorSize($node->selectedOptions, 'Size'),

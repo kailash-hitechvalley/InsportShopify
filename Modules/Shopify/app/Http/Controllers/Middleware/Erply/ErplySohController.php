@@ -103,12 +103,12 @@ class ErplySohController extends Controller
     public function manageSoh($variationSohs, $Variant)
     {
         $locations =  $this->productService->getLocations(['warehouseID']);
-        dump($locations = $locations->select('warehouseID')->toArray());
+        $locations = $locations->select('warehouseID')->toArray();
         $erplsohLocation = $variationSohs->select('erplyWarehouseID')->toArray();
-        dump($erplsohLocation);
+        //locations id whose soh is not created in erply
         $noSohLocation = $this->filterLocation($erplsohLocation, $locations);
 
-        dd($noSohLocation);
+
         $codes = [];
         if ($Variant->code) {
             $codes[] = $Variant->code;
@@ -190,6 +190,26 @@ class ErplySohController extends Controller
                 echo "<br>";
                 echo "Soh Not Inserted";
                 echo "<br>";
+            }
+        }
+
+        if (count($noSohLocation) > 0) {
+            foreach ($noSohLocation as $noSoh) {
+
+                $sohdata =  [
+                    'varinatId' => $Variant->productID,
+                    'code' => $sourceVarient->sku,
+                    'currentStock' => 0,
+                    'pendingProcess' => 1,
+                    'lastStockUpdate' => date('Y-m-d H:i:s')
+                ];
+
+                $result =  $this->sourceProductService->insertSoh(
+                    $sourceProduct->id,
+                    $sourceVarient->id,
+                    $noSoh->warehouseID,
+                    $sohdata
+                );
             }
         }
 

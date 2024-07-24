@@ -106,7 +106,9 @@ class ErplySohController extends Controller
         dump($locations->select('warehouseID'));
         $erplsohLocation = $variationSohs->select('erplyWarehouseID');
         dump($erplsohLocation);
-        dd($variationSohs);
+        $noSohLocation = $this->filterLocation($erplsohLocation, $locations);
+        
+        dd($noSohLocation);
         $codes = [];
         if ($Variant->code) {
             $codes[] = $Variant->code;
@@ -220,5 +222,21 @@ class ErplySohController extends Controller
             'error_Soh_item' => $error
 
         ]);
+    }
+
+    public function filterLocation($erplyWarehouseIDs, $warehouseLocations)
+    {
+        // Extract the erplyWarehouseID values into a simple array
+        $erplyWarehouseIDsSimple = array_map(function ($item) {
+            return $item['erplyWarehouseID'];
+        }, $erplyWarehouseIDs);
+
+        // Filter the warehouseLocations array to exclude matching warehouseIDs
+        $filteredWarehouseLocations = array_filter($warehouseLocations, function ($location) use ($erplyWarehouseIDsSimple) {
+            return !in_array($location['warehouseID'], $erplyWarehouseIDsSimple);
+        });
+
+        // Print the filtered data
+        return $filteredWarehouseLocations;
     }
 }

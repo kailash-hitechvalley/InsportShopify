@@ -297,7 +297,7 @@ trait ShopifyProductMutationTrait
             $sohQuery,
             $this->live
         );
-        #  print_r($response);
+          dd($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,

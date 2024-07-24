@@ -56,9 +56,12 @@ class ErplyProductService
         return Category::where('id', $id)->limit(2)->update($datas);
     }
 
-    public function getLocations()
+    public function getLocations($select = null)
     {
-        return WareHouseLocation::all();
+        if (is_null($select)) {
+            return WareHouseLocation::all();
+        }
+        return WareHouseLocation::select($select)->get();
     }
 
 

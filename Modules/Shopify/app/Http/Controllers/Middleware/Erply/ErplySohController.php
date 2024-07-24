@@ -102,6 +102,9 @@ class ErplySohController extends Controller
 
     public function manageSoh($variationSohs, $Variant)
     {
+        $locations =  $this->productService->getLocations(['warehouseID']);
+        dump($locations);
+        dd($variationSohs);
         $codes = [];
         if ($Variant->code) {
             $codes[] = $Variant->code;
@@ -149,7 +152,6 @@ class ErplySohController extends Controller
 
 
         $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-
         $flag = 0;
         foreach ($variationSohs as $variationSoh) {
 

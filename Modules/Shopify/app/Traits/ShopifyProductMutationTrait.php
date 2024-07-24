@@ -298,7 +298,7 @@ trait ShopifyProductMutationTrait
             $sohQuery,
             $this->live
         );
-       # dd($response);
+        # dd($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,
@@ -321,10 +321,11 @@ trait ShopifyProductMutationTrait
             $sum = 0;
             foreach ($sourceSohs as $sourceSoh) {
                 $locationId = $sourceSoh->location->shopifyLocationId;
-                if (isNull($locationId)) {
+
+                echo $locationId . "=>" . $sourceSoh->location->name . "=>" . $sourceSoh->currentStock . "<br>";
+                if (!isset($locationId)) {
                     continue;
                 }
-                echo $locationId . "=>" . $sourceSoh->location->name . "=>" . $sourceSoh->currentStock . "<br>";
                 if (
                     $locationId === "gid://shopify/Location/35394846792"   // online weare house
                     || $locationId === "gid://shopify/Location/61496754248"  // 3pl warehouse

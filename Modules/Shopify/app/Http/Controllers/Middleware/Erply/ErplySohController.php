@@ -207,7 +207,7 @@ class ErplySohController extends Controller
                 $result =  $this->sourceProductService->insertSoh(
                     $sourceProduct->id,
                     $sourceVarient->id,
-                    $noSoh,
+                    $noSoh['warehouseID'],
                     $sohdata
                 );
             }

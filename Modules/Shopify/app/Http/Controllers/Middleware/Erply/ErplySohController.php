@@ -103,11 +103,11 @@ class ErplySohController extends Controller
     public function manageSoh($variationSohs, $Variant)
     {
         $locations =  $this->productService->getLocations(['warehouseID']);
-        dump($locations->select('warehouseID'));
-        $erplsohLocation = $variationSohs->select('erplyWarehouseID');
+        dump($locations = $locations->select('warehouseID')->toArray());
+        $erplsohLocation = $variationSohs->select('erplyWarehouseID')->toArray();
         dump($erplsohLocation);
         $noSohLocation = $this->filterLocation($erplsohLocation, $locations);
-        
+
         dd($noSohLocation);
         $codes = [];
         if ($Variant->code) {

@@ -104,6 +104,8 @@ class ErplySohController extends Controller
     {
         $locations =  $this->productService->getLocations(['warehouseID']);
         dump($locations);
+        $erplsohLocation = $variationSohs->select('erplyWarehouseID');
+        dump($erplsohLocation);
         dd($variationSohs);
         $codes = [];
         if ($Variant->code) {

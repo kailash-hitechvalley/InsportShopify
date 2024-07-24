@@ -192,7 +192,7 @@ class ErplySohController extends Controller
                 echo "<br>";
             }
         }
-
+        //insert soh for no soh locations
         if (count($noSohLocation) > 0) {
             foreach ($noSohLocation as $noSoh) {
 
@@ -207,7 +207,7 @@ class ErplySohController extends Controller
                 $result =  $this->sourceProductService->insertSoh(
                     $sourceProduct->id,
                     $sourceVarient->id,
-                    $noSoh->warehouseID,
+                    $noSoh,
                     $sohdata
                 );
             }

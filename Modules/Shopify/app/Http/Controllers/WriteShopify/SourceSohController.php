@@ -43,7 +43,7 @@ class SourceSohController extends Controller
                         'sohPendingProcess' => 1,
                         'shopifyPendingProcess' => 0
                     ],
-                    2
+                    1
                 );
             }
             if ($debug == 1) {

@@ -77,7 +77,7 @@ class ErplySohController extends Controller
             $ShopifyProduict = $this->checkSourceProducts($Variant);
             echo "ShopifyProduict = " . @$ShopifyProduict->id;
             dump(@$ShopifyProduict->id);
-            $source_product[] = ($ShopifyProduict == 4 || $ShopifyProduict == 5)  ? null : @$ShopifyProduict->id;
+            $source_product[] = ($ShopifyProduict == 4 || $ShopifyProduict == 5)  ? null : @$ShopifyProduict;
 
             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
 

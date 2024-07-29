@@ -236,7 +236,7 @@ class SourceSohController extends Controller
                     $this->productService->updateProduct($product->id, [
                         'sohPendingProcess' => 9,
                         'lastPushedDate' => date('Y-m-d H:i:s'),
-                        'errorMessage' => "multiple parent variants found"
+                        'errorMessage' => "multiple parent variants found=>" . implode(',', array_unique($parent))
                     ]);
                 }
 

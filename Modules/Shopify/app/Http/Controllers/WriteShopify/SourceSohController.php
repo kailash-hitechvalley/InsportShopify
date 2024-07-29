@@ -115,7 +115,7 @@ class SourceSohController extends Controller
                     $sourceSohs = $variant->sourceSoh()->get();
                     $ErplyParent = $this->getErplyParentVariant($variant->sku);
                     dump($ErplyParent);
-                    if (count($ErplyParent) > 0) {
+                    if (count($ErplyParent) > 1) {
                         SourceVariant::where('id', $variant->id)->update([
                             'error_variants' => 'Multiple Parent Variants Found'
                         ]);

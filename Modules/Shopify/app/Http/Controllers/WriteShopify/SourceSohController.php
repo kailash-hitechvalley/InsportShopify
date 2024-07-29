@@ -301,7 +301,7 @@ class SourceSohController extends Controller
                 'errorMessage' => $error
             ]);
         }
-        if (count(array_unique($parent)) > 0) {
+        if (count(array_unique($parent)) > 1) {
             echo "multiple parent variants found=>" . implode(',', array_unique($parent));
             return  $this->productService->updateProduct($productid, [
                 'sohPendingProcess' => 9,

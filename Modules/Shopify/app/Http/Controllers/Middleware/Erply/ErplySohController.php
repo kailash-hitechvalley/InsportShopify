@@ -80,7 +80,7 @@ class ErplySohController extends Controller
             if ($ShopifyProduict != 4 || $ShopifyProduict != 5) {
 
                 $source_product[] = $ShopifyProduict;
-                dd($source_product);
+                dump($source_product);
             }
 
             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
@@ -317,16 +317,23 @@ class ErplySohController extends Controller
         }
 
         if (count($sourceVarient) <= 0) {
-            return 4;
+            return [
+                'status' => 4
+            ];
         }
 
         if (count($sourceVarient) > 1) {
-            return 5;
+            return [
+                'status' => 5
+            ];
         }
         $sourceVarient = $sourceVarient->first();
 
 
-        $data =  $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
+        $data = [
+            'status' => 1,
+            'data' => $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id])
+        ];
 
         return $data;
     }

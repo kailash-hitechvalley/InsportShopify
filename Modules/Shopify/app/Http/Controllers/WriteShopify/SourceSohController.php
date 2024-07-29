@@ -277,6 +277,7 @@ class SourceSohController extends Controller
     {
 
         $parent = [];
+        $flag = 0;
         foreach ($variants as $variant) {
             $ErplyParent = $this->getErplyParentVariant($variant->sku);
 
@@ -285,9 +286,18 @@ class SourceSohController extends Controller
                     'sohPendingProcess' => 8,
                     'error_variants' => count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply',
                 ]);
+
+                $flag = 1;
             } else {
                 $parent[] = $ErplyParent->first()->parentProductID;
             }
+        }
+        if ($flag == 1) {
+            return  $this->productService->updateProduct($productid, [
+                'sohPendingProcess' => 8,
+                'lastPushedDate' => date('Y-m-d H:i:s'),
+                'errorMessage' => count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply'
+            ]);
         }
         if (count(array_unique($parent)) > 0) {
             echo "multiple parent variants found=>" . implode(',', array_unique($parent));

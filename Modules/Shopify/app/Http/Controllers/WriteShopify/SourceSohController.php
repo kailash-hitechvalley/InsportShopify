@@ -5,7 +5,10 @@ namespace Modules\Shopify\Http\Controllers\WriteShopify;
 use App\Http\Controllers\Controller;
 use Exception;
 use Illuminate\Http\Request;
+use Modules\Shopify\Models\ErplyModel\Product;
+use Modules\Shopify\Models\ErplyModel\Variant;
 use Modules\Shopify\Models\Source\SourceProduct;
+use Modules\Shopify\Models\Source\SourceVariant;
 use Modules\Shopify\Services\SourceProductService;
 use Modules\Shopify\Traits\ShopifyTrait;
 use Modules\Shopify\Traits\ShopifyProductMutationTrait;
@@ -109,6 +112,13 @@ class SourceSohController extends Controller
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
                     $sourceSohs = $variant->sourceSoh()->get();
+                    $ErplyParent = $this->getErplyParentVariant($variant->sku);
+
+                    if (count($ErplyParent) > 0) {
+                        SourceVariant::where('id', $ErplyParent->id)->update([
+                            'error_variants' => 'Multiple Parent Variants Found'
+                        ]);
+                    }
 
                     if (count($sourceSohs) <= 0) {
                         $this->productService->updateProduct(
@@ -252,5 +262,13 @@ class SourceSohController extends Controller
 
             //throw $th;
         }
+    }
+
+    public function getErplyParentVariant($sku)
+    {
+        return Variant::where('code', $sku)
+            ->orWhere('code2', $sku)
+            ->orWhere('code3', $sku)
+            ->get();
     }
 }

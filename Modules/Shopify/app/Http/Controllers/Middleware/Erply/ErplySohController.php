@@ -79,8 +79,7 @@ class ErplySohController extends Controller
 
             if ($ShopifyProduict) {
 
-                $source_product[] = $ShopifyProduict;
-                dump($source_product);
+                $source_product[] = $ShopifyProduict->id;
             }
 
             $variationSohs = $this->productService->getVariantSoh($Variant->productID);

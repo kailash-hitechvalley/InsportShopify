@@ -317,23 +317,16 @@ class ErplySohController extends Controller
         }
 
         if (count($sourceVarient) <= 0) {
-            return [
-                'status' => 4
-            ];
+            return false;
         }
 
         if (count($sourceVarient) > 1) {
-            return [
-                'status' => 5
-            ];
+            return false;
         }
         $sourceVarient = $sourceVarient->first();
 
 
-        $data = [
-            'status' => 1,
-            'data' => $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id])
-        ];
+        $data =  $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
 
         return $data;
     }

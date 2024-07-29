@@ -118,7 +118,13 @@ class ErplySohController extends Controller
                 return false;
             }
         }
-        dump('check Source', $source_product, 'checked Source');
+
+        $source_product = array_unique($source_product);
+
+        if (count($source_product) > 1) {
+            $this->changeflag(9, $Variant->parentProductID, 'multiple source product found');
+        }
+
         return $res;
     }
 

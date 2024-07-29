@@ -114,10 +114,10 @@ class SourceSohController extends Controller
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
                     $sourceSohs = $variant->sourceSoh()->get();
                     $ErplyParent = $this->getErplyParentVariant($variant->sku);
-                    dump($ErplyParent);
+
                     if (count($ErplyParent) > 1) {
                         SourceVariant::where('id', $variant->id)->update([
-                            'error_variants' => 'Multiple Parent Variants Found'
+                            'error_variants' => 'Multiple Parent Variants Found on Erply',
                         ]);
                     } else {
                         $parent[] = $ErplyParent->first()->parentProductID;
@@ -212,15 +212,6 @@ class SourceSohController extends Controller
                     }
                 }
 
-                if (count(array_unique($parent)) > 0) {
-
-                    $this->productService->updateProduct($product->id, [
-                        'sohPendingProcess' => 9,
-                        'lastPushedDate' => date('Y-m-d H:i:s'),
-                        'errorMessage' => "multiple parent variants found"
-                    ]);
-                }
-                dump($parent);
 
                 if ($flag == 1) {
                     echo "product Soh = " . $totalSoh . " for product " . $product->id . "<br>";
@@ -239,6 +230,15 @@ class SourceSohController extends Controller
 
                 $this->productService->updateProduct($product->id, $updateData);
                 echo "Total Soh = " . $totalSoh . " for product " . $product->id . "<br>";
+
+                if (count(array_unique($parent)) > 0) {
+
+                    $this->productService->updateProduct($product->id, [
+                        'sohPendingProcess' => 9,
+                        'lastPushedDate' => date('Y-m-d H:i:s'),
+                        'errorMessage' => "multiple parent variants found"
+                    ]);
+                }
 
                 // if ($totalSoh <= 0) {
                 //     echo "product Soh = " . $totalSoh . " for product " . $product->id;

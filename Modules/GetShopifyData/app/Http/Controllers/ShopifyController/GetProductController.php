@@ -82,7 +82,7 @@ class GetProductController extends Controller
                     }
                     $result = $this->comSer->updateCreateProduct(
                         SourceProduct::class,
-                        ['handle' => $node->handle],
+                        ['shopifyProductId' => $node->id],
                         $data
                     );
                     $this->variantsProcess($node->variants->edges, $result->id, $node->id);

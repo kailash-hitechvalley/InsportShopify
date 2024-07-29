@@ -289,7 +289,7 @@ class SourceSohController extends Controller
             }
         }
         if (count(array_unique($parent)) > 0) {
-
+            echo "multiple parent variants found=>" . implode(',', array_unique($parent));
             return  $this->productService->updateProduct($productid, [
                 'sohPendingProcess' => 10,
                 'lastPushedDate' => date('Y-m-d H:i:s'),

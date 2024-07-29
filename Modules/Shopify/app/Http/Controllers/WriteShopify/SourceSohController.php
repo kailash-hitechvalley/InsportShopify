@@ -108,6 +108,7 @@ class SourceSohController extends Controller
                     // );
                     continue;
                 }
+                $parent = [];
                 foreach ($variants as $variant) {
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
@@ -118,7 +119,10 @@ class SourceSohController extends Controller
                         SourceVariant::where('id', $variant->id)->update([
                             'error_variants' => 'Multiple Parent Variants Found'
                         ]);
+                    } else {
+                        $parent[] = $ErplyParent->first()->parentProductID;
                     }
+
 
                     if (count($sourceSohs) <= 0) {
                         $this->productService->updateProduct(
@@ -206,6 +210,15 @@ class SourceSohController extends Controller
                             $flag = 1;
                         }
                     }
+                }
+
+                if (count(array_unique($parent)) > 0) {
+
+                    $this->productService->updateProduct($product->id, [
+                        'sohPendingProcess' => 9,
+                        'lastPushedDate' => date('Y-m-d H:i:s'),
+                        'errorMessage' => "multiple parent variants found"
+                    ]);
                 }
 
                 if ($flag == 1) {

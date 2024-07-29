@@ -69,10 +69,14 @@ class ErplySohController extends Controller
     public function manageVariants($Variants)
     {
         $res = null;
+        $source_product = [];
         foreach ($Variants as $Variant) {
             echo "Variants ID = " . $Variant->productID;
             echo "Variants code = " . $Variant->code;
             echo "<br>";
+            $ShopifyProduict = $this->checkSourceProducts($Variant);
+            $source_product[] = ($ShopifyProduict != 4 || $ShopifyProduict != 5) ? $ShopifyProduict->id : null;
+
             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
 
             if (@$variationSohs) {
@@ -109,6 +113,7 @@ class ErplySohController extends Controller
                 return false;
             }
         }
+        dump('check Source', $source_product, 'checked Source');
         return $res;
     }
 
@@ -119,7 +124,7 @@ class ErplySohController extends Controller
         $erplsohLocation = $variationSohs->select('erplyWarehouseID')->toArray();
         //locations id whose soh is not created in erply
         $noSohLocation = $this->filterLocation($erplsohLocation, $locations);
-
+        $countSourceProduct = [];
 
         $codes = [];
         if ($Variant->code) {
@@ -168,6 +173,9 @@ class ErplySohController extends Controller
 
 
         $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
+        if (count($sourceProduct) <= 0) {
+            $countSourceProduct[] = $sourceVarient->id;
+        }
         $flag = 0;
         foreach ($variationSohs as $variationSoh) {
 
@@ -204,6 +212,7 @@ class ErplySohController extends Controller
                 echo "<br>";
             }
         }
+
         //insert soh for no soh locations
         if (count($noSohLocation) > 0) {
             foreach ($noSohLocation as $noSoh) {
@@ -270,5 +279,47 @@ class ErplySohController extends Controller
 
         // Print the filtered data
         return $filteredWarehouseLocations;
+    }
+
+    public function checkSourceProducts($Variant)
+    {
+
+        $codes = [];
+        if ($Variant->code) {
+            $codes[] = $Variant->code;
+        }
+
+        if ($Variant->code2) {
+            $codes[] = $Variant->code2;
+        }
+
+        if ($Variant->code3) {
+            $codes[] = $Variant->code3;
+        }
+
+        $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
+            'sku',
+            $codes
+        );
+
+
+        if (count($sourceVarient) <= 0) {
+            $sourceVarient = $this->sourceProductService->getSourceVariantsIN(
+                'barcode',
+                $codes
+            );
+        }
+
+        if (count($sourceVarient) <= 0) {
+            return 4;
+        }
+
+        if (count($sourceVarient) > 1) {
+            return 5;
+        }
+        $sourceVarient = $sourceVarient->first();
+
+
+        return $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
     }
 }

@@ -110,6 +110,19 @@ class SourceSohController extends Controller
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
                     $sourceSohs = $variant->sourceSoh()->get();
 
+                    if (count($sourceSohs) <= 0) {
+                        $this->productService->updateProduct(
+                            $product->id,
+                            [
+                                'sohPendingProcess' => 4,
+                                'lastPushedDate' => date('Y-m-d H:i:s'),
+                                'errorMessage' => 'no soh found'
+                            ]
+                        );
+
+                        continue;
+                    }
+
                     $mutations =  $this->updateProductSohMutation(
                         $sourceSohs,
                         $variant->inventoryItemId,

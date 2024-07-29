@@ -52,7 +52,7 @@ class ErplySohController extends Controller
 
                     $this->manageVariants($Variants);
                 } else {
-                    $this->changeflag(0, $product->productID, 'no variants found');
+                    $this->changeflag(2, $product->productID, 'no variants found');
                     echo "no variants found";
                 }
 
@@ -78,13 +78,25 @@ class ErplySohController extends Controller
             if (@$variationSohs) {
 
                 $res =  $this->manageSoh($variationSohs, $Variant);
+
+                if ($res == 4) {
+                    $this->changeflag(4, $Variant->parentProductID, 'no barcode found in source v');
+                    continue;
+                }
+
+                if ($res == 5) {
+                    $this->changeflag(4, $Variant->parentProductID, 'duplicate Varinats in source v');
+                    continue;
+                }
+
                 if ($res == 1) {
 
                     $this->changeflag(0, $Variant->parentProductID, null);
 
                     echo "soh updated";
+                    continue;
                 } else {
-                    $this->changeflag(2, $Variant->parentProductID);
+                    $this->changeflag(6, $Variant->parentProductID, 'soh not synced updated');
 
                     echo "<br>";
                     echo "no source variant found";
@@ -143,14 +155,14 @@ class ErplySohController extends Controller
         if (count($sourceVarient) <= 0) {
             echo "no source variant  via sku";
             echo "<br>";
-            $this->changeflag(4, $Variant->parentProductID, 'no barcode found in source v');
+            # $this->changeflag(4, $Variant->parentProductID, 'no barcode found in source v');
 
-            return false;
+            return 4;
         }
 
         if (count($sourceVarient) > 1) {
-            $this->changeflag(4, $Variant->parentProductID, 'dublicate source variant found via sku');
-            return false;
+            # $this->changeflag(4, $Variant->parentProductID, 'dublicate source variant found via sku');
+            return 5;
         }
         $sourceVarient = $sourceVarient->first();
 
@@ -172,7 +184,7 @@ class ErplySohController extends Controller
             $result =  $this->sourceProductService->insertSoh(
                 $sourceProduct->id,
                 $sourceVarient->id,
-                $locationId->id,
+                $locationId->warehouseID,
                 $sohdata
             );
 

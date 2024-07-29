@@ -220,6 +220,7 @@ class SourceSohController extends Controller
                         'errorMessage' => "multiple parent variants found"
                     ]);
                 }
+                dump($parent);
 
                 if ($flag == 1) {
                     echo "product Soh = " . $totalSoh . " for product " . $product->id . "<br>";

@@ -178,9 +178,7 @@ class ErplySohController extends Controller
 
 
         $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-        if (count($sourceProduct) <= 0) {
-            $countSourceProduct[] = $sourceVarient->id;
-        }
+
         $flag = 0;
         foreach ($variationSohs as $variationSoh) {
 

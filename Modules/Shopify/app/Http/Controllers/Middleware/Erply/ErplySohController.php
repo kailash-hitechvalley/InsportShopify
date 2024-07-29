@@ -326,6 +326,8 @@ class ErplySohController extends Controller
         $sourceVarient = $sourceVarient->first();
 
 
-        return $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
+        $data =  $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
+
+        return $data;
     }
 }

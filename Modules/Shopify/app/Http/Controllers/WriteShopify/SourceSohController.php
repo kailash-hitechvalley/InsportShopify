@@ -293,10 +293,12 @@ class SourceSohController extends Controller
             }
         }
         if ($flag == 1) {
+            $error = count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply';
+            echo $error;
             return  $this->productService->updateProduct($productid, [
                 'sohPendingProcess' => 8,
                 'lastPushedDate' => date('Y-m-d H:i:s'),
-                'errorMessage' => count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply'
+                'errorMessage' => $error
             ]);
         }
         if (count(array_unique($parent)) > 0) {

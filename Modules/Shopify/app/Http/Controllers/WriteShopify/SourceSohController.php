@@ -108,21 +108,15 @@ class SourceSohController extends Controller
                     // );
                     continue;
                 }
-                $parent = [];
+                $check = $this->checkErplyParentVariant($variants, $product->id);
+                if ($check) {
+                    continue;
+                }
+
                 foreach ($variants as $variant) {
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
                     $sourceSohs = $variant->sourceSoh()->get();
-                    $ErplyParent = $this->getErplyParentVariant($variant->sku);
-
-                    if (count($ErplyParent) > 1) {
-                        SourceVariant::where('id', $variant->id)->update([
-                            'error_variants' => 'Multiple Parent Variants Found on Erply',
-                        ]);
-                    } else {
-                        $parent[] = $ErplyParent->first()->parentProductID;
-                    }
-
 
                     if (count($sourceSohs) <= 0) {
                         $this->productService->updateProduct(
@@ -231,14 +225,7 @@ class SourceSohController extends Controller
                 $this->productService->updateProduct($product->id, $updateData);
                 echo "Total Soh = " . $totalSoh . " for product " . $product->id . "<br>";
 
-                if (count(array_unique($parent)) > 0) {
 
-                    $this->productService->updateProduct($product->id, [
-                        'sohPendingProcess' => 9,
-                        'lastPushedDate' => date('Y-m-d H:i:s'),
-                        'errorMessage' => "multiple parent variants found=>" . implode(',', array_unique($parent))
-                    ]);
-                }
 
                 // if ($totalSoh <= 0) {
                 //     echo "product Soh = " . $totalSoh . " for product " . $product->id;
@@ -284,5 +271,31 @@ class SourceSohController extends Controller
             ->orWhere('code2', $sku)
             ->orWhere('code3', $sku)
             ->get();
+    }
+
+    public function checkErplyParentVariant($variants, $productid)
+    {
+
+        $parent = [];
+        foreach ($variants as $variant) {
+            $ErplyParent = $this->getErplyParentVariant($variant->sku);
+
+            if (count($ErplyParent) > 1) {
+                SourceVariant::where('id', $variant->id)->update([
+                    'error_variants' => 'Multiple Parent Variants Found on Erply',
+                ]);
+            } else {
+                $parent[] = $ErplyParent->first()->parentProductID;
+            }
+        }
+        if (count(array_unique($parent)) > 0) {
+
+            return  $this->productService->updateProduct($productid, [
+                'sohPendingProcess' => 10,
+                'lastPushedDate' => date('Y-m-d H:i:s'),
+                'errorMessage' => "multiple parent variants found=>" . implode(',', array_unique($parent))
+            ]);
+        }
+        return false;
     }
 }

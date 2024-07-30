@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Modules\GetShopifyData\Services\CommonService;
 use Modules\GetShopifyData\Services\ShopifyGetService;
+use Modules\Shopify\Models\ErplyModel\Product;
 use Modules\Shopify\Models\Source\SourceLocation;
 use Modules\Shopify\Models\Source\SourceProduct;
 use Modules\Shopify\Models\Source\SourceVariant;
@@ -100,6 +101,8 @@ class GetProductController extends Controller
             dd($e);
         }
     }
+
+
     public function variantsProcess($variants, $product_id, $pid)
     {
         foreach ($variants as $variant) {
@@ -121,10 +124,81 @@ class GetProductController extends Controller
             ];
             $this->comSer->updateCreateProduct(
                 SourceVariant::class,
-                ['sku' => $node->sku],
+                ['shopifyVariantId' => $node->id],
                 $data
             );
         }
+    }
+    public function getProductVariants(Request $request)
+    {
+
+        $debug = $request->get('debug') ?? 0;
+        $limit = $request->get('limit') ?? 3;
+
+        $response = $this->service->getShopifyVariants($limit);
+
+        if ($debug == 1) {
+            dd($response);
+        }
+        try {
+            if ($response->data->productVariants->edges) {
+                $variants = $response->data->productVariants->edges;
+                if ($debug == 2) {
+                    dd($variants);
+                }
+
+                $lastKey = array_key_last($variants);
+
+                foreach ($variants as $key => $varinat) {
+                    DB::beginTransaction();
+                    $cursor = $varinat->cursor;
+                    if ($key === $lastKey) {
+                        $this->comSer->saveCursor($cursor, 'GetProductVariantsCursor', $this->live);
+
+                        echo " cursor updated successfully";
+                    }
+                    if ($debug == 3) {
+                        dd($varinat);
+                    }
+
+                    $product = SourceProduct::where('shopifyProductId', $varinat->node->product->id)->first();
+
+                    $this->singleVarinatsProcess($varinat->node, @$product->id);
+                    DB::commit();
+                }
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Product Variants added successfully',
+                    'data' => $response
+                ]);
+            }
+        } catch (Exception $th) {
+            DB::rollBack();
+            dd($th);
+        }
+    }
+    public function singleVarinatsProcess($node, $product_id = null)
+    {
+        $data = [
+            'varinatId' => 0,
+            'product_id' => $product_id,
+            'sku' => $node->sku,
+            'barcode' => $node->barcode,
+            'compareAtPrice' => $node->compareAtPrice,
+            'shopifyPendingProcess' => 1,
+            'price' => $node->price,
+            'color' => $this->getColorSize($node->selectedOptions, 'Color'),
+            'size' => $this->getColorSize($node->selectedOptions, 'Size'),
+            'inventoryQuantity' => $node->inventoryQuantity,
+            'inventoryItemId' => $node->inventoryItem->id,
+            'shopifyParentId' => $node->product->id,
+            'shopifyVariantId' => $node->id,
+        ];
+        $this->comSer->updateCreateProduct(
+            SourceVariant::class,
+            ['shopifyVariantId' => $node->id],
+            $data
+        );
     }
 
     public function getColorSize($node, $name)

@@ -20,5 +20,6 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
 });
 
 Route::get('/get-shopify-products', [GetProductController::class, 'getProducts']);
+Route::get('/get-shopify-variants', [GetProductController::class, 'getProductVariants']);
 
 Route::get('/get-shopify-locations', [GetProductController::class, 'getLocations']);

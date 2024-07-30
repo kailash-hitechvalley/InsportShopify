@@ -34,7 +34,7 @@ class GetProductController extends Controller
             $limit = $request->get('limit') ?? 3;
             $cursorName = $request->get('cursorName') ?? 'GetProductCursor'; //GetProductUpdatedBYCursor
 
-            $response = $this->service->getShopifyProducts($id, $limit, $cursorName);
+            $response = $this->service->getShopifyProducts($id, $limit, $cursorName, $debug);
 
             if ($debug == 1) {
                 dd($response);

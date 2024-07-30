@@ -13,7 +13,7 @@ class ShopifyGetService
     {
     }
 
-    public function getShopifyProducts($pid, $limit = 3, $cursorName)
+    public function getShopifyProducts($pid, $limit = 3, $cursorName, $debug = 0)
     {
 
         $clientCode = $this->getClientCode();
@@ -83,6 +83,9 @@ class ShopifyGetService
                 }
             }
         }';
+        if ($debug == 5) {
+            dd($query);
+        }
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 

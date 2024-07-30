@@ -155,7 +155,7 @@ class GetProductController extends Controller
                     if ($key === $lastKey) {
                         $this->comSer->saveCursor($cursor, 'GetProductVariantsCursor', $this->live);
 
-                        echo " cursor updated successfully";
+                       # echo " cursor updated successfully";
                     }
                     if ($debug == 3) {
                         dd($varinat);

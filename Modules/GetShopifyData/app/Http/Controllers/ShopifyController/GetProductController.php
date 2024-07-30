@@ -53,6 +53,9 @@ class GetProductController extends Controller
 
                     $cursor = $product->cursor;
                     if ($key === $lastKey) {
+                        if ($cursorName == 'GetProductUpdatedBYCursor') {
+                            $cursor = $product->updatedAt;
+                        }
                         $this->comSer->saveCursor($cursor, $cursorName, $this->live);
 
                         echo " cursor updated successfully";

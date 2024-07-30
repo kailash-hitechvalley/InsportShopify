@@ -38,6 +38,8 @@ class SourceVariant extends Model
         'shopifyVariantId',
         'shopifyParentId',
         'inventoryItemId',
+        'shopifyIssueTags',
+        'shopifyIssuePending'
     ];
 
     public function sourceProduct(): BelongsTo

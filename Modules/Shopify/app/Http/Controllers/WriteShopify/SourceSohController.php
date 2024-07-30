@@ -125,6 +125,7 @@ class SourceSohController extends Controller
                                 'sohPendingProcess' => 4,
                                 'lastPushedDate' => date('Y-m-d H:i:s'),
                                 'errorMessage' => 'no soh found'
+                                
                             ]
                         );
 
@@ -285,6 +286,7 @@ class SourceSohController extends Controller
                 SourceVariant::where('id', $variant->id)->update([
                     'sohPendingProcess' => 8,
                     'error_variants' => count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply',
+
                 ]);
 
                 $flag = 1;
@@ -298,7 +300,9 @@ class SourceSohController extends Controller
             return  $this->productService->updateProduct($productid, [
                 'sohPendingProcess' => 8,
                 'lastPushedDate' => date('Y-m-d H:i:s'),
-                'errorMessage' => $error
+                'errorMessage' => $error,
+                'shopifyIssueTags' => count($ErplyParent) == 0 ? 'ErplyVariantNotFound' : 'MultipleErplyVariantFound',
+                'shopifyIssuePending' => 1
             ]);
         }
         if (count(array_unique($parent)) > 1) {
@@ -306,7 +310,9 @@ class SourceSohController extends Controller
             return  $this->productService->updateProduct($productid, [
                 'sohPendingProcess' => 9,
                 'lastPushedDate' => date('Y-m-d H:i:s'),
-                'errorMessage' => "multiple parent variants found=>" . implode(',', array_unique($parent))
+                'errorMessage' => "multiple parent variants found=>" . implode(',', array_unique($parent)),
+                'shopifyIssueTags' => 'MultipleParentVariantFound',
+                'shopifyIssuePending' => 1
             ]);
         }
         return false;

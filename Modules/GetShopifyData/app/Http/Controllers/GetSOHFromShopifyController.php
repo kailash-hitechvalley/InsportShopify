@@ -10,6 +10,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Modules\GetShopifyData\Services\CommonService;
 use Modules\GetShopifyData\Services\ShopifyGetService;
+use Modules\Shopify\Models\ShopifyCursor;
 use Modules\Shopify\Traits\ShopifyTrait;
 
 class GetSOHFromShopifyController extends Controller
@@ -45,6 +46,7 @@ class GetSOHFromShopifyController extends Controller
                 $clientCode = $this->getClientCode();
                 $isLive = $this->live;
                 $currentCursor = $this->getCursor($clientCode, 'SOH', $isLive) ?? '';
+                $lastKey = array_key_last($products);
 
                 foreach ($products as $productEdge) {
                     $product = $productEdge->node;
@@ -83,6 +85,26 @@ class GetSOHFromShopifyController extends Controller
                             );
                         }
                     }
+                }
+                if (@$response->data->products->pageInfo->endCursor) {
+
+                    $lastCursor = @$response->data->products->pageInfo->endCursor;
+
+                    ShopifyCursor::updateOrcreate(
+                        [
+                            'clientCode' => $clientCode,
+                            'cursorName' => 'SOH',
+                            'isLive' => $isLive,
+                        ],
+                        [
+                            'clientCode' => $clientCode,
+                            'cursorName' => 'SOH',
+                            'cursor' => $lastCursor,
+                            'isLive' => $isLive,
+                        ]
+                    );
+
+                    DB::commit();
                 }
 
                 echo "Data inserted/updated successfully";

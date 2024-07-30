@@ -97,10 +97,10 @@ class ShopifyGetService
         $clientCode = $this->getClientCode();
         $cursor = $this->getCursor($clientCode, 'SOH', $this->live) ?? '';
 
-        $productsQuery = 'products(first:1 , sortKey: ID';
+        $productsQuery = 'products(first:1, sortKey: ID';
 
         if ($cursor !== '') {
-            $productsQuery .= ', after:1 "' . $cursor . '"';
+            $productsQuery .= ', after: "' . $cursor . '"';
         }
 
         $productsQuery .= ')';
@@ -109,6 +109,7 @@ class ShopifyGetService
         query {
             $productsQuery {
                 edges {
+                    cursor
                     node {
                         id
                         title
@@ -121,7 +122,7 @@ class ShopifyGetService
                                     inventoryItem {
                                         id
                                         updatedAt
-                                        inventoryLevels(first: 10) {
+                                        inventoryLevels(first: 100) {
                                             edges {
                                                 node {
                                                     available
@@ -139,9 +140,16 @@ class ShopifyGetService
                         }
                     }
                 }
+                    pageInfo {
+                    hasNextPage
+                    hasPreviousPage
+                    startCursor
+                    endCursor
+                }
             }
         }
-    GQL;
+        GQL;
+
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 }

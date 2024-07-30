@@ -105,65 +105,63 @@ class ShopifyGetService
 
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
-
-
-    public function getShopifyVariants($limit)
+    public function getSoh()
     {
-
         $clientCode = $this->getClientCode();
-        $cursor = $this->getCursor($clientCode, 'GetProductVariantsCursor', $this->live) ?? '';
+        $cursor = $this->getCursor($clientCode, 'SOH', $this->live) ?? '';
 
-        $magic = 'productVariants(first:' . $limit . ',sortKey:ID)';
+        $productsQuery = 'products(first:1, sortKey: ID';
 
-        if ($cursor != '') {
-            $magic = 'productVariants(first:' . $limit . ',sortKey:ID, after:"' . $cursor . '")';
+        if ($cursor !== '') {
+            $productsQuery .= ', after: "' . $cursor . '"';
         }
 
-        $magic .= ' {';
+        $productsQuery .= ')';
 
         $query = <<<GQL
-          query {
-              $magic
-              edges {
-                  cursor
-                  node {
-                      id
-                      title
-                      product {
-                          id
-                          status
-                      }
-                      price
-                      selectedOptions {
-                          name
-                          value
-                      }
-                      defaultCursor
-                      inventoryItem {
-                          id
-                      }
-                      inventoryQuantity
-                      availableForSale
-                      compareAtPrice
-                      createdAt
-                      updatedAt
-                      displayName
-                      sku
-                      barcode
-                      image {
-                          url
-                      }
-                  }
-              }
-              pageInfo {
-                  hasNextPage
-                  hasPreviousPage
-                  startCursor
-                  endCursor
-              }
-          }
-          }
-      GQL;
+        query {
+            $productsQuery {
+                edges {
+                    cursor
+                    node {
+                        id
+                        title
+                        updatedAt
+                        variants(first: 100) {
+                            edges {
+                                node {
+                                    id
+                                    title
+                                    inventoryItem {
+                                        id
+                                        updatedAt
+                                        inventoryLevels(first: 100) {
+                                            edges {
+                                                node {
+                                                    available
+                                                    updatedAt
+                                                    location {
+                                                        id
+                                                        name
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                    pageInfo {
+                    hasNextPage
+                    hasPreviousPage
+                    startCursor
+                    endCursor
+                }
+            }
+        }
+        GQL;
 
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }

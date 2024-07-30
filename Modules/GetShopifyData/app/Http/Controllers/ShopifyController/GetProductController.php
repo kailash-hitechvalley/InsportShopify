@@ -54,7 +54,7 @@ class GetProductController extends Controller
                     $cursor = $product->cursor;
                     if ($key === $lastKey) {
                         if ($cursorName == 'GetProductUpdatedBYCursor') {
-                            $cursor = $product->updatedAt;
+                            $cursor = $product->node->updatedAt;
                         }
                         $this->comSer->saveCursor($cursor, $cursorName, $this->live);
 

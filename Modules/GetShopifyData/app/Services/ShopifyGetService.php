@@ -22,8 +22,9 @@ class ShopifyGetService
         $after = $cursor ? ', after: "' . $cursor . '"' : '';
 
         if ($cursorName == 'GetProductUpdatedBYCursor'  && $cursor) {
+            $magic = "'" . $cursor . "'";
 
-            $after = ', query: "updated_at:>=' . $cursor  . '"';
+            $after = ', query: "updated_at:>=' . $magic  . '"';
         }
 
         $myquery = $pid ? 'query: "id:' . $pid . '"' : '';
@@ -33,7 +34,7 @@ class ShopifyGetService
         }
 
         $query = '{
-         products(first: ' . $limit . ', sortKey:UPDATED_AT ' . $after . ' ) {
+         products(first: ' . $limit . ', sortKey:UPDATED_AT' . $after . ' ) {
                 edges {
                 cursor
                 node {

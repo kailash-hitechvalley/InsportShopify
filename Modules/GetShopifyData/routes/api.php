@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\GetShopifyData\Http\Controllers\GetShopifyDataController;
+use Modules\GetShopifyData\Http\Controllers\GetSOHFromShopifyController;
 use Modules\GetShopifyData\Http\Controllers\ShopifyController\GetProductController;
 
 /*
@@ -23,3 +24,5 @@ Route::get('/get-shopify-products', [GetProductController::class, 'getProducts']
 Route::get('/get-shopify-variants', [GetProductController::class, 'getProductVariants']);
 
 Route::get('/get-shopify-locations', [GetProductController::class, 'getLocations']);
+
+Route::get('/get-shopify-soh', [GetSOHFromShopifyController::class, 'getSoh']);

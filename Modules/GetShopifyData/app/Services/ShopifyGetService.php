@@ -13,18 +13,27 @@ class ShopifyGetService
     {
     }
 
-    public function getShopifyProducts($pid, $limit = 3)
+    public function getShopifyProducts($pid, $limit = 3, $cursorName)
     {
 
         $clientCode = $this->getClientCode();
-        $cursor = $this->getCursor($clientCode, 'GetProductCursor', $this->live);
-        $myquery = $pid ? 'query: "id:' . $pid . '"' : '';
+        $cursor = $this->getCursor($clientCode, $cursorName, $this->live);
+
         $after = $cursor ? ', after: "' . $cursor . '"' : '';
+
+        if ($cursorName == 'GetProductUpdatedBYCursor'  && $cursor) {
+
+            $after = ', query: "updated_at:>=' . $cursor  . '"';
+        }
+
+        $myquery = $pid ? 'query: "id:' . $pid . '"' : '';
+
         if ($myquery) {
             $after = $myquery;
         }
+
         $query = '{
-         products(first: ' . $limit . ', sortKey:ID ' . $after . ' ) {
+         products(first: ' . $limit . ', sortKey:UPDATED_AT ' . $after . ' ) {
                 edges {
                 cursor
                 node {
@@ -35,6 +44,7 @@ class ShopifyGetService
                     title
                     productType
                     createdAt
+                    updatedAt
                     descriptionHtml
                     vendor
                     hasOnlyDefaultVariant
@@ -73,7 +83,6 @@ class ShopifyGetService
                 }
             }
         }';
-
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 

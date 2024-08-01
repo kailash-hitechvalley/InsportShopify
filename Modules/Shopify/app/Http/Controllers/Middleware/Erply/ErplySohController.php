@@ -105,7 +105,8 @@ class ErplySohController extends Controller
                     echo "soh updated";
                     continue;
                 } else {
-                    $this->changeflag(6, $Variant->parentProductID, 'soh not synced updated');
+                    dump($res);
+                    $this->changeflag(6, $Variant->parentProductID, 'soh not updated');
 
                     echo "<br>";
                     echo "no source variant found";

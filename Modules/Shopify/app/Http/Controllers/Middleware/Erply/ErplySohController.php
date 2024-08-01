@@ -185,7 +185,7 @@ class ErplySohController extends Controller
 
 
         $sourceProduct = $this->sourceProductService->getSourceProducts(['id' => $sourceVarient->product_id]);
-
+        dump('source product', $sourceProduct);
         $flag = 0;
         foreach ($variationSohs as $variationSoh) {
 
@@ -198,14 +198,14 @@ class ErplySohController extends Controller
                 'pendingProcess' => 1,
                 'lastStockUpdate' => date('Y-m-d H:i:s')
             ];
-            dump($sohdata);
+
             $result =  $this->sourceProductService->insertSoh(
                 $sourceProduct->id,
                 $sourceVarient->id,
                 $locationId->warehouseID,
                 $sohdata
             );
-            dump($result);
+
             if ($result) {
                 $flag = 1;
                 echo "<br>";

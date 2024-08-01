@@ -89,7 +89,7 @@ class ErplySohController extends Controller
                 $res =  $this->manageSoh($variationSohs, $Variant);
 
                 if ($res == 4) {
-                    $this->changeflag(4, $Variant->parentProductID, 'no barcode found in source v');
+                    $this->changeflag(4, $Variant->parentProductID, 'Missing varinats in Shopify');
                     continue;
                 }
 

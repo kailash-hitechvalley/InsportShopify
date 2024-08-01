@@ -39,7 +39,7 @@ class ShopifyTagsController extends Controller
 
         $currentTags = $this->getTags($productId);
         if ($debug == 1) {
-            dd($$productId, $currentTags);
+            dd($productId, $currentTags);
         }
         $newTags = array_unique(array_merge($currentTags, explode(',', $shopifyIssueTags)));
         if ($debug == 2) {

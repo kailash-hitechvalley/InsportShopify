@@ -13,18 +13,28 @@ class ShopifyGetService
     {
     }
 
-    public function getShopifyProducts($pid, $limit = 3)
+    public function getShopifyProducts($pid, $limit = 3, $cursorName, $debug = 0)
     {
 
         $clientCode = $this->getClientCode();
-        $cursor = $this->getCursor($clientCode, 'GetProductCursor', $this->live);
-        $myquery = $pid ? 'query: "id:' . $pid . '"' : '';
+        $cursor = $this->getCursor($clientCode, $cursorName, $this->live);
+
         $after = $cursor ? ', after: "' . $cursor . '"' : '';
+
+        if ($cursorName == 'GetProductUpdatedBYCursor'  && $cursor) {
+            $magic = "'" . $cursor . "'";
+
+            $after = ', query: "updated_at:>=' . $magic  . '"';
+        }
+
+        $myquery = $pid ? 'query: "id:' . $pid . '"' : '';
+
         if ($myquery) {
             $after = $myquery;
         }
+
         $query = '{
-         products(first: ' . $limit . ', sortKey:ID ' . $after . ' ) {
+         products(first: ' . $limit . ', sortKey:UPDATED_AT' . $after . ' ) {
                 edges {
                 cursor
                 node {
@@ -35,6 +45,7 @@ class ShopifyGetService
                     title
                     productType
                     createdAt
+                    updatedAt
                     descriptionHtml
                     vendor
                     hasOnlyDefaultVariant
@@ -73,7 +84,9 @@ class ShopifyGetService
                 }
             }
         }';
-
+        if ($debug == 5) {
+            dd($query);
+        }
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 
@@ -150,6 +163,42 @@ class ShopifyGetService
         }
         GQL;
 
+        return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
+    }
+
+    public function getShopifyVariants($limit = 3)
+    {
+        $clientCode = $this->getClientCode();
+        $cursor = $this->getCursor($clientCode, 'GetProductVariantsCursor', $this->live);
+
+        $after = $cursor ? ', after: "' . $cursor . '"' : '';
+
+        $query = '{
+            productVariants(first: ' . $limit . $after . ') {
+                edges {
+                cursor
+                node {
+                    id
+                    title
+                    price
+                    compareAtPrice
+                    sku
+                    barcode
+                    inventoryQuantity
+                    inventoryItem {
+                        id
+                    }
+                    selectedOptions {
+                        name
+                        value
+                    }
+                        product {
+                            id
+                        }
+                }
+                }
+            }
+        }';
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 }

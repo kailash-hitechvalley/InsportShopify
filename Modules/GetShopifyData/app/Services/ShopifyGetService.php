@@ -165,4 +165,40 @@ class ShopifyGetService
 
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
+
+    public function getShopifyVariants($limit = 3)
+    {
+        $clientCode = $this->getClientCode();
+        $cursor = $this->getCursor($clientCode, 'GetProductVariantsCursor', $this->live);
+
+        $after = $cursor ? ', after: "' . $cursor . '"' : '';
+
+        $query = '{
+            productVariants(first: ' . $limit . $after . ') {
+                edges {
+                cursor
+                node {
+                    id
+                    title
+                    price
+                    compareAtPrice
+                    sku
+                    barcode
+                    inventoryQuantity
+                    inventoryItem {
+                        id
+                    }
+                    selectedOptions {
+                        name
+                        value
+                    }
+                        product {
+                            id
+                        }
+                }
+                }
+            }
+        }';
+        return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
+    }
 }

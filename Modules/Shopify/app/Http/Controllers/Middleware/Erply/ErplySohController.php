@@ -89,7 +89,7 @@ class ErplySohController extends Controller
                 $res =  $this->manageSoh($variationSohs, $Variant);
 
                 if ($res == 4) {
-                    $this->changeflag(4, $Variant->parentProductID, 'no barcode found in source v');
+                    $this->changeflag(4, $Variant->parentProductID, 'Missing varinats in Shopify');
                     continue;
                 }
 
@@ -105,7 +105,8 @@ class ErplySohController extends Controller
                     echo "soh updated";
                     continue;
                 } else {
-                    $this->changeflag(6, $Variant->parentProductID, 'soh not synced updated');
+                    dump($res);
+                    $this->changeflag(6, $Variant->parentProductID, 'soh not updated');
 
                     echo "<br>";
                     echo "no source variant found";

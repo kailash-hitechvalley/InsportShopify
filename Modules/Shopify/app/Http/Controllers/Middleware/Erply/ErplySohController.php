@@ -85,7 +85,7 @@ class ErplySohController extends Controller
             $variationSohs = $this->productService->getVariantSoh($Variant->productID);
 
             if (@$variationSohs) {
-
+                echo "soh found =>" . count($variationSohs);
                 $res =  $this->manageSoh($variationSohs, $Variant);
 
                 if ($res == 4) {

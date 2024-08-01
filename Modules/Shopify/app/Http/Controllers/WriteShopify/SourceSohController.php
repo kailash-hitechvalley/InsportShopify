@@ -125,7 +125,7 @@ class SourceSohController extends Controller
                                 'sohPendingProcess' => 4,
                                 'lastPushedDate' => date('Y-m-d H:i:s'),
                                 'errorMessage' => 'no soh found'
-                                
+
                             ]
                         );
 
@@ -311,7 +311,7 @@ class SourceSohController extends Controller
                 'sohPendingProcess' => 9,
                 'lastPushedDate' => date('Y-m-d H:i:s'),
                 'errorMessage' => "multiple parent variants found=>" . implode(',', array_unique($parent)),
-                'shopifyIssueTags' => 'MultipleParentVariantFound',
+                'shopifyIssueTags' => 'ErplyMultipleParentVariant',
                 'shopifyIssuePending' => 1
             ]);
         }

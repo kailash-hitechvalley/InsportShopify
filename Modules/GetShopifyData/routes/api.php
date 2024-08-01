@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\GetShopifyData\Http\Controllers\GetShopifyDataController;
 use Modules\GetShopifyData\Http\Controllers\GetSOHFromShopifyController;
 use Modules\GetShopifyData\Http\Controllers\ShopifyController\GetProductController;
+use Modules\Shopify\Http\Controllers\WriteShopify\ShopifyTagsController;
 
 /*
  *--------------------------------------------------------------------------
@@ -26,3 +27,5 @@ Route::get('/get-shopify-variants', [GetProductController::class, 'getProductVar
 Route::get('/get-shopify-locations', [GetProductController::class, 'getLocations']);
 
 Route::get('/get-shopify-soh', [GetSOHFromShopifyController::class, 'getSoh']);
+
+Route::get('/create-shopify-tags', [ShopifyTagsController::class, 'storeTags']);

@@ -1023,4 +1023,76 @@ trait ShopifyTrait
 
     return $query;
   }
+
+  public function getTags($productId)
+  {
+    $productsQuery = 'products(first:1, query: "id:' . $productId . '"';
+    $productsQuery .= ')';
+    $query = <<<GQL
+      query {
+          $productsQuery {
+              edges {
+                  node {
+                      tags
+                  }
+              }
+          }
+      }
+      GQL;
+
+    $response = $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
+    return $response->data->products->edges[0]->node->tags ?? [];
+  }
+
+  public function createTags($shopifyProductId, $newTags)
+  {
+    $productId = "gid://shopify/Product/" . $shopifyProductId;
+
+    if (is_string($newTags)) {
+      $newTags = json_decode($newTags, true);
+    }
+    $tagsArray = '[' . implode(',', array_map(function ($tag) {
+      return '"' . addslashes($tag) . '"';
+    }, $newTags)) . ']';
+    $query = <<<GQL
+      mutation {
+          productUpdate(input: {
+              id: "$productId",
+              tags: $tagsArray
+          }) {
+              product {
+                  id
+                  tags
+              }
+              userErrors {
+                  field
+                  message
+              }
+          }
+      }
+      GQL;
+    $response = $this->sendShopifyQueryRequestV1('POST', $query, $this->live);
+    return $response;
+  }
+
+
+  public function sendShopifyQueryRequestV1($method, $query, $isLive = 0, $lastModified = null)
+  {
+    $shopifyDetails = $this->getShopifyCredentails($isLive);
+    $headers = [
+      'X-Shopify-Access-Token' => $shopifyDetails['secret'],
+      'Content-Type' => 'application/json',
+    ];
+    $client = new Client([
+      'headers' => $headers,
+    ]);
+    $request = $client->request($method, $shopifyDetails['url'], [
+      'json' => [
+        'query' => $query,
+      ],
+    ]);
+    $products = json_decode($request->getBody()->getContents());
+    dump($products);
+    return $products;
+  }
 }

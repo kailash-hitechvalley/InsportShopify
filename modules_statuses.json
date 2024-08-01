@@ -1,4 +1,6 @@
 {
     "Shopify": true,
-    "GetShopifyData": true
+    "GetShopifyData": true,
+    "Controller": true,
+    "ShopifyTagsController": true
 }

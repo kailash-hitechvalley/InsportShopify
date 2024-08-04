@@ -278,7 +278,7 @@ class SourceSohController extends Controller
 
     public function checkErplyParentVariant($variants, $productid)
     {
-
+        dump(281, $variants, $productid);
         $parent = [];
         $flag = 0;
         foreach ($variants as $variant) {

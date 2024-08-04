@@ -1029,17 +1029,17 @@ trait ShopifyTrait
         $productsQuery = 'product(id:"' . $productId . '")';
 
         $query = <<<GQL
-      query {
-          $productsQuery {
-              id
-              tags
-          }
-      }
-      GQL;
+                    query {
+                        $productsQuery {
+                            id
+                            tags
+                        }
+                    }
+                    GQL;
 
         $response = $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
 
-        return $response->data->products->tags ?? [];
+        return $response->data->product->tags ?? [];
     }
 
     public function createTags($productId, $newTags)

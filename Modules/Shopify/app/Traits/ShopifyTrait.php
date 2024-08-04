@@ -1054,23 +1054,23 @@ trait ShopifyTrait
         }, $newTags)) . ']';
 
         $query = <<<GQL
-      mutation {
-          productUpdate(input: {
-              id: "$productId",
-              tags: $tagsArray
-          }) {
-              product {
-                  id
-                  tags
-              }
-              userErrors {
-                  field
-                  message
-              }
-          }
-      }
-      GQL;
-        $response = $this->sendShopifyQueryRequestV1('POST', $query, $this->live);
+                    mutation {
+                        productUpdate(input: {
+                            id: "$productId",
+                            tags: $tagsArray
+                        }) {
+                            product {
+                                id
+                                tags
+                            }
+                            userErrors {
+                                field
+                                message
+                            }
+                        }
+                    }
+                    GQL;
+        $response = $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
         return $response;
     }
 

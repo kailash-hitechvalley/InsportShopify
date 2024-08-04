@@ -283,7 +283,7 @@ class SourceSohController extends Controller
         $flag = 0;
         foreach ($variants as $variant) {
             dump(285);
-            $ErplyParent = $this->getErplyParentVariant($variant->sku);
+            $ErplyParent = $this->getErplyParentVariant($variant->sku ?? $variant->barcode);
             dump($ErplyParent);
             if (count($ErplyParent) > 1 || count($ErplyParent) == 0) {
                 SourceVariant::where('id', $variant->id)->update([

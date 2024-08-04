@@ -184,7 +184,9 @@ class ErplySohController extends Controller
         $sourceVarient = $sourceVarient->first();
 
 
-        $sourceProduct = $this->sourceProductService->getSourceProducts(['shopifyProductId' => $sourceVarient->shopifyParentId]);
+        $sourceProduct = $this->sourceProductService->getSourceProducts(
+            ['shopifyProductId' => $sourceVarient->shopifyParentId]
+        );
         dump('source product', $sourceProduct);
         $flag = 0;
         foreach ($variationSohs as $variationSoh) {

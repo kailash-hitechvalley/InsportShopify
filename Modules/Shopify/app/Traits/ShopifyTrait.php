@@ -1039,8 +1039,9 @@ trait ShopifyTrait
           }
       }
       GQL;
-
+        dump($query);
         $response = $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
+        dd($response);
         return $response->data->products->edges[0]->node->tags ?? [];
     }
 

@@ -29,6 +29,7 @@ class ShopifyTagsController extends Controller
         $tags = SourceProduct::query()
             ->where('shopifyIssuePending', 1)
             ->select('shopifyProductId', 'shopifyIssueTags')
+            ->limit(3)
             ->get();
         if ($debug == 1) {
             dd($tags);

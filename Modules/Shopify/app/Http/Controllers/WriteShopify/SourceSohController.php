@@ -282,7 +282,7 @@ class SourceSohController extends Controller
         $parent = [];
         $flag = 0;
         foreach ($variants as $variant) {
-            dump(285);
+            dump(285, $variant->sku ?? $variant->barcode);
             $ErplyParent = $this->getErplyParentVariant($variant->sku ?? $variant->barcode);
             dump($ErplyParent);
             if (count($ErplyParent) > 1 || count($ErplyParent) == 0) {

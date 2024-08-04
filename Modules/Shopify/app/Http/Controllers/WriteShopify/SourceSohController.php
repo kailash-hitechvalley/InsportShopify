@@ -110,6 +110,7 @@ class SourceSohController extends Controller
                 }
                 $check = $this->checkErplyParentVariant($variants, $product->id);
                 if ($check) {
+                    dump('have some error');
                     continue;
                 }
 

@@ -108,13 +108,13 @@ class SourceSohController extends Controller
                     // );
                     continue;
                 }
-                dump(111);
+
                 $check = $this->checkErplyParentVariant($variants, $product->id);
                 if ($check) {
-                    dump('have some error');
+
                     continue;
                 }
-                dump(116);
+            
                 foreach ($variants as $variant) {
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
@@ -283,21 +283,21 @@ class SourceSohController extends Controller
         foreach ($variants as $variant) {
             $code = ($variant->sku == '' || $variant->sku == null) ? $variant->barcode : $variant->sku;
             $ErplyParent = $this->getErplyParentVariant($code);
-            dump($ErplyParent);
+
             if (count($ErplyParent) > 1 || count($ErplyParent) == 0) {
                 SourceVariant::where('id', $variant->id)->update([
                     'sohPendingProcess' => 8,
                     'error_variants' => count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply',
 
                 ]);
-                dump(294);
+
                 $flag = 1;
             } else {
-                dump(297);
+
                 $parent[] = $ErplyParent->first()->parentProductID;
             }
         }
-        dump(300);
+
         if ($flag == 1) {
             $error = count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply';
             echo $error;
@@ -309,7 +309,7 @@ class SourceSohController extends Controller
                 'shopifyIssuePending' => 1
             ]);
         }
-        dump(312);
+
         if (count(array_unique($parent)) > 1) {
             echo "multiple parent variants found=>" . implode(',', array_unique($parent));
             return  $this->productService->updateProduct($productid, [
@@ -320,7 +320,7 @@ class SourceSohController extends Controller
                 'shopifyIssuePending' => 1
             ]);
         }
-        dump(323);
+
         return false;
     }
 }

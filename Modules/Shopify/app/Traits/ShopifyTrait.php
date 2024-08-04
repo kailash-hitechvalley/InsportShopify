@@ -7,91 +7,91 @@ use Modules\Shopify\Models\ShopifyCursor;
 
 trait ShopifyTrait
 {
-  public function __construct()
-  {
-  }
-
-  public function getShopifyCredentails($isLive = 0)
-  {
-    if ($isLive == 1) {
-      return ['url' => config('shopify.live.url'), 'secret' => config('shopify.live.secret')];
+    public function __construct()
+    {
     }
 
-    return ['url' => config('shopify.staging.url'), 'secret' => config('shopify.staging.secret')];
-  }
+    public function getShopifyCredentails($isLive = 0)
+    {
+        if ($isLive == 1) {
+            return ['url' => config('shopify.live.url'), 'secret' => config('shopify.live.secret')];
+        }
 
-  public function getClientCode()
-  {
-
-    return config('shopify.clientCode');
-  }
-
-  public function sendShopifyQueryRequest($url, $method, $secret, $query)
-  {
-    $headers = [
-      'X-Shopify-Access-Token' => $secret,
-      'Content-Type' => 'application/json',
-    ];
-
-    $client = new Client([
-      'headers' => $headers,
-    ]);
-
-    $request = $client->request($method, $url, [
-      'json' => [
-        'query' => $query,
-      ],
-    ]);
-
-    $products = json_decode($request->getBody()->getContents());
-
-    return $products;
-  }
-
-  public function sendShopifyQueryRequestV2($method, $query, $isLive = 0, $lastModified = null)
-  {
-
-    $shopifyDetails = $this->getShopifyCredentails($isLive);
-
-    $headers = [
-      'X-Shopify-Access-Token' => $shopifyDetails['secret'],
-      'Content-Type' => 'application/json',
-    ];
-
-    $client = new Client([
-      'headers' => $headers,
-    ]);
-
-    $request = $client->request($method, $shopifyDetails['url'], [
-      'json' => [
-        'query' => $query,
-      ],
-    ]);
-
-    $products = json_decode($request->getBody()->getContents());
-
-    return $products;
-  }
-
-  public function getCursor($clientCode, $name, $isLive = 0)
-  {
-    $cursor = ShopifyCursor::where('clientCode', $clientCode)->where('isLive', $isLive)->where('cursorName', $name)->first();
-    if ($cursor) {
-      return $cursor->cursor;
+        return ['url' => config('shopify.staging.url'), 'secret' => config('shopify.staging.secret')];
     }
 
-    return '';
-  }
+    public function getClientCode()
+    {
 
-  public function getMatrixProductQuery($clientCode)
-  {
-    $cursor = $this->getCursor($clientCode, 'matrixProduct', 1);
-    $magic = 'products(first:3,sortKey:ID) {';
-    if ($cursor != '') {
-      # $cursor = "updated_at:>='$cursor'";
-      $magic = 'products(first:5,sortKey:ID, after:"' . $cursor . '") {';
+        return config('shopify.clientCode');
     }
-    $query = <<<GQL
+
+    public function sendShopifyQueryRequest($url, $method, $secret, $query)
+    {
+        $headers = [
+            'X-Shopify-Access-Token' => $secret,
+            'Content-Type' => 'application/json',
+        ];
+
+        $client = new Client([
+            'headers' => $headers,
+        ]);
+
+        $request = $client->request($method, $url, [
+            'json' => [
+                'query' => $query,
+            ],
+        ]);
+
+        $products = json_decode($request->getBody()->getContents());
+
+        return $products;
+    }
+
+    public function sendShopifyQueryRequestV2($method, $query, $isLive = 0, $lastModified = null)
+    {
+
+        $shopifyDetails = $this->getShopifyCredentails($isLive);
+
+        $headers = [
+            'X-Shopify-Access-Token' => $shopifyDetails['secret'],
+            'Content-Type' => 'application/json',
+        ];
+
+        $client = new Client([
+            'headers' => $headers,
+        ]);
+
+        $request = $client->request($method, $shopifyDetails['url'], [
+            'json' => [
+                'query' => $query,
+            ],
+        ]);
+
+        $products = json_decode($request->getBody()->getContents());
+
+        return $products;
+    }
+
+    public function getCursor($clientCode, $name, $isLive = 0)
+    {
+        $cursor = ShopifyCursor::where('clientCode', $clientCode)->where('isLive', $isLive)->where('cursorName', $name)->first();
+        if ($cursor) {
+            return $cursor->cursor;
+        }
+
+        return '';
+    }
+
+    public function getMatrixProductQuery($clientCode)
+    {
+        $cursor = $this->getCursor($clientCode, 'matrixProduct', 1);
+        $magic = 'products(first:3,sortKey:ID) {';
+        if ($cursor != '') {
+            # $cursor = "updated_at:>='$cursor'";
+            $magic = 'products(first:5,sortKey:ID, after:"' . $cursor . '") {';
+        }
+        $query = <<<GQL
             query {
                 $magic
                 edges {
@@ -133,18 +133,18 @@ trait ShopifyTrait
               }
           GQL;
 
-    return $query;
-  }
-
-  public function getMatrixProductQueryByLastmodified($clientCode)
-  {
-    $cursor = $this->getCursor($clientCode, 'matrixProductV2', 1);
-    $magic = 'products(first:3,sortKey:UPDATED_AT) {';
-    if ($cursor != '') {
-      $cursor = "updated_at:>='$cursor'";
-      $magic = "products(first:10, query:\"$cursor\", sortKey:UPDATED_AT) {";
+        return $query;
     }
-    $query = <<<GQL
+
+    public function getMatrixProductQueryByLastmodified($clientCode)
+    {
+        $cursor = $this->getCursor($clientCode, 'matrixProductV2', 1);
+        $magic = 'products(first:3,sortKey:UPDATED_AT) {';
+        if ($cursor != '') {
+            $cursor = "updated_at:>='$cursor'";
+            $magic = "products(first:10, query:\"$cursor\", sortKey:UPDATED_AT) {";
+        }
+        $query = <<<GQL
             query {
                 $magic
                 edges {
@@ -186,17 +186,17 @@ trait ShopifyTrait
               }
           GQL;
 
-    return $query;
-  }
-
-  public function getVariationProductQuery($clientCode)
-  {
-    $cursor = $this->getCursor($clientCode, 'variationProduct', 1);
-    $magic = 'productVariants(first:3,sortKey:ID) {';
-    if ($cursor != '') {
-      $magic = 'productVariants(first:3,sortKey:ID, after:"' . $cursor . '") {';
+        return $query;
     }
-    $query = <<<GQL
+
+    public function getVariationProductQuery($clientCode)
+    {
+        $cursor = $this->getCursor($clientCode, 'variationProduct', 1);
+        $magic = 'productVariants(first:3,sortKey:ID) {';
+        if ($cursor != '') {
+            $magic = 'productVariants(first:3,sortKey:ID, after:"' . $cursor . '") {';
+        }
+        $query = <<<GQL
             query {
                 $magic
                 edges {
@@ -242,21 +242,21 @@ trait ShopifyTrait
             }
           GQL;
 
-    return $query;
-  }
+        return $query;
+    }
 
-  public function getSohQuery($clientCode, $isLive)
-  {
-    if ($isLive == 1) {
-      $cursor = $this->getCursor($clientCode, 'soh');
-    } else {
-      $cursor = $this->getCursor($clientCode, 'soh_stageing');
-    }
-    $magic = 'productVariants(first:3,sortKey:ID) {';
-    if ($cursor != '') {
-      $magic = 'productVariants(first:3,sortKey:ID, after:"' . $cursor . '") {';
-    }
-    $query = <<<GQL
+    public function getSohQuery($clientCode, $isLive)
+    {
+        if ($isLive == 1) {
+            $cursor = $this->getCursor($clientCode, 'soh');
+        } else {
+            $cursor = $this->getCursor($clientCode, 'soh_stageing');
+        }
+        $magic = 'productVariants(first:3,sortKey:ID) {';
+        if ($cursor != '') {
+            $magic = 'productVariants(first:3,sortKey:ID, after:"' . $cursor . '") {';
+        }
+        $query = <<<GQL
             query {
                 $magic
                 edges {
@@ -289,17 +289,17 @@ trait ShopifyTrait
             }
           GQL;
 
-    return $query;
-  }
-
-  public function getCustomerQuery($clientCode)
-  {
-    $cursor = $this->getCursor($clientCode, 'customer');
-    $magic = 'customers(first:3,sortKey:ID) {';
-    if ($cursor != '') {
-      $magic = 'customers(first:3,sortKey:ID, after:"' . $cursor . '") {';
+        return $query;
     }
-    $query = <<<GQL
+
+    public function getCustomerQuery($clientCode)
+    {
+        $cursor = $this->getCursor($clientCode, 'customer');
+        $magic = 'customers(first:3,sortKey:ID) {';
+        if ($cursor != '') {
+            $magic = 'customers(first:3,sortKey:ID, after:"' . $cursor . '") {';
+        }
+        $query = <<<GQL
             query {
                 $magic
                 edges {
@@ -355,20 +355,20 @@ trait ShopifyTrait
             }
           GQL;
 
-    return $query;
-  }
-
-  public function getOrdersQuery($clientCode, $isLive = 0)
-  {
-    $cursor = $this->getCursor($clientCode, 'order', $isLive);
-
-    $magic = 'orders(first:2) {';
-
-    // $magic = 'orders(first:3, query:"created_at:>2024-01-29T23:39:20Z") {';
-    if ($cursor != '') {
-      $magic = 'orders(first:2, after:"' . $cursor . '") {';
+        return $query;
     }
-    $query = <<<GQL
+
+    public function getOrdersQuery($clientCode, $isLive = 0)
+    {
+        $cursor = $this->getCursor($clientCode, 'order', $isLive);
+
+        $magic = 'orders(first:2) {';
+
+        // $magic = 'orders(first:3, query:"created_at:>2024-01-29T23:39:20Z") {';
+        if ($cursor != '') {
+            $magic = 'orders(first:2, after:"' . $cursor . '") {';
+        }
+        $query = <<<GQL
             query {
                 $magic
                 edges {
@@ -524,18 +524,18 @@ trait ShopifyTrait
             }
           GQL;
 
-    return $query;
-  }
+        return $query;
+    }
 
-  public function getSingleOrdersQuery($shopifyID = '')
-  {
+    public function getSingleOrdersQuery($shopifyID = '')
+    {
 
-    // $magic = 'orders(first:3) {';
-    $magic = 'order( id:"' . $shopifyID . '") {';
-    // if ($cursor != '') {
-    //   $magic = 'orders(first:3, after:"' . $cursor . '") {';
-    // }
-    $query = <<<GQL
+        // $magic = 'orders(first:3) {';
+        $magic = 'order( id:"' . $shopifyID . '") {';
+        // if ($cursor != '') {
+        //   $magic = 'orders(first:3, after:"' . $cursor . '") {';
+        // }
+        $query = <<<GQL
             query {
                 $magic
 
@@ -695,24 +695,24 @@ trait ShopifyTrait
           }
           GQL;
 
-    return $query;
-  }
-
-  public function getRefundQuery($clientCode, $isLive = 0)
-  {
-    // $cursor = $lastModified ? "updated_at:>=$lastModified" : '';
-    $cursor = $cursor = $this->getCursor($clientCode, 'refundDate', $isLive);
-    dump($cursor);
-    if ($cursor !== '') {
-      $cursor = "updated_at:>='$cursor'";
-
-      $magic = "orders(first:2, query:\"(financial_status:PARTIALLY_REFUNDED OR financial_status:REFUNDED OR status:cancelled) AND $cursor\", sortKey:UPDATED_AT) {";
-      // $magic = 'orders(first:1,after:"'.$cursor.'", query:"(financial_status:PARTIALLY_REFUNDED OR financial_status:REFUNDED)") {';
-    } else {
-      $magic = 'orders(first:7, query:"financial_status:PARTIALLY_REFUNDED OR financial_status:REFUNDED") {';
+        return $query;
     }
 
-    $query = <<<GQL
+    public function getRefundQuery($clientCode, $isLive = 0)
+    {
+        // $cursor = $lastModified ? "updated_at:>=$lastModified" : '';
+        $cursor = $cursor = $this->getCursor($clientCode, 'refundDate', $isLive);
+        dump($cursor);
+        if ($cursor !== '') {
+            $cursor = "updated_at:>='$cursor'";
+
+            $magic = "orders(first:2, query:\"(financial_status:PARTIALLY_REFUNDED OR financial_status:REFUNDED OR status:cancelled) AND $cursor\", sortKey:UPDATED_AT) {";
+            // $magic = 'orders(first:1,after:"'.$cursor.'", query:"(financial_status:PARTIALLY_REFUNDED OR financial_status:REFUNDED)") {';
+        } else {
+            $magic = 'orders(first:7, query:"financial_status:PARTIALLY_REFUNDED OR financial_status:REFUNDED") {';
+        }
+
+        $query = <<<GQL
       query {
         $magic
         pageInfo {
@@ -778,13 +778,13 @@ trait ShopifyTrait
     }
     GQL;
 
-    return $query;
-  }
+        return $query;
+    }
 
-  public function getSingleRedundQuery($refundId = '')
-  {
-    $magic = 'order( id:"' . $refundId . '") {';
-    $query = <<<GQL
+    public function getSingleRedundQuery($refundId = '')
+    {
+        $magic = 'order( id:"' . $refundId . '") {';
+        $query = <<<GQL
             query {
                 $magic
                   id
@@ -970,38 +970,38 @@ trait ShopifyTrait
           }
           GQL;
 
-    return $query;
-  }
-
-  public function getRefundsForOrders()
-  {
-    $orders = $this->getOrders();
-    $allRefunds = [];
-    foreach ($orders['orders'] as $order) {
-      $orderId = $order['id'];
-      $result = $this->getRefundsByOrderId($orderId);
-      if (!empty($result['refunds'])) {
-        $allRefunds[] = $result;
-      }
+        return $query;
     }
 
-    return $allRefunds;
-  }
+    public function getRefundsForOrders()
+    {
+        $orders = $this->getOrders();
+        $allRefunds = [];
+        foreach ($orders['orders'] as $order) {
+            $orderId = $order['id'];
+            $result = $this->getRefundsByOrderId($orderId);
+            if (!empty($result['refunds'])) {
+                $allRefunds[] = $result;
+            }
+        }
 
-  private function getRefundsByOrderId($orderId)
-  {
-    // $response = $this->client->get("/admin/orders/{$orderId}/refunds.json", [
-    $response = $this->client->get("/admin/orders/{$orderId}/refunds.json", [
-      'query' => ['order_id' => $orderId],
-    ]);
+        return $allRefunds;
+    }
 
-    return json_decode($response->getBody()->getContents(), true);
-  }
+    private function getRefundsByOrderId($orderId)
+    {
+        // $response = $this->client->get("/admin/orders/{$orderId}/refunds.json", [
+        $response = $this->client->get("/admin/orders/{$orderId}/refunds.json", [
+            'query' => ['order_id' => $orderId],
+        ]);
 
-  public function checkSohQuery($variantId)
-  {
+        return json_decode($response->getBody()->getContents(), true);
+    }
 
-    $query = '
+    public function checkSohQuery($variantId)
+    {
+
+        $query = '
             {
             productVariant(id: "' . $variantId . '") {
                 id
@@ -1021,14 +1021,14 @@ trait ShopifyTrait
             }
             }';
 
-    return $query;
-  }
+        return $query;
+    }
 
-  public function getTags($productId)
-  {
-    $productsQuery = 'products(first:1, query: "id:' . $productId . '"';
-    $productsQuery .= ')';
-    $query = <<<GQL
+    public function getTags($productId)
+    {
+        $productsQuery = 'product(id:"' . $productId . '")';
+
+        $query = <<<GQL
       query {
           $productsQuery {
               edges {
@@ -1040,21 +1040,22 @@ trait ShopifyTrait
       }
       GQL;
 
-    $response = $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
-    return $response->data->products->edges[0]->node->tags ?? [];
-  }
-
-  public function createTags($shopifyProductId, $newTags)
-  {
-    $productId = "gid://shopify/Product/" . $shopifyProductId;
-
-    if (is_string($newTags)) {
-      $newTags = json_decode($newTags, true);
+        $response = $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
+        return $response->data->products->edges[0]->node->tags ?? [];
     }
-    $tagsArray = '[' . implode(',', array_map(function ($tag) {
-      return '"' . addslashes($tag) . '"';
-    }, $newTags)) . ']';
-    $query = <<<GQL
+
+    public function createTags($productId, $newTags)
+    {
+
+        if (is_string($newTags)) {
+            $newTags = json_decode($newTags, true);
+        }
+
+        $tagsArray = '[' . implode(',', array_map(function ($tag) {
+            return '"' . addslashes($tag) . '"';
+        }, $newTags)) . ']';
+
+        $query = <<<GQL
       mutation {
           productUpdate(input: {
               id: "$productId",
@@ -1071,28 +1072,28 @@ trait ShopifyTrait
           }
       }
       GQL;
-    $response = $this->sendShopifyQueryRequestV1('POST', $query, $this->live);
-    return $response;
-  }
+        $response = $this->sendShopifyQueryRequestV1('POST', $query, $this->live);
+        return $response;
+    }
 
 
-  public function sendShopifyQueryRequestV1($method, $query, $isLive = 0, $lastModified = null)
-  {
-    $shopifyDetails = $this->getShopifyCredentails($isLive);
-    $headers = [
-      'X-Shopify-Access-Token' => $shopifyDetails['secret'],
-      'Content-Type' => 'application/json',
-    ];
-    $client = new Client([
-      'headers' => $headers,
-    ]);
-    $request = $client->request($method, $shopifyDetails['url'], [
-      'json' => [
-        'query' => $query,
-      ],
-    ]);
-    $products = json_decode($request->getBody()->getContents());
-    dump($products);
-    return $products;
-  }
+    public function sendShopifyQueryRequestV1($method, $query, $isLive = 0, $lastModified = null)
+    {
+        $shopifyDetails = $this->getShopifyCredentails($isLive);
+        $headers = [
+            'X-Shopify-Access-Token' => $shopifyDetails['secret'],
+            'Content-Type' => 'application/json',
+        ];
+        $client = new Client([
+            'headers' => $headers,
+        ]);
+        $request = $client->request($method, $shopifyDetails['url'], [
+            'json' => [
+                'query' => $query,
+            ],
+        ]);
+        $products = json_decode($request->getBody()->getContents());
+        dump($products);
+        return $products;
+    }
 }

@@ -25,29 +25,43 @@ class ShopifyTagsController extends Controller
     public function storeTags(Request $request)
     {
         $debug = $request->debug ?? 0;
-        $tags = SourceProduct::where('shopifyIssuePending', 1)
+
+        $tags = SourceProduct::query()
+            ->where('shopifyIssuePending', 1)
             ->select('shopifyProductId', 'shopifyIssueTags')
-            ->first();
-
-        if (!$tags) {
-            return 'No pending products found';
-        }
-
-        $shopifyProductId = $tags->shopifyProductId;
-        $productId = trim(str_replace('gid://shopify/Product/', '', $shopifyProductId));
-        $shopifyIssueTags = $tags->shopifyIssueTags;
-
-        $currentTags = $this->getTags($productId);
+            ->get();
         if ($debug == 1) {
-            dd($productId, $currentTags);
+            dd($tags);
         }
-        $newTags = array_unique(array_merge($currentTags, explode(',', $shopifyIssueTags)));
-        if ($debug == 2) {
-            dd($shopifyProductId, $newTags);
+        if (!$tags) {
+            return response()->json('No pending products found');
         }
-        $this->createTags($productId, json_encode($newTags));
-        SourceProduct::where('shopifyProductId', $shopifyProductId)
-            ->update(['shopifyIssuePending' => 0]);
-        return 'Tags updated successfully';
+
+        foreach ($tags as  $tag) {
+
+            $shopifyProductId = $tag->shopifyProductId;
+            $shopifyIssueTags = $tag->shopifyIssueTags;
+            $currentTags = $this->getTags($shopifyProductId);
+
+            if ($debug == 2) {
+                dd($shopifyProductId, $currentTags);
+            }
+            $newTags = array_unique(
+                array_merge(
+                    $currentTags,
+                    explode(',', $shopifyIssueTags)
+                )
+            );
+            $response = $this->createTags($shopifyProductId, json_encode($newTags));
+
+            if ($debug == 3) {
+                dd($response);
+            }
+
+            SourceProduct::query()
+                ->where('shopifyProductId', $shopifyProductId)
+                ->update(['shopifyIssuePending' => 0]);
+        }
+        return response()->json('Tags updated successfully');
     }
 }

@@ -183,7 +183,7 @@ class ErplySohController extends Controller
         }
         $sourceVarient = $sourceVarient->first();
 
-
+        dd($sourceVarient);
         $sourceProduct = $this->sourceProductService->getSourceProducts(
             ['shopifyProductId' => $sourceVarient->shopifyParentId]
         );

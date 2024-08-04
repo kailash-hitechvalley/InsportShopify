@@ -284,16 +284,17 @@ class SourceSohController extends Controller
         foreach ($variants as $variant) {
             dump(285);
             $ErplyParent = $this->getErplyParentVariant($variant->sku);
-
+            dump($ErplyParent);
             if (count($ErplyParent) > 1 || count($ErplyParent) == 0) {
                 SourceVariant::where('id', $variant->id)->update([
                     'sohPendingProcess' => 8,
                     'error_variants' => count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply',
 
                 ]);
-
+                dump(294);
                 $flag = 1;
             } else {
+                dump(297);
                 $parent[] = $ErplyParent->first()->parentProductID;
             }
         }

@@ -282,6 +282,7 @@ class SourceSohController extends Controller
         $parent = [];
         $flag = 0;
         foreach ($variants as $variant) {
+            dump(285);
             $ErplyParent = $this->getErplyParentVariant($variant->sku);
 
             if (count($ErplyParent) > 1 || count($ErplyParent) == 0) {
@@ -296,6 +297,7 @@ class SourceSohController extends Controller
                 $parent[] = $ErplyParent->first()->parentProductID;
             }
         }
+        dump(300);
         if ($flag == 1) {
             $error = count($ErplyParent) == 0 ? 'No  Variants Found on Erply' : 'Multiple Parent  Found on Erply';
             echo $error;
@@ -307,6 +309,7 @@ class SourceSohController extends Controller
                 'shopifyIssuePending' => 1
             ]);
         }
+        dump(312);
         if (count(array_unique($parent)) > 1) {
             echo "multiple parent variants found=>" . implode(',', array_unique($parent));
             return  $this->productService->updateProduct($productid, [
@@ -317,6 +320,7 @@ class SourceSohController extends Controller
                 'shopifyIssuePending' => 1
             ]);
         }
+        dump(323);
         return false;
     }
 }

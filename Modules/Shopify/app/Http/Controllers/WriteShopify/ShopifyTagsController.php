@@ -37,7 +37,7 @@ class ShopifyTagsController extends Controller
         if (!$tags) {
             return response()->json('No pending products found');
         }
-
+        $responses = [];
         foreach ($tags as  $tag) {
 
             $shopifyProductId = $tag->shopifyProductId;
@@ -53,16 +53,16 @@ class ShopifyTagsController extends Controller
                     explode(',', $shopifyIssueTags)
                 )
             );
-            $response = $this->createTags($shopifyProductId, json_encode($newTags));
+            $responses[] = $this->createTags($shopifyProductId, json_encode($newTags));
 
             if ($debug == 3) {
-                dd($response);
+                dd($responses);
             }
 
             SourceProduct::query()
                 ->where('shopifyProductId', $shopifyProductId)
                 ->update(['shopifyIssuePending' => 0]);
         }
-        return response()->json('Tags updated successfully');
+        return response()->json(['Tags updated successfully', 'response' => $responses]);
     }
 }

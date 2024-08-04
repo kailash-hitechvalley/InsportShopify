@@ -27,7 +27,7 @@ class ShopifyGetService
             $after = ', query: "updated_at:>=' . $magic  . '"';
         }
 
-        $myquery = $pid ? 'query: "id:' . $pid . '"' : '';
+        $myquery = $pid ? ' ,query: "id:' . $pid . '"' : '';
 
         if ($myquery) {
             $after = $myquery;

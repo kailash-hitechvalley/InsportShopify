@@ -1031,11 +1031,8 @@ trait ShopifyTrait
         $query = <<<GQL
       query {
           $productsQuery {
-              edges {
-                  node {
-                      tags
-                  }
-              }
+              id
+              tags
           }
       }
       GQL;

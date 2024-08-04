@@ -108,12 +108,13 @@ class SourceSohController extends Controller
                     // );
                     continue;
                 }
+                dump(111);
                 $check = $this->checkErplyParentVariant($variants, $product->id);
                 if ($check) {
                     dump('have some error');
                     continue;
                 }
-
+                dump(116);
                 foreach ($variants as $variant) {
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";

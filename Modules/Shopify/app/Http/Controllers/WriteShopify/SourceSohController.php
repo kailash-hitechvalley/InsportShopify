@@ -114,7 +114,7 @@ class SourceSohController extends Controller
 
                     continue;
                 }
-            
+
                 foreach ($variants as $variant) {
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
@@ -316,7 +316,7 @@ class SourceSohController extends Controller
                 'sohPendingProcess' => 9,
                 'lastPushedDate' => date('Y-m-d H:i:s'),
                 'errorMessage' => "multiple parent variants found=>" . implode(',', array_unique($parent)),
-                'shopifyIssueTags' => 'ErplyMultipleParentVariant',
+                'shopifyIssueTags' => 'ErplyMultipleParent',
                 'shopifyIssuePending' => 1
             ]);
         }

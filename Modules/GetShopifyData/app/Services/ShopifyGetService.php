@@ -186,6 +186,9 @@ class ShopifyGetService
                     price
                     compareAtPrice
                     sku
+                    createdAt
+                    updatedAt
+
                     barcode
                     inventoryQuantity
                     inventoryItem {

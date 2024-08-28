@@ -164,7 +164,7 @@ class ShopifyGetService
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 
-    public function getShopifyVariants($limit = 3)
+    public function getShopifyVariants($limit = 3, $debug)
     {
         $clientCode = $this->getClientCode();
         $cursor = $this->getCursor($clientCode, 'GetProductVariantsCursor', $this->live);
@@ -197,6 +197,9 @@ class ShopifyGetService
                 }
             }
         }';
+        if ($debug == 1) {
+            # code...
+        }
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 }

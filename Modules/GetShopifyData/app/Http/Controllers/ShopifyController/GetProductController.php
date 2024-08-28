@@ -91,7 +91,7 @@ class GetProductController extends Controller
                         ['shopifyProductId' => $node->id],
                         $data
                     );
-                  #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
+                    #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
                     DB::commit();
 
                     echo "product added successfully =>" . "$result->handle";
@@ -140,15 +140,15 @@ class GetProductController extends Controller
         $debug = $request->get('debug') ?? 0;
         $limit = $request->get('limit') ?? 3;
 
-        $response = $this->service->getShopifyVariants($limit);
+        $response = $this->service->getShopifyVariants($limit, $debug);
 
-        if ($debug == 1) {
+        if ($debug == 2) {
             dd($response);
         }
         try {
             if ($response->data->productVariants->edges) {
                 $variants = $response->data->productVariants->edges;
-                if ($debug == 2) {
+                if ($debug == 3) {
                     dd($variants);
                 }
 

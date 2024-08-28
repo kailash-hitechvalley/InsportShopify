@@ -91,7 +91,7 @@ class GetProductController extends Controller
                         ['shopifyProductId' => $node->id],
                         $data
                     );
-                  #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
+                    #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
                     DB::commit();
 
                     echo "product added successfully =>" . "$result->handle";
@@ -139,16 +139,17 @@ class GetProductController extends Controller
 
         $debug = $request->get('debug') ?? 0;
         $limit = $request->get('limit') ?? 3;
+        $cursor = $request->get('cursor') ?? 'GetProductVariantsCursor'; //getVarinatsViaDate
 
-        $response = $this->service->getShopifyVariants($limit);
+        $response = $this->service->getShopifyVariants($limit, $debug, $cursor);
 
-        if ($debug == 1) {
+        if ($debug == 2) {
             dd($response);
         }
         try {
             if ($response->data->productVariants->edges) {
                 $variants = $response->data->productVariants->edges;
-                if ($debug == 2) {
+                if ($debug == 3) {
                     dd($variants);
                 }
 
@@ -156,9 +157,12 @@ class GetProductController extends Controller
 
                 foreach ($variants as $key => $varinat) {
                     DB::beginTransaction();
-                    $cursor = $varinat->cursor;
+                    $cursor = $varinat->node->updatedAt;
+                    if ($cursor == 'GetProductVariantsCursor') {
+                        $cursor = $varinat->cursor;
+                    }
                     if ($key === $lastKey) {
-                        $this->comSer->saveCursor($cursor, 'GetProductVariantsCursor', $this->live);
+                        $this->comSer->saveCursor($cursor, $cursor, $this->live);
 
                         # echo " cursor updated successfully";
                     }

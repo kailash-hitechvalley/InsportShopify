@@ -158,7 +158,7 @@ class GetProductController extends Controller
                 foreach ($variants as $key => $varinat) {
                     DB::beginTransaction();
                     $cursor = $varinat->node->updatedAt;
-                    if ($cursor == 'GetProductVariantsCursor') {
+                    if ($cursorName == 'GetProductVariantsCursor') {
                         $cursor = $varinat->cursor;
                     }
                     if ($key === $lastKey) {

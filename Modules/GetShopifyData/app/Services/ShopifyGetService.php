@@ -203,7 +203,7 @@ class ShopifyGetService
             }
         }';
         if ($debug == 1) {
-            # code...
+            dd($query);
         }
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }

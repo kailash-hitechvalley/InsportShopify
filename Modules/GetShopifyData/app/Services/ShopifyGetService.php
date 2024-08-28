@@ -9,9 +9,7 @@ class ShopifyGetService
     use ShopifyTrait;
 
     protected $live = 1;
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     public function getShopifyProducts($pid, $limit = 3, $cursorName, $debug = 0)
     {
@@ -50,36 +48,7 @@ class ShopifyGetService
                     vendor
                     hasOnlyDefaultVariant
                     totalVariants
-                    variants(first:100) {
-                    edges {
-                        node {
-                        id
-                        sku
-                        title
-                        barcode
-                        compareAtPrice
-                        price
-                        inventoryQuantity
-                        selectedOptions{
-                            name
-                            value
-                        }
-                        inventoryItem {
-                            id
-                            inventoryLevels(first:100)  {
-                            edges {
-                                node {
-                                location {
-                                    activatable
-                                    id
-                                }
-                                }
-                            }
-                            }
-                        }
-                        }
-                    }
-                    }
+
                 }
                 }
             }
@@ -89,7 +58,36 @@ class ShopifyGetService
         }
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
-
+    // variants(first:100) {
+    //     edges {
+    //         node {
+    //         id
+    //         sku
+    //         title
+    //         barcode
+    //         compareAtPrice
+    //         price
+    //         inventoryQuantity
+    //         selectedOptions{
+    //             name
+    //             value
+    //         }
+    //         inventoryItem {
+    //             id
+    //             inventoryLevels(first:100)  {
+    //             edges {
+    //                 node {
+    //                 location {
+    //                     activatable
+    //                     id
+    //                 }
+    //                 }
+    //             }
+    //             }
+    //         }
+    //         }
+    //     }
+    //     }
     public function getShopifyLocations()
     {
         $query = '{

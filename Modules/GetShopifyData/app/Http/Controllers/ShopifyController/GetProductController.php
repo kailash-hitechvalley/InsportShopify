@@ -91,7 +91,7 @@ class GetProductController extends Controller
                         ['shopifyProductId' => $node->id],
                         $data
                     );
-                    $this->variantsProcess($node->variants->edges, $result->id, $node->id);
+                  #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
                     DB::commit();
 
                     echo "product added successfully =>" . "$result->handle";

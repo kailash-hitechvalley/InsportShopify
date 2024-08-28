@@ -173,7 +173,7 @@ class ShopifyGetService
             $after = $cursor ? ', after: "' . $cursor . '"' : '';
         } else {
             $magic = "'" . $cursor . "'";
-            $after = ', query: "updated_at:>=' . $magic  . '"';
+            $after = 'sortKey:UPDATED_AT, query: "updated_at:>=' . $magic  . ' "';
         }
 
         $query = '{

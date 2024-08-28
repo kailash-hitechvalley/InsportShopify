@@ -139,8 +139,9 @@ class GetProductController extends Controller
 
         $debug = $request->get('debug') ?? 0;
         $limit = $request->get('limit') ?? 3;
+        $cursor = $request->get('cursor') ?? 'GetProductVariantsCursor'; //getVarinatsViaDate
 
-        $response = $this->service->getShopifyVariants($limit, $debug);
+        $response = $this->service->getShopifyVariants($limit, $debug, $cursor);
 
         if ($debug == 2) {
             dd($response);
@@ -156,9 +157,12 @@ class GetProductController extends Controller
 
                 foreach ($variants as $key => $varinat) {
                     DB::beginTransaction();
-                    $cursor = $varinat->cursor;
+                    $cursor = $varinat->node->updatedAt;
+                    if ($cursor == 'GetProductVariantsCursor') {
+                        $cursor = $varinat->cursor;
+                    }
                     if ($key === $lastKey) {
-                        $this->comSer->saveCursor($cursor, 'GetProductVariantsCursor', $this->live);
+                        $this->comSer->saveCursor($cursor, $cursor, $this->live);
 
                         # echo " cursor updated successfully";
                     }

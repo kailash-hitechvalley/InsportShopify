@@ -164,12 +164,17 @@ class ShopifyGetService
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
 
-    public function getShopifyVariants($limit = 3, $debug)
+    public function getShopifyVariants($limit = 3, $debug, $cursorName)
     {
         $clientCode = $this->getClientCode();
-        $cursor = $this->getCursor($clientCode, 'GetProductVariantsCursor', $this->live);
+        $cursor = $this->getCursor($clientCode, $cursorName, $this->live);
+        if ($cursorName == 'GetProductVariantsCursor' && $cursor) {
 
-        $after = $cursor ? ', after: "' . $cursor . '"' : '';
+            $after = $cursor ? ', after: "' . $cursor . '"' : '';
+        } else {
+            $magic = "'" . $cursor . "'";
+            $after = ', query: "updated_at:>=' . $magic  . '"';
+        }
 
         $query = '{
             productVariants(first: ' . $limit . $after . ') {

@@ -29,3 +29,5 @@ Route::get('/get-shopify-locations', [GetProductController::class, 'getLocations
 Route::get('/get-shopify-soh', [GetSOHFromShopifyController::class, 'getSoh']);
 
 Route::get('/create-shopify-tags', [ShopifyTagsController::class, 'storeTags']);
+
+Route::get('/get-variants-product-null', [GetProductController::class, 'getProductVariantsNull']);

@@ -242,4 +242,16 @@ class GetProductController extends Controller
 
         echo "Locations updated successfully";
     }
+
+    public function getProductVariantsNull(Request $request)
+    {
+        $variants = SourceVariant::whereNull('product_id')->get();
+        foreach ($variants as $variant) {
+            $product = SourceProduct::where('shopifyProductId', $variant->shopifyParentId)->first();
+            $variant->product_id = $product->id;
+            $variant->save();
+        }
+
+        echo "Variants updated successfully";
+    }
 }

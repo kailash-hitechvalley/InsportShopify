@@ -271,6 +271,7 @@ class SourceSohController extends Controller
     public function getErplyParentVariant($sku)
     {
         return Variant::where('code', $sku)
+            ->where('active', 1)
             ->orWhere('code2', $sku)
             ->orWhere('code3', $sku)
             ->get();

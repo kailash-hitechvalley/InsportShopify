@@ -80,7 +80,7 @@ class ShopifyTagsController extends Controller
             if ($debug == 1) {
                 dd($products);
             }
-            if (!$products) {
+            if (count($products) <= 0) {
                 return response()->json('No pending products found');
             }
 

@@ -15,6 +15,7 @@ use Modules\Shopify\Http\Controllers\ReadShopify\ShopifyWebHookController;
 use Modules\Shopify\Http\Controllers\ViewController\OrderViewController;
 use Modules\Shopify\Http\Controllers\WriteShopify\GiftCardController;
 use Modules\Shopify\Http\Controllers\WriteShopify\ShopifyCustomerController;
+use Modules\Shopify\Http\Controllers\WriteShopify\ShopifyTagsController;
 use Modules\Shopify\Http\Controllers\WriteShopify\SourceProductController;
 use Modules\Shopify\Http\Controllers\WriteShopify\SourceCollectionController;
 use Modules\Shopify\Http\Controllers\WriteShopify\SourceImageController;
@@ -55,6 +56,7 @@ Route::post('shopify/webhooks/orders', [ShopifyWebHookController::class, 'handle
 Route::get('get-tags', [ProductController::class, 'getTags']);
 
 
+
 #Shopify Products
 
 Route::get('getShopifyProducts', [ShopifyProductsController::class, 'getProducts']);
@@ -69,3 +71,8 @@ Route::get('/get-shopify-customers', [ShopifyCustomerController::class, 'index']
 
 #push the Gift cards to the Shopify
 Route::get('/push-gift-card', [GiftCardController::class, 'index']);
+
+
+#issue tags
+Route::get('/create-shopify-tags', [ShopifyTagsController::class, 'storeTags']);
+Route::get('/check-issue-tags', [ShopifyTagsController::class, 'checkIssueTags']);

@@ -65,4 +65,28 @@ class ShopifyTagsController extends Controller
         }
         return response()->json(['Tags updated successfully', 'response' => $responses]);
     }
+    public function checkIssueTags(Request $request)
+    {
+        $debug = $request->debug ?? 0;
+        $limit = $request->limit ?? 20;
+
+        $products = SourceProduct::query()
+            ->whereNotNull('shopifyIssueTags')
+            ->where('productTags', 'NOT LIKE', '%erply%')
+            ->where('sohPendingProcess', '!=', 4)
+            ->limit($limit)
+            ->get();
+        if ($debug == 1) {
+            dd($products);
+        }
+        if (!$products) {
+            return response()->json('No pending products found');
+        }
+
+        foreach ($products as  $product) {
+            $product->update([
+                'sohPendingProcess' => 1
+            ]);
+        }
+    }
 }

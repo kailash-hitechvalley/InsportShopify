@@ -70,23 +70,30 @@ class ShopifyTagsController extends Controller
         $debug = $request->debug ?? 0;
         $limit = $request->limit ?? 20;
 
-        $products = SourceProduct::query()
-            ->whereNotNull('shopifyIssueTags')
-            ->where('productTags', 'NOT LIKE', '%erply%')
-            ->where('sohPendingProcess', '!=', 4)
-            ->limit($limit)
-            ->get();
-        if ($debug == 1) {
-            dd($products);
-        }
-        if (!$products) {
-            return response()->json('No pending products found');
-        }
+        try {
+            $products = SourceProduct::query()
+                ->whereNotNull('shopifyIssueTags')
+                ->where('productTags', 'NOT LIKE', '%erply%')
+                ->where('sohPendingProcess', '!=', 4)
+                ->limit($limit)
+                ->get();
+            if ($debug == 1) {
+                dd($products);
+            }
+            if (!$products) {
+                return response()->json('No pending products found');
+            }
 
-        foreach ($products as  $product) {
-            $product->update([
-                'sohPendingProcess' => 1
-            ]);
+            foreach ($products as  $product) {
+                $product->update([
+                    'sohPendingProcess' => 1
+                ]);
+            }
+
+            return response()->json('Tags updated successfully');
+        } catch (\Exception $e) {
+
+            return response()->json($e->getMessage());
         }
     }
 }

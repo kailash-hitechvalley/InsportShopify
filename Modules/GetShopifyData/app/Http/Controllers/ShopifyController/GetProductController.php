@@ -99,7 +99,7 @@ class GetProductController extends Controller
                         $data
                     );
                     if ($result->sohPendingProcess == 8 && $result->shopifyIssueTags != null) {
-
+                        echo "checkIssueTags on product tags";
                         $this->checkIssueTags($node);
                     }
                     #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);

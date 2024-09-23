@@ -98,6 +98,10 @@ class GetProductController extends Controller
                         ['shopifyProductId' => $node->id],
                         $data
                     );
+                    if ($result->sohPendingProcess == 8 && $result->shopifyIssueTags != null) {
+
+                        $this->checkIssueTags($node);
+                    }
                     #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
                     DB::commit();
 
@@ -260,5 +264,16 @@ class GetProductController extends Controller
         }
 
         echo "Variants updated successfully";
+    }
+
+    public function checkIssueTags($product)
+    {
+
+        $issues = ['ErplyMultipleParent', 'ErplyVariantNotFound', 'MultipleErplyVariantFound'];
+        foreach ($issues as $issue) {
+            if (!in_array($issue, $product->tags)) {
+                Product::where('shopifyProductId', $product->id)->update(['sohPendingProcess' => 9]);
+            }
+        }
     }
 }

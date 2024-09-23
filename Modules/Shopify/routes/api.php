@@ -75,4 +75,4 @@ Route::get('/push-gift-card', [GiftCardController::class, 'index']);
 
 #issue tags
 Route::get('/create-shopify-tags', [ShopifyTagsController::class, 'storeTags']);
-Route::get('/check-issue-tags', [ShopifyTagsController::class, 'checkIssueTags']);
+// Route::get('/check-issue-tags', [ShopifyTagsController::class, 'checkIssueTags']);

@@ -295,23 +295,30 @@ class GetProductController extends Controller
     {
         $debug = $request->get('debug') ?? 0;
         $code = $request->get('handle') ?? null;
-        $products = SourceProduct::where('sohPendingProcess', 7)
-            ->when($code, function ($q) use ($code) {
-                return $q->where('handle', $code);
-            })
-            ->get();
+        try {
+            $products = SourceProduct::where('sohPendingProcess', 7)
+                ->when($code, function ($q) use ($code) {
+                    return $q->where('handle', $code);
+                })
+                ->get();
 
-        foreach ($products as $product) {
-            $response = $this->service->getSingleShopifyProduct($product->shopifyProductId, $debug);
+            foreach ($products as $product) {
+                DB::beginTransaction();
+                $response = $this->service->getSingleShopifyProduct($product->shopifyProductId, $debug);
 
-            if ($debug == 2) {
-                dd($response);
+                if ($debug == 2) {
+                    dd($response);
+                }
+                SourceVariant::where('shopifyParentId', $product->shopifyProductId)->update(['is_shopify_deleted' => 1]);
+                foreach (@$response->data->product->variants->edges as $variant) {
+                    SourceVariant::where('shopifyVariantId', $variant->node->id)->update(['is_shopify_deleted' => 0]);
+                }
+                $product->update(['sohPendingProcess' => 1]);
+                DB::commit();
             }
-            SourceVariant::where('shopifyParentId', $product->shopifyProductId)->update(['is_shopify_deleted' => 1]);
-            foreach ($response->data->product->variants as $variant) {
-                SourceVariant::where('shopifyVariantId', $variant->id)->update(['is_shopify_deleted' => 0]);
-            }
-            $product->update(['sohPendingProcess' => 1]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            dd($e);
         }
     }
 }

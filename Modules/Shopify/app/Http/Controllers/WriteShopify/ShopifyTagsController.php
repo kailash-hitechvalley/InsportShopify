@@ -74,7 +74,7 @@ class ShopifyTagsController extends Controller
             $products = SourceProduct::query()
                 ->whereNotNull('shopifyIssueTags')
                 ->where('productTags', 'NOT LIKE', '%erply%')
-                ->where('sohPendingProcess', 8)
+                ->whereIn('sohPendingProcess', [8, 9])
                 ->limit($limit)
                 ->get();
             if ($debug == 1) {

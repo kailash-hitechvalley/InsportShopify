@@ -104,7 +104,7 @@ class GetProductController extends Controller
                         echo "<br>";
 
                         echo "checkIssueTags on product tags";
-                        $this->checkIssueTags($node);
+                        $this->checkIssueTags($node, $result->shopifyIssueTags);
                     }
                     #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
                     DB::commit();
@@ -271,24 +271,22 @@ class GetProductController extends Controller
         echo "Variants updated successfully";
     }
 
-    public function checkIssueTags($product)
+    public function checkIssueTags($product, $issue)
     {
         echo "Checking issue tags on product tags...\n";
-        $issues = ['ErplyMultipleParent', 'ErplyVariantNotFound', 'MultipleErplyVariantFound'];
+        // $issues = ['ErplyMultipleParent', 'ErplyVariantNotFound', 'MultipleErplyVariantFound'];
         $issueFound = false;
 
-        foreach ($issues as $issue) {
-            if (in_array($issue, $product->tags)) {
-                echo "Issue is still pending: " . $issue . "\n";
-                $issueFound = true;
-                break; // If you want to stop checking once one issue is found
-            }
-        }
 
+        if (in_array($issue, $product->tags)) {
+            echo "Issue is still pending: " . $issue . "\n";
+            $issueFound = true;
+        }
         if (!$issueFound) {
             SourceProduct::where('shopifyProductId', $product->id)->update(['sohPendingProcess' => 7]);
             echo "No issues found, updated sohPendingProcess to 7.\n";
         }
+        
     }
 
     public function getissueProducts(Request $request)
@@ -316,6 +314,7 @@ class GetProductController extends Controller
                 $product->update(['sohPendingProcess' => 1]);
                 DB::commit();
             }
+            return response()->json(['message' => 'Products updated successfully', 'code' => 200, 'products' => $products]);
         } catch (Exception $e) {
             DB::rollBack();
             dd($e);

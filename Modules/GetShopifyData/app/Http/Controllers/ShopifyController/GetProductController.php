@@ -66,7 +66,9 @@ class GetProductController extends Controller
                         }
                         $this->comSer->saveCursor($cursor, $cursorName, $this->live);
 
+                        echo "<br>";
                         echo " cursor updated successfully";
+                        echo "<br>";
                     }
                     if ($debug == 3) {
                         dd($product);
@@ -99,11 +101,14 @@ class GetProductController extends Controller
                         $data
                     );
                     if ($result->sohPendingProcess == 8 && $result->shopifyIssueTags != null) {
+                        echo "<br>";
+
                         echo "checkIssueTags on product tags";
                         $this->checkIssueTags($node);
                     }
                     #  $this->variantsProcess($node->variants->edges, $result->id, $node->id);
                     DB::commit();
+                    echo "<br>";
 
                     echo "product added successfully =>" . "$result->handle";
                     echo "<br>";

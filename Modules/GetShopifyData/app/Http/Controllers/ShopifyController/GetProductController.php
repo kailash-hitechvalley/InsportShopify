@@ -268,9 +268,12 @@ class GetProductController extends Controller
 
     public function checkIssueTags($product)
     {
-
+        echo "checkIssueTags on product tags";
         $issues = ['ErplyMultipleParent', 'ErplyVariantNotFound', 'MultipleErplyVariantFound'];
         foreach ($issues as $issue) {
+            if (in_array($issue, $product->tags)) {
+                echo "Issue is still pending =" . $issue;
+            }
             if (!in_array($issue, $product->tags)) {
                 Product::where('shopifyProductId', $product->id)->update(['sohPendingProcess' => 9]);
             }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\GetShopifyData\Http\Controllers\ShopifyController\GetProductController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\CollectionController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\ErplySohController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\ImagesController;
@@ -76,3 +77,4 @@ Route::get('/push-gift-card', [GiftCardController::class, 'index']);
 #issue tags
 Route::get('/create-shopify-tags', [ShopifyTagsController::class, 'storeTags']);
 // Route::get('/check-issue-tags', [ShopifyTagsController::class, 'checkIssueTags']);
+Route::get('/resync-shopify-products', [GetProductController::class, 'getissueProducts']);

@@ -210,4 +210,28 @@ class ShopifyGetService
         }
         return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
     }
+
+    public function getSingleShopifyProduct($pid, $debug = 0)
+    {
+        $query = '{
+            product(id: "' . $pid . '") {
+                id
+                handle
+                variants(first: 100) {
+                    edges {
+                        node {
+                            id
+                            sku
+                        }
+                    }
+                }
+            }
+
+        }';
+        if ($debug == 1) {
+            dd($query);
+        }
+
+        return $this->sendShopifyQueryRequestV2('POST', $query, $this->live);
+    }
 }

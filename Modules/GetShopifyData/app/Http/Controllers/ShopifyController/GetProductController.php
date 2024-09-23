@@ -308,7 +308,7 @@ class GetProductController extends Controller
                 dd($response);
             }
             SourceVariant::where('shopifyParentId', $product->shopifyProductId)->update(['is_shopify_deleted' => 1]);
-            foreach ($response->data->product->variants as $variant) {
+            foreach (@$response->data->product->variants->edges as $variant) {
                 SourceVariant::where('shopifyVariantId', $variant->id)->update(['is_shopify_deleted' => 0]);
             }
             $product->update(['sohPendingProcess' => 1]);

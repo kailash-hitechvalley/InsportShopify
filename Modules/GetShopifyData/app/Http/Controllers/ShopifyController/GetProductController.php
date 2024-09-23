@@ -100,7 +100,7 @@ class GetProductController extends Controller
                         ['shopifyProductId' => $node->id],
                         $data
                     );
-                    if ($result->sohPendingProcess == 8 && $result->shopifyIssueTags != null) {
+                    if (($result->sohPendingProcess == 8 || $result->sohPendingProcess == 9) && $result->shopifyIssueTags != null) {
                         echo "<br>";
 
                         echo "checkIssueTags on product tags";
@@ -286,8 +286,8 @@ class GetProductController extends Controller
         }
 
         if (!$issueFound) {
-            SourceProduct::where('shopifyProductId', $product->id)->update(['sohPendingProcess' => 9]);
-            echo "No issues found, updated sohPendingProcess to 9.\n";
+            SourceProduct::where('shopifyProductId', $product->id)->update(['sohPendingProcess' => 7]);
+            echo "No issues found, updated sohPendingProcess to 7.\n";
         }
     }
 
@@ -295,7 +295,7 @@ class GetProductController extends Controller
     {
         $debug = $request->get('debug') ?? 0;
         $code = $request->get('handle') ?? null;
-        $products = SourceProduct::where('sohPendingProcess', 9)
+        $products = SourceProduct::where('sohPendingProcess', 7)
             ->when($code, function ($q) use ($code) {
                 return $q->where('handle', $code);
             })

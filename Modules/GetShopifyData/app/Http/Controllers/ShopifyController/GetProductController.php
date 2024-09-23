@@ -290,4 +290,28 @@ class GetProductController extends Controller
             echo "No issues found, updated sohPendingProcess to 9.\n";
         }
     }
+
+    public function getissueProducts(Request $request)
+    {
+        $debug = $request->get('debug') ?? 0;
+        $code = $request->get('handle') ?? null;
+        $products = SourceProduct::where('sohPendingProcess', 9)
+            ->when($code, function ($q) use ($code) {
+                return $q->where('handle', $code);
+            })
+            ->get();
+
+        foreach ($products as $product) {
+            $response = $this->service->getSingleShopifyProduct($product->shopifyProductId, $debug);
+
+            if ($debug == 2) {
+                dd($response);
+            }
+            SourceVariant::where('shopifyParentId', $product->shopifyProductId)->update(['is_shopify_deleted' => 1]);
+            foreach ($response->data->product->variants as $variant) {
+                SourceVariant::where('shopifyVariantId', $variant->id)->update(['is_shopify_deleted' => 0]);
+            }
+            $product->update(['sohPendingProcess' => 1]);
+        }
+    }
 }

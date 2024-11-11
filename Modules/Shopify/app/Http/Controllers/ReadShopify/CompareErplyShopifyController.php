@@ -23,7 +23,7 @@ class CompareErplyShopifyController extends Controller
                 ->with(['sourceProduct'])
                 ->where('comparisonPending', 1)
                 ->where('is_shopify_deleted', 0)
-                ->whereNotNull('sku')
+
                 ->limit($limit)
                 ->get();
             if ($debug == 1) {
@@ -37,16 +37,24 @@ class CompareErplyShopifyController extends Controller
                 if ($debug == 2) {
                     dd($sourceVariant);
                 }
+                if ($sourceVariant->sku == '' && $sourceVariant->barcode == '') {
+                    $sourceVariant->update(['comparisonPending' => 9]);
+                    continue;
+                }
 
                 //check the sku on the erply variants table
                 $erplyVariants = Variant::where(function ($query) use ($sourceVariant) {
-                    $query->where('code', $sourceVariant->sku)
-                        ->orWhere('code2', $sourceVariant->sku)
-                        ->orWhere('code3', $sourceVariant->sku);
+                    if ($sourceVariant->sku != '') {
+                        $query->where('code', $sourceVariant->sku)
+                            ->orWhere('code2', $sourceVariant->sku)
+                            ->orWhere('code3', $sourceVariant->sku);
+                    }
                 })->orWhere(function ($query) use ($sourceVariant) {
-                    $query->where('code', $sourceVariant->barcode)
-                        ->orWhere('code2', $sourceVariant->barcode)
-                        ->orWhere('code3', $sourceVariant->barcode);
+                    if ($sourceVariant->barcode != '') {
+                        $query->where('code', $sourceVariant->barcode)
+                            ->orWhere('code2', $sourceVariant->barcode)
+                            ->orWhere('code3', $sourceVariant->barcode);
+                    }
                 })->limit(3)->get();
 
 

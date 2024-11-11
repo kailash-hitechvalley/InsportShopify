@@ -26,6 +26,10 @@ class CompareErplyShopifyController extends Controller
                 ->whereNotNull('sku')
                 ->limit($limit)
                 ->get();
+
+            if ($sourceVariants->isEmpty()) {
+                return response()->json(['message' => 'No Pending data found'], 404);
+            }
             if ($debug == 1) {
                 dd($sourceVariants);
             }
@@ -37,6 +41,7 @@ class CompareErplyShopifyController extends Controller
                     ->orWhere('code2', $sourceVariant->sku)
                     ->orWhere('code3', $sourceVariant->sku)
                     ->get();
+                echo "erplyVariants Count : " . $erplyVariants->count();
                 if ($erplyVariants->isEmpty()) {
                     $sourceVariant->update(['comparisonPending' => 2]);
                     DB::commit();
@@ -47,24 +52,26 @@ class CompareErplyShopifyController extends Controller
                     DB::commit();
                     continue;
                 }
+                echo "updating erply variants";
                 $erplyVariants->update([
                     'shopifyVariantId' => $sourceVariant->shopifyVariantId,
                     'shopifyProductId' => $sourceVariant->shopifyParentId,
                     'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
                 ]);
-
+                echo "updating source variants";
                 $sourceVariant->update([
                     'comparisonPending' => 0,
                     'varinatId' => $erplyVariants->productID,
 
                 ]);
+                echo "updating source product";
                 $sourceVariants->sourceProduct->update([
                     'stockId' => $erplyVariants->parentProductID
                 ]);
+                echo "commit done";
                 DB::commit();
-
-                return response()->json(['message' => 'Variants updated successfully', 'code' => 200, 'variants' => $sourceVariants]);
             }
+            return response()->json(['message' => 'Variants updated successfully', 'code' => 200, 'variants' => $sourceVariants]);
         } catch (Exception $th) {
             dd($th);
         }

@@ -38,8 +38,7 @@ class CompareErplyShopifyController extends Controller
                     dd($sourceVariant);
                 }
                 //check the sku on the erply variants table
-                $erplyVariants = Variant::query()
-                    ->where('code', $sourceVariant->sku)
+                $erplyVariants = Variant::where('code', $sourceVariant->sku)
                     ->orWhere('code2', $sourceVariant->sku)
                     ->orWhere('code3', $sourceVariant->sku)
                     ->get();

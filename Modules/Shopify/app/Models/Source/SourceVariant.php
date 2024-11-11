@@ -14,33 +14,7 @@ class SourceVariant extends Model
     protected $table = 'source_variants';
     protected $primaryKey = 'id';
 
-    protected $fillable = [
-        'product_id',
-        'variantId',
-        'productParentId',
-        'sku',
-        'barcode',
-        'image',
-        'weight',
-        'weightUnit',
-        'price',
-        'priceWithTax',
-        'compareAtPrice',
-        'inventoryQuantity',
-        'color',
-        'colorID',
-        'size',
-        'colorOrder',
-        'sizeOrder',
-        'shopifyPendingProcess',
-        'sohPendingProcess',
-        'pricePendingProcess',
-        'shopifyVariantId',
-        'shopifyParentId',
-        'inventoryItemId',
-        'shopifyIssueTags',
-        'shopifyIssuePending'
-    ];
+    protected $guarded = [];
 
     public function sourceProduct(): BelongsTo
     {

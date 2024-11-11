@@ -34,21 +34,25 @@ class CompareErplyShopifyController extends Controller
             }
 
             foreach ($sourceVariants as $sourceVariant) {
-                DB::beginTransaction();
+                if ($debug == 2) {
+                    dd($sourceVariant);
+                }
                 //check the sku on the erply variants table
                 $erplyVariants = Variant::query()
                     ->where('code', $sourceVariant->sku)
                     ->orWhere('code2', $sourceVariant->sku)
                     ->orWhere('code3', $sourceVariant->sku)
                     ->get();
-
+                if ($debug == 3) {
+                    dd($erplyVariants);
+                }
                 if ($erplyVariants->isEmpty()) {
                     $sourceVariant->update(['comparisonPending' => 2]);
 
                     continue;
                 }
 
-                if ($erplyVariants->count() > 1) {
+                if (count($erplyVariants) > 1) {
                     $sourceVariant->update(['comparisonPending' => 3]);
 
                     continue;
@@ -60,6 +64,10 @@ class CompareErplyShopifyController extends Controller
                     'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
                 ]);
 
+                if ($debug == 4) {
+                    dd($erplyVariants);
+                }
+
                 $sourceVariant->update([
                     'comparisonPending' => 0,
                     'varinatId' => $erplyVariants[0]->productID,
@@ -69,7 +77,6 @@ class CompareErplyShopifyController extends Controller
                 $sourceVariants->sourceProduct->update([
                     'stockId' => $erplyVariants[0]->parentProductID
                 ]);
-                DB::commit();
             }
             return response()->json(['message' => 'Variants updated successfully', 'code' => 200, 'variants' => $sourceVariants]);
         } catch (Exception $th) {

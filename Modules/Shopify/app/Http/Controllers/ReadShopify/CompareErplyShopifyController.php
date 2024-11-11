@@ -93,7 +93,7 @@ class CompareErplyShopifyController extends Controller
 
                 ]);
 
-                $sourceVariants->sourceProduct->update([
+                SourceProduct::where('shopifyProductId', $sourceVariant->shopifyParentId)->update([
                     'stockId' => $erplyVariants[0]->parentProductID
                 ]);
             }

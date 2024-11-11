@@ -49,6 +49,7 @@ class CompareErplyShopifyController extends Controller
                     'shopifyProductId' => $sourceVariant->shopifyParentId,
                     'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
                 ]);
+                
                 $sourceVariant->update([
                     'comparisonPending' => 0,
                     'varinatId' => $erplyVariants->productID,

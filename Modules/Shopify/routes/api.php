@@ -9,6 +9,7 @@ use Modules\Shopify\Http\Controllers\Middleware\Erply\LocationController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\PriceController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\ProductController;
 use Modules\Shopify\Http\Controllers\Middleware\Erply\SohController;
+use Modules\Shopify\Http\Controllers\ReadShopify\CompareErplyShopifyController;
 use Modules\Shopify\Http\Controllers\ReadShopify\OrderController;
 use Modules\Shopify\Http\Controllers\ReadShopify\ShopifyController;
 use Modules\Shopify\Http\Controllers\ReadShopify\ShopifyProductsController;
@@ -78,3 +79,6 @@ Route::get('/push-gift-card', [GiftCardController::class, 'index']);
 Route::get('/create-shopify-tags', [ShopifyTagsController::class, 'storeTags']);
 // Route::get('/check-issue-tags', [ShopifyTagsController::class, 'checkIssueTags']);
 Route::get('/resync-shopify-products', [GetProductController::class, 'getissueProducts']);
+
+//route to compare the shopify and erply products
+Route::get('/compare-products', [CompareErplyShopifyController::class, 'index']);

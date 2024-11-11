@@ -81,4 +81,4 @@ Route::get('/create-shopify-tags', [ShopifyTagsController::class, 'storeTags']);
 Route::get('/resync-shopify-products', [GetProductController::class, 'getissueProducts']);
 
 //route to compare the shopify and erply products
-Route::get('/compare-products', [CompareErplyShopifyController::class, 'index']);
+Route::get('/compare-shopify-erply', [CompareErplyShopifyController::class, 'index']);

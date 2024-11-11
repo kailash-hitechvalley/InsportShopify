@@ -38,6 +38,7 @@ class CompareErplyShopifyController extends Controller
                 if ($debug == 2) {
                     dd($sourceVariant);
                 }
+                
                 if ($sourceVariant->sku == '' && $sourceVariant->barcode == '') {
                     $sourceVariant->update(['comparisonPending' => 9]);
                     continue;

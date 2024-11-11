@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Modules\Shopify\Models\ErplyModel\Product;
 use Modules\Shopify\Models\ErplyModel\Variant;
 use Modules\Shopify\Models\Source\SourceProduct;
 use Modules\Shopify\Models\Source\SourceVariant;
@@ -80,6 +81,7 @@ class CompareErplyShopifyController extends Controller
                     'shopifyProductId' => $sourceVariant->shopifyParentId,
                     'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
                 ]);
+                Product::where('productID', $erplyVariants[0]->parentProductID)->update(['shopifyProductID' => $sourceVariant->shopifyParentId]);
 
                 if ($debug == 4) {
                     dd($erplyVariants);

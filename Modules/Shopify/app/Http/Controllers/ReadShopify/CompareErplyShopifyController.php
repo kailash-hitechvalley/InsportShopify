@@ -26,13 +26,11 @@ class CompareErplyShopifyController extends Controller
                 ->whereNotNull('sku')
                 ->limit($limit)
                 ->get();
-
+            dump($sourceVariants);
             if ($sourceVariants->isEmpty()) {
                 return response()->json(['message' => 'No Pending data found'], 404);
             }
-            if ($debug == 1) {
-                dd($sourceVariants);
-            }
+            dump(33);
             foreach ($sourceVariants as $sourceVariant) {
                 DB::beginTransaction();
                 //check the sku on the erply variants table
@@ -41,9 +39,7 @@ class CompareErplyShopifyController extends Controller
                     ->orWhere('code2', $sourceVariant->sku)
                     ->orWhere('code3', $sourceVariant->sku)
                     ->get();
-                if ($debug == 2) {
-                    dd($sourceVariants);
-                }
+                dump('erplay variants', $erplyVariants);
                 echo "erplyVariants Count : " . $erplyVariants->count();
                 if ($erplyVariants->isEmpty()) {
                     $sourceVariant->update(['comparisonPending' => 2]);

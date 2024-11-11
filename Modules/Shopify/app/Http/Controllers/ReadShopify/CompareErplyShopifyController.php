@@ -47,7 +47,7 @@ class CompareErplyShopifyController extends Controller
                     $query->where('code', $sourceVariant->barcode)
                         ->orWhere('code2', $sourceVariant->barcode)
                         ->orWhere('code3', $sourceVariant->barcode);
-                })->get();
+                })->limit(3)->get();
 
 
                 if ($debug == 3) {

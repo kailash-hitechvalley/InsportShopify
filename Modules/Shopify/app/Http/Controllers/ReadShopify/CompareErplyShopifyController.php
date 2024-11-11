@@ -56,7 +56,7 @@ class CompareErplyShopifyController extends Controller
                             ->orWhere('code3', $sourceVariant->barcode);
                     }
                 })
-                    ->where('active', 1)
+                    ->where(['active' => 1, 'erplyDeleted' => 0])
                     ->limit(3)->get();
 
 

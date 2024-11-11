@@ -26,11 +26,13 @@ class CompareErplyShopifyController extends Controller
                 ->whereNotNull('sku')
                 ->limit($limit)
                 ->get();
-            dump($sourceVariants);
+            if ($debug == 1) {
+                dd($sourceVariants);
+            }
             if ($sourceVariants->isEmpty()) {
                 return response()->json(['message' => 'No Pending data found'], 404);
             }
-            dump(33);
+
             foreach ($sourceVariants as $sourceVariant) {
                 DB::beginTransaction();
                 //check the sku on the erply variants table
@@ -39,47 +41,34 @@ class CompareErplyShopifyController extends Controller
                     ->orWhere('code2', $sourceVariant->sku)
                     ->orWhere('code3', $sourceVariant->sku)
                     ->get();
-                dump('erplay variants', $erplyVariants);
-                echo "erplyVariants Count : " . $erplyVariants->count();
+
                 if ($erplyVariants->isEmpty()) {
                     $sourceVariant->update(['comparisonPending' => 2]);
-                    DB::commit();
+
                     continue;
                 }
-                if ($debug == 3) {
-                    dd($sourceVariants);
-                }
+
                 if ($erplyVariants->count() > 1) {
                     $sourceVariant->update(['comparisonPending' => 3]);
-                    DB::commit();
+
                     continue;
                 }
-                if ($debug == 4) {
-                    dd($sourceVariants);
-                }
-                echo "updating erply variants";
-                $erplyVariants->update([
+
+                Variant::where('productID', $erplyVariants[0]->productID)->update([
                     'shopifyVariantId' => $sourceVariant->shopifyVariantId,
                     'shopifyProductId' => $sourceVariant->shopifyParentId,
                     'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
                 ]);
-                echo "updating source variants";
-                if ($debug == 5) {
-                    dd($sourceVariants);
-                }
+
                 $sourceVariant->update([
                     'comparisonPending' => 0,
-                    'varinatId' => $erplyVariants->productID,
+                    'varinatId' => $erplyVariants[0]->productID,
 
                 ]);
-                echo "updating source product";
-                if ($debug == 6) {
-                    dd($sourceVariants);
-                }
+
                 $sourceVariants->sourceProduct->update([
-                    'stockId' => $erplyVariants->parentProductID
+                    'stockId' => $erplyVariants[0]->parentProductID
                 ]);
-                echo "commit done";
                 DB::commit();
             }
             return response()->json(['message' => 'Variants updated successfully', 'code' => 200, 'variants' => $sourceVariants]);

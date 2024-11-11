@@ -17,6 +17,7 @@ class CompareErplyShopifyController extends Controller
     public function index(Request $request)
     {
         $limit = $request->get('limit', 20);
+        $debug = $request->get('debug', 0);
         try {
             $sourceVariants = SourceVariant::query()
                 ->with(['sourceProduct'])
@@ -25,7 +26,9 @@ class CompareErplyShopifyController extends Controller
                 ->whereNotNull('sku')
                 ->limit($limit)
                 ->get();
-
+            if ($debug == 1) {
+                dd($sourceVariants);
+            }
             foreach ($sourceVariants as $sourceVariant) {
                 DB::beginTransaction();
                 //check the sku on the erply variants table
@@ -49,7 +52,7 @@ class CompareErplyShopifyController extends Controller
                     'shopifyProductId' => $sourceVariant->shopifyParentId,
                     'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
                 ]);
-                
+
                 $sourceVariant->update([
                     'comparisonPending' => 0,
                     'varinatId' => $erplyVariants->productID,

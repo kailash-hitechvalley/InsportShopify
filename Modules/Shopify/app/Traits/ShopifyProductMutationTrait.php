@@ -310,6 +310,7 @@ trait ShopifyProductMutationTrait
             $res = $response->data->productVariant->inventoryItem->inventoryLevels->edges;
         }
         $totalActivatedLocation = count($res);
+        dump($totalActivatedLocation);
         if ($totalActivatedLocation == 20) {
             $mutation = '
             mutation {
@@ -432,7 +433,7 @@ trait ShopifyProductMutationTrait
           }';
 
         $response = $this->sendShopifyQueryRequestV2('POST', $mutation, $this->live);
-        #dump($response);
+        dump($response);
     }
 
     private function returnSohDiff($sohinDB, $locationId, $resArray, $inventoryItemId)

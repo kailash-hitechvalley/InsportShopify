@@ -26,11 +26,18 @@ class SourceSohController extends Controller
     {
         $this->productService = $productService;
     }
-
+    private function enableDevMode($request)
+    {
+        $dev = $request->input('dev', 0);
+        if ($dev == 0) {
+            die('dev mode enabled');
+        }
+    }
     public function index(Request $request)
     {
         $code = $request->input('code', '');
         $debug = $request->input('debug', 0);
+        $this->enableDevMode($request);
         try {
 
             if ($code) {

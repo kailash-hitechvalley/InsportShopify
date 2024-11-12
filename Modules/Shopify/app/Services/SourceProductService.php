@@ -57,7 +57,7 @@ class SourceProductService
             'variants' => function ($query) {
                 $query->where('shopifyPendingProcess', 1)
                     ->where('is_shopify_deleted', 0)
-                    ->limit(1)
+
                     ->orderBy('colorOrder')->orderBy('sizeOrder');
             }
         ])->where($condition)->where('shopifyProductId', '!=', null)

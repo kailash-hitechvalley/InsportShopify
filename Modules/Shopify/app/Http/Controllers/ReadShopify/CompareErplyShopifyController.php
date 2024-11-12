@@ -63,7 +63,7 @@ class CompareErplyShopifyController extends Controller
                 foreach ($erplyVariants as $erplyVar) {
                     $parentIds[] = $erplyVar->parentProductID;
                 }
-                dd($parentIds);
+               
                 if ($debug == 3) {
                     dd($erplyVariants);
                 }

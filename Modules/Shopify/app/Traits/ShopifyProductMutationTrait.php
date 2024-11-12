@@ -431,7 +431,7 @@ trait ShopifyProductMutationTrait
               }
             }
           }';
-
+        dump($mutation);
         $response = $this->sendShopifyQueryRequestV2('POST', $mutation, $this->live);
         dump($response);
     }

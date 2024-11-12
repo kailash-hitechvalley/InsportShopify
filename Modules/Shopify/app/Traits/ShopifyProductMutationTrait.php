@@ -417,7 +417,7 @@ trait ShopifyProductMutationTrait
                 inventoryItemId: "' . $inventoryItemId . '",
                 locationId: "' . $shopifyLocationId . '",
                 available :' . $stock . ',
-                onHand :' . $stock . '
+               
 
             ) {
               inventoryLevel {

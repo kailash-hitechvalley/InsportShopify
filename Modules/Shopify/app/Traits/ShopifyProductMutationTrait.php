@@ -18,9 +18,7 @@ trait ShopifyProductMutationTrait
     protected $live = 1;
     use ShopifyTrait;
 
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     # this function is used to create or update product as per the shopifyProductId
     public function createOrUpdateProductMutation($productData)
@@ -292,13 +290,13 @@ trait ShopifyProductMutationTrait
     public function updateProductSohMutation($sourceSohs, $inventoryItemId, $variantId, $sourceVarinatId)
     {
         $sohQuery = $this->checkSohQuery($variantId);
-        #  dump($sohQuery);
+        dump($sohQuery);
         $response = $this->sendShopifyQueryRequestV2(
             'POST',
             $sohQuery,
             $this->live
         );
-        # dd($response);
+        dump($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,

@@ -57,11 +57,13 @@ class CompareErplyShopifyController extends Controller
                             ->orWhere('code2', $sourceVariant->barcode)
                             ->orWhere('code3', $sourceVariant->barcode);
                     }
-                })
-                    ->where(['active' => 1, 'erplyDeleted' => 0])
-                    ->limit(3)->get();
-
-
+                })->where(['erplyDeleted' => 0])
+                    ->limit(50)->get();
+                $parentIds = [];
+                foreach ($erplyVariants as $erplyVar) {
+                    $parentIds[] = $erplyVar->parentProductID;
+                }
+                dd($parentIds);
                 if ($debug == 3) {
                     dd($erplyVariants);
                 }

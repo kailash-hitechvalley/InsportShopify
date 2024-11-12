@@ -73,18 +73,19 @@ class CompareErplyShopifyController extends Controller
                     continue;
                 }
 
-                if (count($erplyVariants) > 1) {
+                if (count($erplyVariants) > 1 && count(array_unique($parentIds)) > 1) {
                     $sourceVariant->update(['comparisonPending' => 3]);
 
                     continue;
                 }
-
-                Variant::where('productID', $erplyVariants[0]->productID)->update([
-                    'shopifyVariantId' => $sourceVariant->shopifyVariantId,
-                    'shopifyProductId' => $sourceVariant->shopifyParentId,
-                    'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
-                ]);
-                Product::where('productID', $erplyVariants[0]->parentProductID)->update(['shopifyProductID' => $sourceVariant->shopifyParentId]);
+                foreach ($erplyVariants as $erplyVariant) {
+                    Variant::where('productID', $erplyVariant->productID)->update([
+                        'shopifyVariantId' => $sourceVariant->shopifyVariantId,
+                        'shopifyProductId' => $sourceVariant->shopifyParentId,
+                        'shopifyInventoryItemId' => $sourceVariant->inventoryItemId,
+                    ]);
+                    Product::where('productID', $erplyVariant->parentProductID)->update(['shopifyProductID' => $sourceVariant->shopifyParentId]);
+                }
 
                 if ($debug == 4) {
                     dd($erplyVariants);

@@ -148,9 +148,9 @@ class SourceSohController extends Controller
                         $variant->id
                     );
 
-                    dump($mutations);
+                    // dump($mutations);
                     if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
-                        dump("have some error");
+                        print_r($mutations['error']);
                         $this->productService->updateProduct(
                             $product->id,
                             [
@@ -164,7 +164,7 @@ class SourceSohController extends Controller
 
 
                     if (isset($mutations['status']) && (int)$mutations['status'] == 1 && $mutations['locationActivated'] == 1) {
-                        dump("location activated");
+                        print_r("location activated");
 
                         $mutations =  $this->updateProductSohMutation(
                             $sourceSohs,
@@ -172,7 +172,7 @@ class SourceSohController extends Controller
                             $variant->shopifyVariantId,
                             $variant->id
                         );
-                        dump($mutations);
+                        // dump($mutations);
 
 
                         if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
@@ -224,6 +224,7 @@ class SourceSohController extends Controller
                         'sohPendingProcess' => 0,
                         'lastPushedDate' => date('Y-m-d H:i:s')
                     ];
+                    print_r('products Upadted Successfully');
                 } else {
                     $updateData = [
                         'sohPendingProcess' => 2,

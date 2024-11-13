@@ -232,7 +232,6 @@ trait ShopifyProductMutationTrait
             })->toArray();
 
 
-
             $optionvalue = implode(',', $outputArray);
 
             if (!in_array($optionvalue, $uniqueOptions)) {
@@ -290,13 +289,13 @@ trait ShopifyProductMutationTrait
     public function updateProductSohMutation($sourceSohs, $inventoryItemId, $variantId, $sourceVarinatId)
     {
         $sohQuery = $this->checkSohQuery($variantId);
-        dump($sohQuery);
+        // dump($sohQuery);
         $response = $this->sendShopifyQueryRequestV2(
             'POST',
             $sohQuery,
             $this->live
         );
-        dump($response);
+        // dump($response);
         if (isset($response->errors)) {
             return [
                 'status' => 0,
@@ -314,7 +313,7 @@ trait ShopifyProductMutationTrait
             }
         }
         $totalActivatedLocation = count($res);
-        dump($totalActivatedLocation);
+        // dump($totalActivatedLocation);
         if ($totalActivatedLocation == 9) {
             $mutation = '
             mutation {
@@ -434,9 +433,9 @@ trait ShopifyProductMutationTrait
               }
             }
           }';
-        dump($mutation);
+        // dump($mutation);
         $response = $this->sendShopifyQueryRequestV2('POST', $mutation, $this->live);
-        dump($response);
+        print_r($response);
     }
 
     private function returnSohDiff($sohinDB, $locationId, $resArray, $inventoryItemId)

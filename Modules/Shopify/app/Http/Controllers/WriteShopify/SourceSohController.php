@@ -37,7 +37,7 @@ class SourceSohController extends Controller
     {
         $code = $request->input('code', '');
         $debug = $request->input('debug', 0);
-        $this->enableDevMode($request);
+        // $this->enableDevMode($request);
         try {
 
             if ($code) {

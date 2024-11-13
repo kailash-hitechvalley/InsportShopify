@@ -305,9 +305,13 @@ trait ShopifyProductMutationTrait
             ];
         }
         $res = [];
+        $availabelLocations = [];
         if (isset($response->data->productVariant->inventoryItem)) {
 
             $res = $response->data->productVariant->inventoryItem->inventoryLevels->edges;
+            foreach ($res as $key => $value) {
+                $availabelLocations[] = $value->node->location->id;
+            }
         }
         $totalActivatedLocation = count($res);
         dump($totalActivatedLocation);
@@ -346,11 +350,13 @@ trait ShopifyProductMutationTrait
                         $inventoryItemId
                     );
                 }
-                $mutation .= '{
-                                delta: ' . $sohDiff  . ',
-                                locationId: "' . $locationId . '",
-                                inventoryItemId: "' . $inventoryItemId . '"
-                            },';
+                if (in_array($locationId, $availabelLocations)) {
+                    $mutation .= '{
+                        delta: ' . $sohDiff  . ',
+                        locationId: "' . $locationId . '",
+                        inventoryItemId: "' . $inventoryItemId . '"
+                        },';
+                }
             }
 
             $mutation .= '         ],

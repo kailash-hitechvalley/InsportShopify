@@ -148,7 +148,7 @@ class SourceSohController extends Controller
                         $variant->id
                     );
 
-
+                    dump($mutations);
                     if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
                         dump("have some error");
                         $this->productService->updateProduct(
@@ -172,6 +172,7 @@ class SourceSohController extends Controller
                             $variant->shopifyVariantId,
                             $variant->id
                         );
+                        dump($mutations);
 
 
                         if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {

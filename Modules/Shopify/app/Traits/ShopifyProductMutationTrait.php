@@ -311,7 +311,7 @@ trait ShopifyProductMutationTrait
         }
         $totalActivatedLocation = count($res);
         dump($totalActivatedLocation);
-        if ($totalActivatedLocation == 20) {
+        if ($totalActivatedLocation == 9) {
             $mutation = '
             mutation {
                 inventoryAdjustQuantities(

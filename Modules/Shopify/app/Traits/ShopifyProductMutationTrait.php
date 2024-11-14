@@ -435,8 +435,9 @@ trait ShopifyProductMutationTrait
           }';
         // dump($mutation);
         $response = $this->sendShopifyQueryRequestV2('POST', $mutation, $this->live);
-        // if($response->data->)
-        dump($response);
+        if (@$response->errors) {
+            dump($mutation, $response);
+        }
     }
 
     private function returnSohDiff($sohinDB, $locationId, $resArray, $inventoryItemId)

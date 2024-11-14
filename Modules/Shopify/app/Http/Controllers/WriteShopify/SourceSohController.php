@@ -207,7 +207,7 @@ class SourceSohController extends Controller
                         if ($debug == 3) {
                             dd($response);
                         }
-
+                        dump($response);
                         if (!empty($response->data->updateInventoryItem->userErrors)) {
                             echo "have some error";
                             $flag = 0;

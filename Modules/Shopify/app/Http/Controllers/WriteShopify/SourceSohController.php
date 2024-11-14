@@ -201,7 +201,7 @@ class SourceSohController extends Controller
                             $this->live
                         );
                         echo "<pre>";
-                        print_r($response);
+                        dump($response);
                         echo "</pre>";
 
                         if ($debug == 3) {

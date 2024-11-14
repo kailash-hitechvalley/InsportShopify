@@ -398,11 +398,13 @@ trait ShopifyProductMutationTrait
                 if ($availableSoh < 0) {
                     $availableSoh = 0;
                 }
-                $this->activateInventoryLocation(
-                    $inventoryItemId,
-                    $needtoActivate->shopifyLocationId,
-                    $availableSoh
-                );
+                if (isset($needtoActivate->shopifyLocationId)) {
+                    $this->activateInventoryLocation(
+                        $inventoryItemId,
+                        $needtoActivate->shopifyLocationId,
+                        $availableSoh
+                    );
+                }
             }
             return [
                 'status' => 1,

@@ -150,16 +150,16 @@ class SourceSohController extends Controller
 
                     // dump($mutations);
                     if (isset($mutations['status']) && (int)$mutations['status'] == 0 && $mutations['error']) {
-                        print_r($mutations['error']);
+                        dump($mutations['error']);
                         $this->productService->updateProduct(
                             $product->id,
                             [
-                                'sohPendingProcess' => 2,
+                                'sohPendingProcess' => 3,
                                 'lastPushedDate' => date('Y-m-d H:i:s'),
-                                'errorMessage' => $mutations['error']
+                                'errorMessage' => json_decode($mutations['error'])
                             ]
                         );
-                        exit;
+                        continue;
                     }
 
 
@@ -180,12 +180,12 @@ class SourceSohController extends Controller
                             $this->productService->updateProduct(
                                 $product->id,
                                 [
-                                    'sohPendingProcess' => 2,
+                                    'sohPendingProcess' => 3,
                                     'lastPushedDate' => date('Y-m-d H:i:s'),
                                     'errorMessage' => $mutations['error']
                                 ]
                             );
-                            exit;
+                            continue;
                         }
                     }
 

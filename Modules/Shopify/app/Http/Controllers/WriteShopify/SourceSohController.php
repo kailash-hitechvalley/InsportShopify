@@ -126,7 +126,7 @@ class SourceSohController extends Controller
                     echo 'variant id = ' . $variant->shopifyVariantId . '<br>';
                     echo "sku = " . $variant->sku . " soh = " . $variant->sourceSoh()->sum('currentStock') . "<br>";
                     $sourceSohs = $variant->sourceSoh()->get();
-                    dump($sourceSohs);
+                    // dump($sourceSohs);
                     if (count($sourceSohs) <= 0) {
                         $this->productService->updateProduct(
                             $product->id,

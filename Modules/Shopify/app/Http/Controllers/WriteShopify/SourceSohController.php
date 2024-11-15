@@ -233,7 +233,7 @@ class SourceSohController extends Controller
                     ];
                 }
 
-                if (count($variants) <= 0) {
+                if (count($sourceSohs) <= 0) {
                     $updateData['sohPendingProcess'] = 4;
                 }
                 print_r($updateData);

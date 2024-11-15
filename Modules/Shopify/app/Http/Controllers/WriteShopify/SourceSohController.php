@@ -233,7 +233,10 @@ class SourceSohController extends Controller
                     ];
                 }
 
-
+                if (count($variants) <= 0) {
+                    $updateData['sohPendingProcess'] = 4;
+                }
+                print_r($updateData);
                 $this->productService->updateProduct($product->id, $updateData);
                 echo "Total Soh = " . $totalSoh . " for product " . $product->id . "<br>";
 

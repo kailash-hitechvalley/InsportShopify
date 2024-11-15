@@ -235,6 +235,7 @@ class SourceSohController extends Controller
 
                 if (count($sourceSohs) <= 0) {
                     $updateData['sohPendingProcess'] = 4;
+                    $updateData['errorMessage'] = "no soh found";
                 }
                 print_r($updateData);
                 $this->productService->updateProduct($product->id, $updateData);

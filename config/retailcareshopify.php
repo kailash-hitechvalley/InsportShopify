@@ -41,6 +41,7 @@ return [
         'checkCustomerInDBforIsUpdate' => env('CHECK_CUSTOMER_IN_DB', 0),
         'setSohPendingOnErply' => env('SET_SOH_PENDING_ON_ERPLY', 0),
         'enableShopifyErrorLog' => env('ENABLE_ERROR_LOG', 0),
+        'verifyCsrfTokenEnable' => env('VERIFY_CSRF_TOKEN_ENABLE', 0),
         'checkCustomerInDBforIsUpdateUrl' => 'https://sexyland.synccare.io/sexyland/public/update-erply-customer-from-shopify',
     ],
 

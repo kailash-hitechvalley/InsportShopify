@@ -42,5 +42,10 @@ return [
         'setSohPendingOnErply' => env('SET_SOH_PENDING_ON_ERPLY', 0),
         'enableShopifyErrorLog' => env('ENABLE_ERROR_LOG', 0),
         'checkCustomerInDBforIsUpdateUrl' => 'https://sexyland.synccare.io/sexyland/public/update-erply-customer-from-shopify',
+    ],
+
+
+    'webhook_urls' => [
+        '/shopify-webhook/inventory-level-update',
     ]
 ];

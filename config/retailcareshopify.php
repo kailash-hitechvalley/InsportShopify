@@ -43,7 +43,7 @@ return [
         'enableShopifyErrorLog' => env('ENABLE_ERROR_LOG', 0),
         'verifyCsrfTokenEnable' => env('VERIFY_CSRF_TOKEN_ENABLE', 0),
         'checkCustomerInDBforIsUpdateUrl' => 'https://sexyland.synccare.io/sexyland/public/update-erply-customer-from-shopify',
-        'syncSkuWhileSohUpdateWebhook' => env('SYNC_SKU_WHILE_SOH_WEBHOOK', 1),
+        'syncSkuWhileSohUpdateWebhook' => env('SYNC_SKU_WHILE_SOH_WEBHOOK', 0),
         'SHOPIFY_VARIATION_MODEL' => env('SHOPIFY_VARIATION_MODEL', 'Modules\Shopify\Models\Source\SourceVariant'),
     ],
 

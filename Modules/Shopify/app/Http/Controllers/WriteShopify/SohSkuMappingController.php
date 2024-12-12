@@ -21,6 +21,7 @@ class SohSkuMappingController extends Controller
             dd($shopifySoh);
         }
         foreach ($shopifySoh as $soh) {
+            
             $inventory_item_id = 'gid://shopify/InventoryItem/' . $soh->inventory_item_id;
 
             $sourceVarinats = SourceVariant::query()->where('inventoryItemId', $inventory_item_id)->first();

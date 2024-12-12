@@ -18,6 +18,7 @@ use Modules\Shopify\Http\Controllers\ViewController\OrderViewController;
 use Modules\Shopify\Http\Controllers\WriteShopify\GiftCardController;
 use Modules\Shopify\Http\Controllers\WriteShopify\ShopifyCustomerController;
 use Modules\Shopify\Http\Controllers\WriteShopify\ShopifyTagsController;
+use Modules\Shopify\Http\Controllers\WriteShopify\SohSkuMappingController;
 use Modules\Shopify\Http\Controllers\WriteShopify\SourceProductController;
 use Modules\Shopify\Http\Controllers\WriteShopify\SourceCollectionController;
 use Modules\Shopify\Http\Controllers\WriteShopify\SourceImageController;
@@ -82,3 +83,6 @@ Route::get('/resync-shopify-products', [GetProductController::class, 'getissuePr
 
 //route to compare the shopify and erply products
 Route::get('/compare-shopify-erply', [CompareErplyShopifyController::class, 'index']);
+
+//Mapping sku from shopify_soh to source variants
+Route::get('/shopify-soh-mapping', [SohSkuMappingController::class, 'index']);

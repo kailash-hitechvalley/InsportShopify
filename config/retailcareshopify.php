@@ -45,6 +45,8 @@ return [
         'checkCustomerInDBforIsUpdateUrl' => 'https://sexyland.synccare.io/sexyland/public/update-erply-customer-from-shopify',
         'syncSkuWhileSohUpdateWebhook' => env('SYNC_SKU_WHILE_SOH_WEBHOOK', 1),
         'SHOPIFY_VARIATION_MODEL' => env('SHOPIFY_VARIATION_MODEL', 'Modules\Shopify\Models\Source\SourceVariant'),
+        'FakeAddressEnable' => env('FAKE_ADDRESS_ENABLE', 1),
+
     ],
 
 
